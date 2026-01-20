@@ -4,9 +4,10 @@ Title: Structural Equation Models for Reverse Causality with Longitudinal Panel 
 Version: 0.1.0
 Author: Gordon W. Cheung 
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: Run Structural Equation Models for reverse causality (CLPM, RI-CLPM)  
+Description: Run Structural Equation Models for reverse causality 
+License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports: lavaan, semTools, MASS
-URL: https://github.com/gche935/CLPM
-BugReports: https://github.com/gche935/CLPM/issues
+URL: https://github.com/gche935/LOOP
+BugReports: https://github.com/gche935/LOOP/issues
