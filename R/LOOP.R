@@ -1787,9 +1787,9 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 
   ## -- Monte Carlo Simulation -- ##
 
-  parEst <- lavaan::parameterEstimates(CLPMMLR.fit, remove.nonfree = TRUE)
+  parEst <- lavaan::parameterEstimates(RICLPMMLR.fit, remove.nonfree = TRUE)
   pest2 <- parEst[,5]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(CLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+  pest3 <- lavaan::lavTech(RICLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
   mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
   names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
   b.no <- nrow(mcmc)  # No. of successful simulated samples
