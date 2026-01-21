@@ -1,0 +1,117 @@
+
+ # Specify the model (CLPM) 
+
+ CLPM <- '
+ 
+   # Constrain residual variance of observed variables to zero
+   EXPOSE1 ~~ 0*EXPOSE1
+   INTENS1 ~~ 0*INTENS1
+   EXPOSE2 ~~ 0*EXPOSE2
+   INTENS2 ~~ 0*INTENS2
+   EXPOSE3 ~~ 0*EXPOSE3
+   INTENS3 ~~ 0*INTENS3
+   EXPOSE4 ~~ 0*EXPOSE4
+   INTENS4 ~~ 0*INTENS4
+   EXPOSE5 ~~ 0*EXPOSE5
+   INTENS5 ~~ 0*INTENS5
+   EXPOSE6 ~~ 0*EXPOSE6
+   INTENS6 ~~ 0*INTENS6
+   EXPOSE7 ~~ 0*EXPOSE7
+   INTENS7 ~~ 0*INTENS7
+ 
+   # Create latent variables
+   wEXPOSE1 =~ 1*EXPOSE1
+   wINTENS1 =~ 1*INTENS1
+   wEXPOSE2 =~ 1*EXPOSE2
+   wINTENS2 =~ 1*INTENS2
+   wEXPOSE3 =~ 1*EXPOSE3
+   wINTENS3 =~ 1*INTENS3
+   wEXPOSE4 =~ 1*EXPOSE4
+   wINTENS4 =~ 1*INTENS4
+   wEXPOSE5 =~ 1*EXPOSE5
+   wINTENS5 =~ 1*INTENS5
+   wEXPOSE6 =~ 1*EXPOSE6
+   wINTENS6 =~ 1*INTENS6
+   wEXPOSE7 =~ 1*EXPOSE7
+   wINTENS7 =~ 1*INTENS7
+ 
+   # Estimate covariances between residuals of latent variables 
+   wEXPOSE2 ~~ eXY2*wINTENS2
+   wEXPOSE3 ~~ eXY3*wINTENS3
+   wEXPOSE4 ~~ eXY4*wINTENS4
+   wEXPOSE5 ~~ eXY5*wINTENS5
+   wEXPOSE6 ~~ eXY6*wINTENS6
+   wEXPOSE7 ~~ eXY7*wINTENS7
+ 
+   # Estimate covariance between latent variables at first wave 
+    wEXPOSE1 ~~ wINTENS1
+ 
+   # Estimate (residual) variance of latent variables
+   wEXPOSE1 ~~ wEXPOSE1
+   wINTENS1 ~~ wINTENS1
+   wEXPOSE2 ~~ wEXPOSE2
+   wINTENS2 ~~ wINTENS2
+   wEXPOSE3 ~~ wEXPOSE3
+   wINTENS3 ~~ wINTENS3
+   wEXPOSE4 ~~ wEXPOSE4
+   wINTENS4 ~~ wINTENS4
+   wEXPOSE5 ~~ wEXPOSE5
+   wINTENS5 ~~ wINTENS5
+   wEXPOSE6 ~~ wEXPOSE6
+   wINTENS6 ~~ wINTENS6
+   wEXPOSE7 ~~ wEXPOSE7
+   wINTENS7 ~~ wINTENS7
+ 
+   # Estimate grand means (intercepts) of observed variables
+   EXPOSE1 ~ MEXPOSE1*1
+   INTENS1 ~ MINTENS1*1
+   EXPOSE2 ~ MEXPOSE2*1
+   INTENS2 ~ MINTENS2*1
+   EXPOSE3 ~ MEXPOSE3*1
+   INTENS3 ~ MINTENS3*1
+   EXPOSE4 ~ MEXPOSE4*1
+   INTENS4 ~ MINTENS4*1
+   EXPOSE5 ~ MEXPOSE5*1
+   INTENS5 ~ MINTENS5*1
+   EXPOSE6 ~ MEXPOSE6*1
+   INTENS6 ~ MINTENS6*1
+   EXPOSE7 ~ MEXPOSE7*1
+   INTENS7 ~ MINTENS7*1
+ 
+   # Estimate lagged effects between latent variables (Lag = 1 wave)
+   wEXPOSE2 ~ XX21*wEXPOSE1 + YX21*wINTENS1
+   wINTENS2 ~ XY21*wEXPOSE1 + YY21*wINTENS1
+   wEXPOSE3 ~ XX32*wEXPOSE2 + YX32*wINTENS2
+   wINTENS3 ~ XY32*wEXPOSE2 + YY32*wINTENS2
+   wEXPOSE4 ~ XX43*wEXPOSE3 + YX43*wINTENS3
+   wINTENS4 ~ XY43*wEXPOSE3 + YY43*wINTENS3
+   wEXPOSE5 ~ XX54*wEXPOSE4 + YX54*wINTENS4
+   wINTENS5 ~ XY54*wEXPOSE4 + YY54*wINTENS4
+   wEXPOSE6 ~ XX65*wEXPOSE5 + YX65*wINTENS5
+   wINTENS6 ~ XY65*wEXPOSE5 + YY65*wINTENS5
+   wEXPOSE7 ~ XX76*wEXPOSE6 + YX76*wINTENS6
+   wINTENS7 ~ XY76*wEXPOSE6 + YY76*wINTENS6
+ 
+   # Estimate lagged effects between within-person centered variables (Lag = 2 waves)
+   wEXPOSE3 ~ XX31*wEXPOSE1 + YX31*wINTENS1
+   wINTENS3 ~ XY31*wEXPOSE1 + YY31*wINTENS1
+   wEXPOSE4 ~ XX42*wEXPOSE2 + YX42*wINTENS2
+   wINTENS4 ~ XY42*wEXPOSE2 + YY42*wINTENS2
+   wEXPOSE5 ~ XX53*wEXPOSE3 + YX53*wINTENS3
+   wINTENS5 ~ XY53*wEXPOSE3 + YY53*wINTENS3
+   wEXPOSE6 ~ XX64*wEXPOSE4 + YX64*wINTENS4
+   wINTENS6 ~ XY64*wEXPOSE4 + YY64*wINTENS4
+   wEXPOSE7 ~ XX75*wEXPOSE5 + YX75*wINTENS5
+   wINTENS7 ~ XY75*wEXPOSE5 + YY75*wINTENS5
+ 
+   '
+ 
+ #  Run Model CLPMMLR
+ 
+   CLPMMLR.fit <- lavaan::sem(CLPM, 
+     Data_A ,
+    missing = 'fiml',
+    meanstructure = T,
+    information = 'observed',
+    estimator = 'MLR'
+ )

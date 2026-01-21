@@ -8,6 +8,14 @@ Description: Run Structural Equation Models for reverse causality
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: lavaan, semTools, MASS
+Depends: R (>= 3.5.1),
+         lavaan,
+         MASS,
+         semTools
+Imports:
+    lavaan,
+    MASS,
+    semTools
+RoxygenNote: 7.3.3
 URL: https://github.com/gche935/LOOP
 BugReports: https://github.com/gche935/LOOP/issues
