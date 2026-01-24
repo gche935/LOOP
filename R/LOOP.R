@@ -1200,7 +1200,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 2:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("M", a, i, "-M", a, i-j+1, sep="")
+      Clhs <- paste("M", a, i, "-M", a, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i
         NI.path[k, 2] <- i-j+1
