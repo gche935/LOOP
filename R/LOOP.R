@@ -4245,86 +4245,59 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "## ----- Specify the model (ALT) ----- ##", "\n")
     cat("\n", "ALT <- '")
  
-    # -- Create Latent Variables from Observed Variables -- #
-    cat(rep("\n",2), "  # -- Create latent variables -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " =~ 1*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " =~ 1*", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
-
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ 0*", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ 0*", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)###   ###
-
-    # -- Create Between Components (Random Intercepts) from Latent Variables -- #
+    # -- Create Between Components (Random Intercepts) from Indicators -- #
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
-    BX <- paste("  RI", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RI", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +1*w", X, i, sep="")
-      BY <- paste(BY, " +1*w", Y, i, sep="")
+    BX <- paste("  RI", X, " =~ 1*", X, "2", sep="")
+    BY <- paste("  RI", Y, " =~ 1*", Y, "2", sep="")
+    for (i in 3:no.waves) {
+      BX <- paste(BX, " +1*", X, i, sep="")
+      BY <- paste(BY, " +1*", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
- 
-    if (Z != "NULL") {
-      BZ <- paste("  RI", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +1*w", Z, i, sep="")
+     if (Z != "NULL") {
+      BZ <- paste("  RI", Z, " =~ 1*", Z, "2", sep="")
+      for (i in 3:no.waves) {
+        BZ <- paste(BZ, " +1*", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RI", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +1*w", W, i, sep="")
+      BW <- paste("  RI", W, " =~ 1*", W, "2", sep="")
+      for (i in 3:no.waves) {
+        BW <- paste(BW, " +1*", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
  
-    # -- Create Between Components (Random Slopes) from Latent Variables -- #
+    # -- Create Between Components (Random Slopes) from Indicators -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RS", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +", (i-1), "*w", X, i, sep="")
-      BY <- paste(BY, " +", (i-1), "*w", Y, i, sep="")
+    BX <- paste("  RS", X, " =~ 1*", X, "2", sep="")
+    BY <- paste("  RS", Y, " =~ 1*", Y, "2", sep="")
+    for (i in 3:no.waves) {
+      BX <- paste(BX, " +", (i-1), "*", X, i, sep="")
+      BY <- paste(BY, " +", (i-1), "*", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +", (i-1), "*w", Z, i, sep="")
+      BZ <- paste("  RS", Z, " =~ 1*", Z, "2", sep="")
+      for (i in 3:no.waves) {
+        BZ <- paste(BZ, " +", (i-1), "*", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +", (i-1), "*w", W, i, sep="")
+      BW <- paste("  RS", W, " =~ 1*", W, "2", sep="")
+      for (i in 3:no.waves) {
+        BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
  
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
-    for (i in 1:no.waves) {
+    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
+    for (i in 2:no.waves) {
       cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
       cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
@@ -4335,28 +4308,15 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # (if W)
     } # end (for i)
 
-    # -- Constrain Means (Intercepts) of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
     # -- Estimate Means (Intercepts) of First Indicator -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of first indicator -- #")
-    cat("\n", paste("  w", X, "1 ~ MX1*1", sep=""))
-    cat("\n", paste("  w", Y, "1 ~ MY1*1", sep=""))
+    cat("\n", paste("  ", X, "1 ~ MX1*1", sep=""))
+    cat("\n", paste("  ", Y, "1 ~ MY1*1", sep=""))
     if (Z != "NULL") {
-      cat("\n", paste("  w", Z, "1 ~ MZ1*1", sep=""))
+      cat("\n", paste("  ", Z, "1 ~ MZ1*1", sep=""))
     } # end (if Z)
     if (W != "NULL") {
-      cat("\n", paste("  w", W, "1 ~ MW1*1", sep=""))
+      cat("\n", paste("  ", W, "1 ~ MW1*1", sep=""))
     } # (if W)
 
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
@@ -4430,163 +4390,163 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
   
-    # -- Estimate (residual) variance of latent variables -- #
-    cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
+    # -- Estimate (residual) variance of indicators -- #
+    cat(rep("\n",2), "  # -- Estimate (residual) variance of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXX", i, "*w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ eYY", i, "*w", Y, i, sep=""))
+      cat("\n", paste("  ", X, i, " ~~ eXX", i, "*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ eYY", i, "*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ eZZ", i, "*w", Z, i, sep=""))
+        cat("\n", paste("  ", Z, i, " ~~ eZZ", i, "*", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
+        cat("\n", paste("  ", W, i, " ~~ eWW", i, "*", W, i, sep=""))
       } # end (if W)
     } # end (for i)
  
-    # -- Estimate Covariances Between Residuals of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate covariances between residuals of latent variables -- #")
+    # -- Estimate Covariances Between Residuals of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate covariances between residuals of indicators -- #")
     for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXY", i, "*w", Y, i, sep=""))
+      cat("\n", paste("  ", X, i, " ~~ eXY", i, "*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXZ", i, "*w", Z, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYZ", i, "*w", Z, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eXZ", i, "*", Z, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eYZ", i, "*", Z, i, sep=""))
       }  # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Z, i, " ~~ eZW", i, "*w", W, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eXW", i, "*", W, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eYW", i, "*", W, i, sep=""))
+        cat("\n", paste("  ", Z, i, " ~~ eZW", i, "*", W, i, sep=""))
       }  # end (if W)
     } # end (for i)
 
-    # -- Estimate Covariance Between Latent Variables at First Wave -- #
-    cat(rep("\n",2), "  # -- Estimate covariance between latent variables at first wave -- #")
-    cat("\n", "    w", X, "1 ~~ w", Y, "1", sep="")
+    # -- Estimate Covariance Between Indicators at First Wave -- #
+    cat(rep("\n",2), "  # -- Estimate covariance between indicators at first wave -- #")
+    cat("\n", "    ", X, "1 ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", Z, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", Z, "1", sep="")
+      cat("\n", "    ", X, "1 ~~ ", Z, "1", sep="")
+      cat("\n", "    ", Y, "1 ~~ ", Z, "1", sep="")
     }  # end (if Z)
     if (W != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
+      cat("\n", "    ", X, "1 ~~ ", W, "1", sep="")
+      cat("\n", "    ", Y, "1 ~~ ", W, "1", sep="")
+      cat("\n", "    ", Z, "1 ~~ ", W, "1", sep="")
     }  # end (if W)
 
-    # -- Estimate covariance among RIX RIY, RIZ, RIW and wx1, wy1, wz1, ww1 -- #
-    cat(rep("\n",2), "  # -- Estimate covariance among RIx, RIy, RIz, RIw and wx1, wy1, wz1, ww1 -- #")
-    cat("\n", "   RI", X, " ~~ w", X, "1", sep="")
-    cat("\n", "   RI", X, " ~~ w", Y, "1", sep="")
+    # -- Estimate covariance among RIX RIY, RIZ, RIW and X1, Y1, Z1, W1 -- #
+    cat(rep("\n",2), "  # -- Estimate covariance among RIx, RIy, RIz, RIw and X1, Y1, Z1, W1 -- #")
+    cat("\n", "   RI", X, " ~~ ", X, "1", sep="")
+    cat("\n", "   RI", X, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RI", X, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", X, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", X, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", X, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-    cat("\n", "   RI", Y, " ~~ w", X, "1", sep="")
-    cat("\n", "   RI", Y, " ~~ w", Y, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ ", X, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RI", Y, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", Y, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
     if (Z != "NULL") {
-      cat("\n", "   RI", Z, " ~~ w", X, "1", sep="")
-      cat("\n", "   RI", Z, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RI", Z, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", X, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", Z, " ~~ w", W, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", X, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", Z, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", W, "1", sep="")
-    } # end (if W != "NULL")
- 
-     # -- Estimate covariance among RSX RSY, RSZ, RSW and wx1, wy1, wz1, ww1 -- #
-    cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and wx1, wy1, wz1, ww1 -- #")
-    cat("\n", "   RS", X, " ~~ w", X, "1", sep="")
-    cat("\n", "   RS", X, " ~~ w", Y, "1", sep="")
-    if (Z != "NULL") {
-      cat("\n", "   RS", X, " ~~ w", Z, "1", sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RS", X, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", W, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", X, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", Z, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-    cat("\n", "   RS", Y, " ~~ w", X, "1", sep="")
-    cat("\n", "   RS", Y, " ~~ w", Y, "1", sep="")
+     # -- Estimate covariance among RSX RSY, RSZ, RSW and X1, Y1, Z1, W1 -- #
+    cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and X1, Y1, Z1, W1 -- #")
+    cat("\n", "   RS", X, " ~~ ", X, "1", sep="")
+    cat("\n", "   RS", X, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RS", Y, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RS", X, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RS", Y, " ~~ w", W, "1", sep="")
-    } # end (if W != "NULL")
-    if (Z != "NULL") {
-      cat("\n", "   RS", Z, " ~~ w", X, "1", sep="")
-      cat("\n", "   RS", Z, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RS", Z, " ~~ w", Z, "1", sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RS", Z, " ~~ w", W, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", X, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", Z, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", W, "1", sep="")
+      cat("\n", "   RS", X, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-     # -- Estimate Lagged Effects Between Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
+    cat("\n", "   RS", Y, " ~~ ", X, "1", sep="")
+    cat("\n", "   RS", Y, " ~~ ", Y, "1", sep="")
+    if (Z != "NULL") {
+      cat("\n", "   RS", Y, " ~~ ", Z, "1", sep="")
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      cat("\n", "   RS", Y, " ~~ ", W, "1", sep="")
+    } # end (if W != "NULL")
+    if (Z != "NULL") {
+      cat("\n", "   RS", Z, " ~~ ", X, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ ", Z, "1", sep="")
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      cat("\n", "   RS", Z, " ~~ ", W, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", X, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", Z, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", W, "1", sep="")
+    } # end (if W != "NULL")
+ 
+     # -- Estimate Lagged Effects Between Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 1 wave) -- #")
     for (i in 2:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X, i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, sep=""))
       } else if (W != "NULL") {
-        cat("\n", paste("  w", X, i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, " + ZX", i,i-1, "*w", Z,i-1, " + WX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, " + ZY", i,i-1, "*w", Z,i-1, " + WY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z, i, " ~ XZ", i,i-1, "*w", X,i-1, " + YZ", i,i-1, "*w", Y,i-1, " + ZZ", i,i-1, "*w", Z,i-1, " + WZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W, i, " ~ XW", i,i-1, "*w", X,i-1, " + YW", i,i-1, "*w", Y,i-1, " + ZW", i,i-1, "*w", Z,i-1, " + WW", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, " + ZX", i,i-1, "*", Z,i-1, " + WX", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, " + ZY", i,i-1, "*", Z,i-1, " + WY", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", Z, i, " ~ XZ", i,i-1, "*", X,i-1, " + YZ", i,i-1, "*", Y,i-1, " + ZZ", i,i-1, "*", Z,i-1, " + WZ", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", W, i, " ~ XW", i,i-1, "*", X,i-1, " + YW", i,i-1, "*", Y,i-1, " + ZW", i,i-1, "*", Z,i-1, " + WW", i,i-1, "*", W,i-1, sep=""))
       } else if (Z != "NULL") {
-        cat("\n", paste("  w", X, i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, " + ZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, " + ZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z, i, " ~ XZ", i,i-1, "*w", X,i-1, " + YZ", i,i-1, "*w", Y,i-1, " + ZZ", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, " + ZX", i,i-1, "*", Z,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, " + ZY", i,i-1, "*", Z,i-1, sep=""))
+        cat("\n", paste("  ", Z, i, " ~ XZ", i,i-1, "*", X,i-1, " + YZ", i,i-1, "*", Y,i-1, " + ZZ", i,i-1, "*", Z,i-1, sep=""))
       } # end (if Z/W)
     } # end (for i)
  
     if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 2 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 2 waves) -- #")
       for (i in 3:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, " + ZX", i,i-2, "*w", Z,i-2, " + WX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, " + ZY", i,i-2, "*w", Z,i-2, " + WY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-2, "*w", X,i-2, " + YZ", i,i-2, "*w", Y,i-2, " + ZZ", i,i-2, "*w", Z,i-2, " + WZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-2, "*w", X,i-2, " + YW", i,i-2, "*w", Y,i-2, " + ZW", i,i-2, "*w", Z,i-2, " + WW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, " + ZX", i,i-2, "*", Z,i-2, " + WX", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, " + ZY", i,i-2, "*", Z,i-2, " + WY", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-2, "*", X,i-2, " + YZ", i,i-2, "*", Y,i-2, " + ZZ", i,i-2, "*", Z,i-2, " + WZ", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-2, "*", X,i-2, " + YW", i,i-2, "*", Y,i-2, " + ZW", i,i-2, "*", Z,i-2, " + WW", i,i-2, "*", W,i-2, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, " + ZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, " + ZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-2, "*w", X,i-2, " + YZ", i,i-2, "*w", Y,i-2, " + ZZ", i,i-2, "*w", Z,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, " + ZX", i,i-2, "*", Z,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, " + ZY", i,i-2, "*", Z,i-2, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-2, "*", X,i-2, " + YZ", i,i-2, "*", Y,i-2, " + ZZ", i,i-2, "*", Z,i-2, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
  
     if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 3 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 3 waves) -- #")
       for (i in 4:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, " + ZX", i,i-3, "*w", Z,i-3, " + WX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, " + ZY", i,i-3, "*w", Z,i-3, " + WY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-3, "*w", X,i-3, " + YZ", i,i-3, "*w", Y,i-3, " + ZZ", i,i-3, "*w", Z,i-3, " + WZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-3, "*w", X,i-3, " + YW", i,i-3, "*w", Y,i-3, " + ZW", i,i-3, "*w", Z,i-3, " + WW", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, " + ZX", i,i-3, "*", Z,i-3, " + WX", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, " + ZY", i,i-3, "*", Z,i-3, " + WY", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-3, "*", X,i-3, " + YZ", i,i-3, "*", Y,i-3, " + ZZ", i,i-3, "*", Z,i-3, " + WZ", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-3, "*", X,i-3, " + YW", i,i-3, "*", Y,i-3, " + ZW", i,i-3, "*", Z,i-3, " + WW", i,i-3, "*", W,i-3, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, " + ZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, " + ZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-3, "*w", X,i-3, " + YZ", i,i-3, "*w", Y,i-3, " + ZZ", i,i-3, "*w", Z,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, " + ZX", i,i-3, "*", Z,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, " + ZY", i,i-3, "*", Z,i-3, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-3, "*", X,i-3, " + YZ", i,i-3, "*", Y,i-3, " + ZZ", i,i-3, "*", Z,i-3, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
@@ -4595,17 +4555,17 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 4 waves) -- #")
       for (i in 5:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, " + ZX", i,i-4, "*w", Z,i-4, " + WX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, " + ZY", i,i-4, "*w", Z,i-4, " + WY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-4, "*w", X,i-4, " + YZ", i,i-4, "*w", Y,i-4, " + ZZ", i,i-4, "*w", Z,i-4, " + WZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-4, "*w", X,i-4, " + YW", i,i-4, "*w", Y,i-4, " + ZW", i,i-4, "*w", Z,i-4, " + WW", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, " + ZX", i,i-4, "*", Z,i-4, " + WX", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, " + ZY", i,i-4, "*", Z,i-4, " + WY", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-4, "*", X,i-4, " + YZ", i,i-4, "*", Y,i-4, " + ZZ", i,i-4, "*", Z,i-4, " + WZ", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-4, "*", X,i-4, " + YW", i,i-4, "*", Y,i-4, " + ZW", i,i-4, "*", Z,i-4, " + WW", i,i-4, "*", W,i-4, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, " + ZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, " + ZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-4, "*w", X,i-4, " + YZ", i,i-4, "*w", Y,i-4, " + ZZ", i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, " + ZX", i,i-4, "*", Z,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, " + ZY", i,i-4, "*", Z,i-4, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-4, "*", X,i-4, " + YZ", i,i-4, "*", Y,i-4, " + ZZ", i,i-4, "*", Z,i-4, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 4)
@@ -4649,86 +4609,59 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "# Specify the model (ALT)", "\n")
     cat("\n", "ALT <- '")
  
-    # -- Create Latent Variables from Observed Variables -- #
-    cat(rep("\n",2), "  # -- Create latent variables -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " =~ 1*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " =~ 1*", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
- 
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ 0*", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ 0*", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Create Between Components (Random Intercepts) from Latent Variables -- #
+    # -- Create Between Components (Random Intercepts) from Indicators -- #
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
-    BX <- paste("  RI", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RI", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +1*w", X, i, sep="")
-      BY <- paste(BY, " +1*w", Y, i, sep="")
+    BX <- paste("  RI", X, " =~ 1*", X, "2", sep="")
+    BY <- paste("  RI", Y, " =~ 1*", Y, "2", sep="")
+    for (i in 3:no.waves) {
+      BX <- paste(BX, " +1*", X, i, sep="")
+      BY <- paste(BY, " +1*", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
- 
-    if (Z != "NULL") {
-      BZ <- paste("  RI", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +1*w", Z, i, sep="")
+     if (Z != "NULL") {
+      BZ <- paste("  RI", Z, " =~ 1*", Z, "2", sep="")
+      for (i in 3:no.waves) {
+        BZ <- paste(BZ, " +1*", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RI", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +1*w", W, i, sep="")
+      BW <- paste("  RI", W, " =~ 1*", W, "2", sep="")
+      for (i in 3:no.waves) {
+        BW <- paste(BW, " +1*", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
 
-    # -- Create Between Components (Random Slopes) from Latent Variables -- #
+    # -- Create Between Components (Random Slopes) from Indicators -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RS", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +", (i-1), "*w", X, i, sep="")
-      BY <- paste(BY, " +", (i-1), "*w", Y, i, sep="")
+    BX <- paste("  RS", X, " =~ 1*", X, "2", sep="")
+    BY <- paste("  RS", Y, " =~ 1*", Y, "2", sep="")
+    for (i in 3:no.waves) {
+      BX <- paste(BX, " +", (i-1), "*", X, i, sep="")
+      BY <- paste(BY, " +", (i-1), "*", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +", (i-1), "*w", Z, i, sep="")
+      BZ <- paste("  RS", Z, " =~ 1*", Z, "2", sep="")
+      for (i in 3:no.waves) {
+        BZ <- paste(BZ, " +", (i-1), "*", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +", (i-1), "*w", W, i, sep="")
+      BW <- paste("  RS", W, " =~ 1*", W, "2", sep="")
+      for (i in 3:no.waves) {
+        BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
  
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
-    for (i in 1:no.waves) {
+    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
+    for (i in 2:no.waves) {
       cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
       cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
@@ -4739,28 +4672,15 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # (if W)
     } # end (for i)
 
-    # -- Constrain Means (Intercepts) of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
     # -- Estimate Means (Intercepts) of First Indicator -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of first indicator -- #")
-    cat("\n", paste("  w", X, "1 ~ MX1*1", sep=""))
-    cat("\n", paste("  w", Y, "1 ~ MY1*1", sep=""))
+    cat("\n", paste("  ", X, "1 ~ MX1*1", sep=""))
+    cat("\n", paste("  ", Y, "1 ~ MY1*1", sep=""))
     if (Z != "NULL") {
-      cat("\n", paste("  w", Z, "1 ~ MZ1*1", sep=""))
+      cat("\n", paste("  ", Z, "1 ~ MZ1*1", sep=""))
     } # end (if Z)
     if (W != "NULL") {
-      cat("\n", paste("  w", W, "1 ~ MW1*1", sep=""))
+      cat("\n", paste("  ", W, "1 ~ MW1*1", sep=""))
     } # (if W)
 
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
@@ -4834,203 +4754,204 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
   
-    # -- Estimate (residual) variance of latent variables -- #
-    cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
+    # -- Estimate (residual) variance of indicators -- #
+    cat(rep("\n",2), "  # -- Estimate (residual) variance of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXX", i, "*w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ eYY", i, "*w", Y, i, sep=""))
+      cat("\n", paste("  ", X, i, " ~~ eXX", i, "*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ eYY", i, "*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ eZZ", i, "*w", Z, i, sep=""))
+        cat("\n", paste("  ", Z, i, " ~~ eZZ", i, "*", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
+        cat("\n", paste("  ", W, i, " ~~ eWW", i, "*", W, i, sep=""))
       } # end (if W)
     } # end (for i)
  
-    # -- Estimate Covariances Between Residuals of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate covariances between residuals of latent variables -- #")
+    # -- Estimate Covariances Between Residuals of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate covariances between residuals of indicators -- #")
     cat("\n", "  ###################################################################")
     cat("\n", "  # Remove the subscripts for eXY for invariant residual covariance #")
     cat("\n", "  ###################################################################")
     for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXY", i, "*w", Y, i, sep=""))
+      cat("\n", paste("  ", X, i, " ~~ eXY", i, "*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXZ", i, "*w", Z, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYZ", i, "*w", Z, i, sep=""))
-      } # end (if Z)
+        cat("\n", paste("  ", X, i, " ~~ eXZ", i, "*", Z, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eYZ", i, "*", Z, i, sep=""))
+      }  # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Z, i, " ~~ eZW", i, "*w", W, i, sep=""))
-      } # end (if W)
-    } # end ((for i)
+        cat("\n", paste("  ", X, i, " ~~ eXW", i, "*", W, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eYW", i, "*", W, i, sep=""))
+        cat("\n", paste("  ", Z, i, " ~~ eZW", i, "*", W, i, sep=""))
+      }  # end (if W)
+    } # end (for i)
 
-    # -- Estimate Covariance Between Latent Variables at First Wave -- #
-    cat(rep("\n",2), "  # -- Estimate covariance between latent variables at first wave -- #")
-    cat("\n", "    w", X, "1 ~~ w", Y, "1", sep="")
+    # -- Estimate Covariance Between Indicators at First Wave -- #
+    cat(rep("\n",2), "  # -- Estimate covariance between indicators at first wave -- #")
+    cat("\n", "    ", X, "1 ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", Z, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", Z, "1", sep="")
+      cat("\n", "    ", X, "1 ~~ ", Z, "1", sep="")
+      cat("\n", "    ", Y, "1 ~~ ", Z, "1", sep="")
     }  # end (if Z)
     if (W != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
+      cat("\n", "    ", X, "1 ~~ ", W, "1", sep="")
+      cat("\n", "    ", Y, "1 ~~ ", W, "1", sep="")
+      cat("\n", "    ", Z, "1 ~~ ", W, "1", sep="")
     }  # end (if W)
 
-    # -- Estimate covariance among RIX RIY, RIZ, RIW and wx1, wy1, wz1, ww1 -- #
-    cat(rep("\n",2), "  # -- Estimate covariance among RIx, RIy, RIz, RIw and wx1, wy1, wz1, ww1 -- #")
-    cat("\n", "   RI", X, " ~~ w", X, "1", sep="")
-    cat("\n", "   RI", X, " ~~ w", Y, "1", sep="")
+    # -- Estimate covariance among RIX RIY, RIZ, RIW and X1, Y1, Z1, W1 -- #
+    cat(rep("\n",2), "  # -- Estimate covariance among RIx, RIy, RIz, RIw and X1, Y1, Z1, W1 -- #")
+    cat("\n", "   RI", X, " ~~ ", X, "1", sep="")
+    cat("\n", "   RI", X, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RI", X, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", X, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", X, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", X, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-    cat("\n", "   RI", Y, " ~~ w", X, "1", sep="")
-    cat("\n", "   RI", Y, " ~~ w", Y, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ ", X, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RI", Y, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", Y, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
     if (Z != "NULL") {
-      cat("\n", "   RI", Z, " ~~ w", X, "1", sep="")
-      cat("\n", "   RI", Z, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RI", Z, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", X, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RI", Z, " ~~ w", W, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", X, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", Z, "1", sep="")
-      cat("\n", "   RI", W, " ~~ w", W, "1", sep="")
-    } # end (if W != "NULL")
- 
-     # -- Estimate covariance among RSX RSY, RSZ, RSW and wx1, wy1, wz1, ww1 -- #
-    cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and wx1, wy1, wz1, ww1 -- #")
-    cat("\n", "   RS", X, " ~~ w", X, "1", sep="")
-    cat("\n", "   RS", X, " ~~ w", Y, "1", sep="")
-    if (Z != "NULL") {
-      cat("\n", "   RS", X, " ~~ w", Z, "1", sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RS", X, " ~~ w", W, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ ", W, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", X, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", Z, "1", sep="")
+      cat("\n", "   RI", W, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-    cat("\n", "   RS", Y, " ~~ w", X, "1", sep="")
-    cat("\n", "   RS", Y, " ~~ w", Y, "1", sep="")
+     # -- Estimate covariance among RSX RSY, RSZ, RSW and X1, Y1, Z1, W1 -- #
+    cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and X1, Y1, Z1, W1 -- #")
+    cat("\n", "   RS", X, " ~~ ", X, "1", sep="")
+    cat("\n", "   RS", X, " ~~ ", Y, "1", sep="")
     if (Z != "NULL") {
-      cat("\n", "   RS", Y, " ~~ w", Z, "1", sep="")
+      cat("\n", "   RS", X, " ~~ ", Z, "1", sep="")
     } # end (if Z != "NULL")
     if (W != "NULL") {
-      cat("\n", "   RS", Y, " ~~ w", W, "1", sep="")
-    } # end (if W != "NULL")
-    if (Z != "NULL") {
-      cat("\n", "   RS", Z, " ~~ w", X, "1", sep="")
-      cat("\n", "   RS", Z, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RS", Z, " ~~ w", Z, "1", sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RS", Z, " ~~ w", W, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", X, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", Y, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", Z, "1", sep="")
-      cat("\n", "   RS", W, " ~~ w", W, "1", sep="")
+      cat("\n", "   RS", X, " ~~ ", W, "1", sep="")
     } # end (if W != "NULL")
  
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
+    cat("\n", "   RS", Y, " ~~ ", X, "1", sep="")
+    cat("\n", "   RS", Y, " ~~ ", Y, "1", sep="")
+    if (Z != "NULL") {
+      cat("\n", "   RS", Y, " ~~ ", Z, "1", sep="")
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      cat("\n", "   RS", Y, " ~~ ", W, "1", sep="")
+    } # end (if W != "NULL")
+    if (Z != "NULL") {
+      cat("\n", "   RS", Z, " ~~ ", X, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ ", Z, "1", sep="")
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      cat("\n", "   RS", Z, " ~~ ", W, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", X, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", Y, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", Z, "1", sep="")
+      cat("\n", "   RS", W, " ~~ ", W, "1", sep="")
+    } # end (if W != "NULL")
+
+    # -- Estimate Lagged Effects Between Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 1 wave) -- #")
     cat("\n", "  #############################################")
     cat("\n", "  # Remove the subscripts for invariant paths #")
     cat("\n", "  #############################################")
     for (i in 2:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, sep=""))
       } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, " + ZX", i,i-1, "*w", Z,i-1, " + WX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, " + ZY", i,i-1, "*w", Z,i-1, " + WY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ XZ", i,i-1, "*w", X,i-1, " + YZ", i,i-1, "*w", Y,i-1, " + ZZ", i,i-1, "*w", Z,i-1, " + WZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ XW", i,i-1, "*w", X,i-1, " + YW", i,i-1, "*w", Y,i-1, " + ZW", i,i-1, "*w", Z,i-1, " + WW", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, " + ZX", i,i-1, "*", Z,i-1, " + WX", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, " + ZY", i,i-1, "*", Z,i-1, " + WY", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", Z, i, " ~ XZ", i,i-1, "*", X,i-1, " + YZ", i,i-1, "*", Y,i-1, " + ZZ", i,i-1, "*", Z,i-1, " + WZ", i,i-1, "*", W,i-1, sep=""))
+        cat("\n", paste("  ", W, i, " ~ XW", i,i-1, "*", X,i-1, " + YW", i,i-1, "*", Y,i-1, " + ZW", i,i-1, "*", Z,i-1, " + WW", i,i-1, "*", W,i-1, sep=""))
       } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ XX", i,i-1, "*w", X,i-1, " + YX", i,i-1, "*w", Y,i-1, " + ZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ XY", i,i-1, "*w", X,i-1, " + YY", i,i-1, "*w", Y,i-1, " + ZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ XZ", i,i-1, "*w", X,i-1, " + YZ", i,i-1, "*w", Y,i-1, " + ZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
+        cat("\n", paste("  ", X, i, " ~ XX", i,i-1, "*", X,i-1, " + YX", i,i-1, "*", Y,i-1, " + ZX", i,i-1, "*", Z,i-1, sep=""))
+        cat("\n", paste("  ", Y, i, " ~ XY", i,i-1, "*", X,i-1, " + YY", i,i-1, "*", Y,i-1, " + ZY", i,i-1, "*", Z,i-1, sep=""))
+        cat("\n", paste("  ", Z, i, " ~ XZ", i,i-1, "*", X,i-1, " + YZ", i,i-1, "*", Y,i-1, " + ZZ", i,i-1, "*", Z,i-1, sep=""))
+      } # end (if Z/W)
     } # end (for i)
  
     if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 2 waves) -- #")
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
       for (i in 3:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, " + ZX", i,i-2, "*w", Z,i-2, " + WX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, " + ZY", i,i-2, "*w", Z,i-2, " + WY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-2, "*w", X,i-2, " + YZ", i,i-2, "*w", Y,i-2, " + ZZ", i,i-2, "*w", Z,i-2, " + WZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-2, "*w", X,i-2, " + YW", i,i-2, "*w", Y,i-2, " + ZW", i,i-2, "*w", Z,i-2, " + WW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, " + ZX", i,i-2, "*", Z,i-2, " + WX", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, " + ZY", i,i-2, "*", Z,i-2, " + WY", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-2, "*", X,i-2, " + YZ", i,i-2, "*", Y,i-2, " + ZZ", i,i-2, "*", Z,i-2, " + WZ", i,i-2, "*", W,i-2, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-2, "*", X,i-2, " + YW", i,i-2, "*", Y,i-2, " + ZW", i,i-2, "*", Z,i-2, " + WW", i,i-2, "*", W,i-2, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-2, "*w", X,i-2, " + YX", i,i-2, "*w", Y,i-2, " + ZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-2, "*w", X,i-2, " + YY", i,i-2, "*w", Y,i-2, " + ZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-2, "*w", X,i-2, " + YZ", i,i-2, "*w", Y,i-2, " + ZZ", i,i-2, "*w", Z,i-2, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-2, "*", X,i-2, " + YX", i,i-2, "*", Y,i-2, " + ZX", i,i-2, "*", Z,i-2, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-2, "*", X,i-2, " + YY", i,i-2, "*", Y,i-2, " + ZY", i,i-2, "*", Z,i-2, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-2, "*", X,i-2, " + YZ", i,i-2, "*", Y,i-2, " + ZZ", i,i-2, "*", Z,i-2, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
  
     if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate lagged effects between indicators (Lag = 3 waves) -- #")
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 4:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, " + ZX", i,i-3, "*w", Z,i-3, " + WX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, " + ZY", i,i-3, "*w", Z,i-3, " + WY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-3, "*w", X,i-3, " + YZ", i,i-3, "*w", Y,i-3, " + ZZ", i,i-3, "*w", Z,i-3, " + WZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-3, "*w", X,i-3, " + YW", i,i-3, "*w", Y,i-3, " + ZW", i,i-3, "*w", Z,i-3, " + WW", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, " + ZX", i,i-3, "*", Z,i-3, " + WX", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, " + ZY", i,i-3, "*", Z,i-3, " + WY", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-3, "*", X,i-3, " + YZ", i,i-3, "*", Y,i-3, " + ZZ", i,i-3, "*", Z,i-3, " + WZ", i,i-3, "*", W,i-3, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-3, "*", X,i-3, " + YW", i,i-3, "*", Y,i-3, " + ZW", i,i-3, "*", Z,i-3, " + WW", i,i-3, "*", W,i-3, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-3, "*w", X,i-3, " + YX", i,i-3, "*w", Y,i-3, " + ZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-3, "*w", X,i-3, " + YY", i,i-3, "*w", Y,i-3, " + ZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-3, "*w", X,i-3, " + YZ", i,i-3, "*w", Y,i-3, " + ZZ", i,i-3, "*w", Z,i-3, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-3, "*", X,i-3, " + YX", i,i-3, "*", Y,i-3, " + ZX", i,i-3, "*", Z,i-3, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-3, "*", X,i-3, " + YY", i,i-3, "*", Y,i-3, " + ZY", i,i-3, "*", Z,i-3, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-3, "*", X,i-3, " + YZ", i,i-3, "*", Y,i-3, " + ZZ", i,i-3, "*", Z,i-3, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
  
     if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 4 waves) -- #")
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 5:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, " + ZX", i,i-4, "*w", Z,i-4, " + WX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, " + ZY", i,i-4, "*w", Z,i-4, " + WY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-4, "*w", X,i-4, " + YZ", i,i-4, "*w", Y,i-4, " + ZZ", i,i-4, "*w", Z,i-4, " + WZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ XW", i,i-4, "*w", X,i-4, " + YW", i,i-4, "*w", Y,i-4, " + ZW", i,i-4, "*w", Z,i-4, " + WW", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, " + ZX", i,i-4, "*", Z,i-4, " + WX", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, " + ZY", i,i-4, "*", Z,i-4, " + WY", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-4, "*", X,i-4, " + YZ", i,i-4, "*", Y,i-4, " + ZZ", i,i-4, "*", Z,i-4, " + WZ", i,i-4, "*", W,i-4, sep=""))
+          cat("\n", paste("  ", W,i, " ~ XW", i,i-4, "*", X,i-4, " + YW", i,i-4, "*", Y,i-4, " + ZW", i,i-4, "*", Z,i-4, " + WW", i,i-4, "*", W,i-4, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ XX", i,i-4, "*w", X,i-4, " + YX", i,i-4, "*w", Y,i-4, " + ZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ XY", i,i-4, "*w", X,i-4, " + YY", i,i-4, "*w", Y,i-4, " + ZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ XZ", i,i-4, "*w", X,i-4, " + YZ", i,i-4, "*w", Y,i-4, " + ZZ", i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  ", X,i, " ~ XX", i,i-4, "*", X,i-4, " + YX", i,i-4, "*", Y,i-4, " + ZX", i,i-4, "*", Z,i-4, sep=""))
+          cat("\n", paste("  ", Y,i, " ~ XY", i,i-4, "*", X,i-4, " + YY", i,i-4, "*", Y,i-4, " + ZY", i,i-4, "*", Z,i-4, sep=""))
+          cat("\n", paste("  ", Z,i, " ~ XZ", i,i-4, "*", X,i-4, " + YZ", i,i-4, "*", Y,i-4, " + ZZ", i,i-4, "*", Z,i-4, sep=""))
         } # end (if Z/W)
       } # end (for i)
-    } # end (lag == 4)
+    } # end (if lag == 4)
  
-    cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
-    cat("\n", "  ##########################################")
+    cat(rep("\n",2), "  ##################################")
+    cat("\n", "  # Regression of indicators on C1 #")
+    cat("\n", "  ##################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
       cat("\n", paste("  #  ", Y, i, " ~ sy", i,"*C1", sep=""))
@@ -5065,17 +4986,17 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     } # end (if Z/W)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
  
-    cat(rep("\n",2), "  ################################################")
-    cat("\n", "  # Regression of outcome D1 on latent variables #")
-    cat("\n", "  ################################################")
+    cat(rep("\n",2), "  ##########################################")
+    cat("\n", "  # Regression of outcome D1 on indicators #")
+    cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
-      cat("\n", paste("  #  D1 ~ bx", i, "*w", X, i, sep=""))
-      cat("\n", paste("  #  D1 ~ by", i, "*w", Y, i, sep=""))
+      cat("\n", paste("  #  D1 ~ bx", i, "*", X, i, sep=""))
+      cat("\n", paste("  #  D1 ~ by", i, "*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  #  D1 ~ bz", i, "*w", Z, i, sep=""))
+        cat("\n", paste("  #  D1 ~ bz", i, "*", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  #  D1 ~ bw", i, "*w", W, i, sep=""))
+        cat("\n", paste("  #  D1 ~ bw", i, "*", W, i, sep=""))
       } # end (if W)
     } # end (for i)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
