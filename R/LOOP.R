@@ -654,43 +654,43 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in Intercept of Latent Variables -- ##
-  if (any(parEst[,4] == "MX2")) {
+  if (any(parEst[,4] == "MLX2")) {
     for (j in 3:no.waves) {
       for (i in j:no.waves) {
-        mcmcA <- (mcmc[, paste("MX", i, sep="")] - mcmc[, paste("MX", i-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("MLX", i, sep="")] - mcmc[, paste("MLX", i-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MX", i, "-MX", i-j+2, sep="")
-        pest2A <- (pest2[paste("MX", i, sep="")] - pest2[paste("MX", i-j+2, sep="")])
-        names(pest2A) <- paste("MX", i, "-MX", i-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MLX", i, "-MLX", i-j+2, sep="")
+        pest2A <- (pest2[paste("MLX", i, sep="")] - pest2[paste("MLX", i-j+2, sep="")])
+        names(pest2A) <- paste("MLX", i, "-MLX", i-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
-        mcmcA <- (mcmc[, paste("MY", i, sep="")] - mcmc[, paste("MY", i-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("MLY", i, sep="")] - mcmc[, paste("MLY", i-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MY", i, "-MY", i-j+2, sep="")
-        pest2A <- (pest2[paste("MY", i, sep="")] - pest2[paste("MY", i-j+2, sep="")])
-        names(pest2A) <- paste("MY", i, "-MY", i-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MLY", i, "-MLY", i-j+2, sep="")
+        pest2A <- (pest2[paste("MLY", i, sep="")] - pest2[paste("MLY", i-j+2, sep="")])
+        names(pest2A) <- paste("MLY", i, "-MLY", i-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
         if (Z != "NULL") {
-          mcmcA <- (mcmc[, paste("MZ", i, sep="")] - mcmc[, paste("MZ", i-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("MLZ", i, sep="")] - mcmc[, paste("MLZ", i-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MZ", i, "-MZ", i-j+2, sep="")
-          pest2A <- (pest2[paste("MZ", i, sep="")] - pest2[paste("MZ", i-j+2, sep="")])
-          names(pest2A) <- paste("MZ", i, "-MZ", i-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MLZ", i, "-MLZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("MLZ", i, sep="")] - pest2[paste("MLZ", i-j+2, sep="")])
+          names(pest2A) <- paste("MLZ", i, "-MLZ", i-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # end (if Z != "NULL")
 
         if (W != "NULL") {
-          mcmcA <- (mcmc[, paste("MW", i, sep="")] - mcmc[, paste("MW", i-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("MLW", i, sep="")] - mcmc[, paste("MLW", i-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MW", i, "-MW", i-j+2, sep="")
-          pest2A <- (pest2[paste("MW", i, sep="")] - pest2[paste("MW", i-j+2, sep="")])
-          names(pest2A) <- paste("MW", i, "-MW", i-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MLW", i, "-MLW", i-j+2, sep="")
+          pest2A <- (pest2[paste("MLW", i, sep="")] - pest2[paste("MLW", i-j+2, sep="")])
+          names(pest2A) <- paste("MLW", i, "-MLW", i-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # End (if W != "NULL")
       } # end (for i)
     } # end (for j)
-  } # end (if MX2)
+  } # end (if MLX2)
   ## ----- end (Differences in Intercepts) ----- ##
 
 
@@ -924,7 +924,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     MIset <- no.waves - 2
     no.compare = (no.waves - 1)*(no.waves)/2
 
-    cat(rep("\n",5), "## ===== Identification of invariant residual covariance of observed variables ===== ##")
+    cat(rep("\n",5), "## ===== Identification of invariant residual covariance of indicators ===== ##")
 
     LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - covIXY ##
 
@@ -944,7 +944,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## ---- List and Delete - Intercepts ---- ##
-  if (any(parEst[,4] == "MX2")) {
+  if (any(parEst[,4] == "MLX2")) {
     # -- Reset MISet and no.compare for grand mean  --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
@@ -962,7 +962,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (W != "NULL") {
       LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Intercepts of W ##
     } # end (if W != "NULL")
-  } # end (if MX1)
+  } # end (if MLX1)
  
   ## -------------------------------------------------------- ##
 
@@ -1049,7 +1049,7 @@ LandD_Path <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     SumEst <- SumEst + TparEst["est"]
   }
   MeanEst <- SumEst/(no.path-LDlag+1)
-  p.MeanEst <- paste("  Mean across paths = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across paths = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant paths -- #
@@ -1118,7 +1118,7 @@ LandD_COV <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.path)
-  p.MeanEst <- paste("  Mean across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual covariances -- #
@@ -1187,7 +1187,7 @@ LandD_VAR <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.path)
-  p.MeanEst <- paste("  Mean across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual variances -- #
@@ -1257,7 +1257,7 @@ LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.waves)
-  p.MeanEst <- paste("   Mean across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("   Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual covariances -- #
@@ -1319,13 +1319,13 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   for (i in 1: no.path) {
     Clhs <- paste0("w", aa, i+1, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["op"] == "~1",]
-    p.TparEst <- paste0("  M", a, i+1, ":  Intercept of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste0("  ML", a, i+1, ":  Intercept of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/no.waves
-  p.MeanEst <- paste("  Mean intercepts across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average intercepts across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant Intercepts -- #
@@ -1333,7 +1333,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 3:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("M", a, i, "-M", a, i-j+2, sep="")
+      Clhs <- paste("ML", a, i, "-ML", a, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
         NI.path[k, 2] <- i-j+1
@@ -1365,7 +1365,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       if (count4 > 0) {
         mm.p <- mm
         for (i in 1:no.path) {
-          mm.p[mm.p == i] <- paste("M", a, i+1, sep="")
+          mm.p[mm.p == i] <- paste("ML", a, i+1, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
       } # end (if count4)
@@ -1393,7 +1393,7 @@ LandD_varI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/no.waves
-  p.MeanEst <- paste("  Mean across waves = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant Indicator Variance -- #
@@ -1492,7 +1492,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
     cat("\n", "## ----- Specify the model (CLPM) ----- ##", "\n")
     cat("\n", "CLPM <- '")
 
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -1505,8 +1505,8 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
       }  # end (if W)
     } # end (for i)
 
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -1560,15 +1560,15 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
     }  # end (if W)
 
     # -- Estimate (Mean) Intercepts of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MLX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MLY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MLZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MLW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -1711,7 +1711,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
       } # end (if W)
     } # end (for i)
 
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -1863,21 +1863,21 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
       } # end (for i)
     } # end (lag == 4)
 
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ M", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ M", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ ML", X, i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ ML", Y, i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ M", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ ML", Z, i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ M", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ ML", W, i, "*1", sep=""))
       } # end (if W)
     } # end (for i)
 
 
     cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
+    cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
@@ -2000,8 +2000,8 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", BW)
     } # end (if W)
 
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -2037,7 +2037,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", paste("  RI", W, " ~ 0*1", sep=""))
     } # (if W)
     
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -2053,13 +2053,13 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     # -- Estimate Means (Intercepts) of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MLX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MLY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MLZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MLW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -2334,7 +2334,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", paste("  RI", W, " ~ 0*1", sep=""))
     } # (if W)
 
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -2350,13 +2350,13 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     # -- Estimate Means (Intercepts) of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MLX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MLY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MLZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MLW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -2543,7 +2543,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     } # end (lag == 4)
 
     cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
+    cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
@@ -2716,7 +2716,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     } # end (if W)
 
     # -- Constrain Residual Variance of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -2812,7 +2812,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", "   RI", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
 
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -3421,7 +3421,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     } # end (lag == 4)
 
     cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
+    cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
@@ -3612,7 +3612,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
     } # end (if varI.eq)
 
 
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -3690,16 +3690,16 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       } # end (if W)
     } # end (for i)
 
-    # -- Estimate Grand Means (Intercepts) of Observed Variables -- #
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    # -- Estimate Grand Means (Intercepts) of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ M", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ M", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ ML", X, i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ ML", Y, i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ M", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ ML", Z, i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ M", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ ML", W, i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -3880,9 +3880,9 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       cat("\n", BW)
     } # end (if W != "NULL")
 
-    # -- Create Residual Variance of Observed Variables -- #
+    # -- Create Residual Variance of Indicators -- #
     if (isFALSE(varI.eq)) {
-      cat(rep("\n",2), "  # -- Create residual variance of observed variables -- #")
+      cat(rep("\n",2), "  # -- Create residual variance of indicators -- #")
       cat("\n", "  ##########################################################")
       cat("\n", "  # Remove the subscripts for invariant indicator variance #")
       cat("\n", "  ##########################################################")
@@ -3897,7 +3897,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
         } # end (if W)
       } # end (for i)###   ###
     } else {
-      cat(rep("\n",2), "  # -- Create residual variance of observed variables -- #")
+      cat(rep("\n",2), "  # -- Create residual variance of indicators -- #")
       cat("\n", "  ##########################################################")
       cat("\n", "  # Remove the subscripts for invariant indicator variance #")
       cat("\n", "  ##########################################################")
@@ -3913,7 +3913,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       } # end (for i)###   ###
     } # end (if varI.eq == FALSE)
 
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -4078,15 +4078,15 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
     } # end (for i)
 
 
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ M", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ M", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ ML", X, i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ ML", Y, i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ M", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ ML", Z, i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ M", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ ML", W, i, "*1", sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -4124,7 +4124,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 
 
     cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
+    cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
@@ -4248,7 +4248,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "## ----- Specify the model (ALT) ----- ##", "\n")
     cat("\n", "ALT <- '")
  
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -4261,8 +4261,8 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       }  # end (if W)
     } # end (for i)
 
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -4353,13 +4353,13 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
     # -- Estimate Means (Intercepts) of First Indicator -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of first indicator -- #")
-    cat("\n", paste("  w", X, "1 ~ MX1*1", sep=""))
-    cat("\n", paste("  w", Y, "1 ~ MY1*1", sep=""))
+    cat("\n", paste("  w", X, "1 ~ MLX1*1", sep=""))
+    cat("\n", paste("  w", Y, "1 ~ MLY1*1", sep=""))
     if (Z != "NULL") {
-      cat("\n", paste("  w", Z, "1 ~ MZ1*1", sep=""))
+      cat("\n", paste("  w", Z, "1 ~ MLZ1*1", sep=""))
     } # end (if Z)
     if (W != "NULL") {
-      cat("\n", paste("  w", W, "1 ~ MW1*1", sep=""))
+      cat("\n", paste("  w", W, "1 ~ MLW1*1", sep=""))
     } # (if W)
 
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
@@ -4652,7 +4652,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "# Specify the model (ALT)", "\n")
     cat("\n", "ALT <- '")
  
-    # -- Create Latent Variables from Observed Variables -- #
+    # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
@@ -4665,8 +4665,8 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       }  # end (if W)
     } # end (for i)
  
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -4756,13 +4756,13 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
     # -- Estimate Means of First Indicator -- #
     cat(rep("\n",2), "  # -- Estimate means of first indicator -- #")
-    cat("\n", paste("  w", X, "1 ~ MX1*1", sep=""))
-    cat("\n", paste("  w", Y, "1 ~ MY1*1", sep=""))
+    cat("\n", paste("  w", X, "1 ~ MLX1*1", sep=""))
+    cat("\n", paste("  w", Y, "1 ~ MLY1*1", sep=""))
     if (Z != "NULL") {
-      cat("\n", paste("  w", Z, "1 ~ MZ1*1", sep=""))
+      cat("\n", paste("  w", Z, "1 ~ MLZ1*1", sep=""))
     } # end (if Z)
     if (W != "NULL") {
-      cat("\n", paste("  w", W, "1 ~ MW1*1", sep=""))
+      cat("\n", paste("  w", W, "1 ~ MLW1*1", sep=""))
     } # (if W)
 
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
@@ -5031,7 +5031,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     } # end (lag == 4)
  
     cat(rep("\n",2), "  ##########################################")
-    cat("\n", "  # Regression of observed variables on C1 #")
+    cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
       cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
