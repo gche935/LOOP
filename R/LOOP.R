@@ -2013,16 +2013,16 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       } # end (if W)
     } # end (for i)
 
-    # -- Estimate Grand Means (Intercepts) of Observed Variables -- #
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    # -- Constrain Intercepts of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain intercepts of indicators to zero -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ MX", i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ MY", i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ MZ", i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ MW", i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -2050,16 +2050,16 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       }  # end (if W)
     } # end (for i)
 
-    # -- Constrain Means (Intercepts) of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
+    # -- Estimate Means (Intercepts) of Latent Variables -- #
+    cat(rep("\n",2), "  # -- Estimate means (intercepts) of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -2276,33 +2276,29 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
     BX <- paste("  RI", X, " =~ 1*", X, "1", sep="")
     BY <- paste("  RI", Y, " =~ 1*", Y, "1", sep="")
-    if (Z != "NULL") {
-      BY <- paste("  RI", Z, " =~ 1*", Z, "1", sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      BY <- paste("  RI", W, " =~ 1*", W, "1", sep="")
-    } # end (if W != "NULL")
     for (i in 2:no.waves) {
       BX <- paste(BX, " +1*", X, i, sep="")
       BY <- paste(BY, " +1*", Y, i, sep="")
-      if (Z != "NULL") {
-        BZ <- paste(BZ, " +1*", Z, i, sep="")
-      } # end (if Z != "NULL")
-      if (W != "NULL") {
-        BW <- paste(BW, " +1*", W, i, sep="")
-      } # end (if W != "NULL")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
+      BZ <- paste("  RI", Z, " =~ 1*", Z, "1", sep="")
+      for (i in 2:no.waves) {
+        BZ <- paste(BZ, " +1*", Z, i, sep="")
+      } # end (for i)
       cat("\n", BZ)
-    } # end (if Z != "NULL")
+    } # end (if Z)
     if (W != "NULL") {
+      BW <- paste("  RI", W, " =~ 1*", W, "1", sep="")
+      for (i in 2:no.waves) {
+        BW <- paste(BW, " +1*", W, i, sep="")
+      } # end (for i)
       cat("\n", BW)
-    } # end (if W != "NULL")
+    } # end (if W)
 
-    # -- Constrain Residual Variance of Observed Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of observed variables to zero -- #")
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
       cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
@@ -2314,16 +2310,16 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       } # end (if W)
     } # end (for i)
 
-    # -- Estimate Grand Means (Intercepts) of Observed Variables -- #
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of observed variables -- #")
+    # -- Constrain Intercepts of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain intercepts of indicators to zero -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ M", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ M", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ M", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ M", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -2351,29 +2347,29 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       }  # end (if W)
     } # end (for i)
 
-    # -- Constrain Means (Intercepts) of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
+    # -- Estimate Means (Intercepts) of Latent Variables -- #
+    cat(rep("\n",2), "  # -- Estimate means (intercepts) of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
     # -- Estimate (Residual) Variance of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ ", "w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ ", "w", Y, i, sep=""))
+      cat("\n", paste("  w", X, i, " ~~ eXX", i, "*w", X, i, sep=""))
+      cat("\n", paste("  w", Y, i, " ~~ eYY", i, "*w", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ ", "w", Z, i, sep=""))
+        cat("\n", paste("  w", Z, i, " ~~ eZZ", i, "*w", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ ", "w", W, i, sep=""))
+        cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end (for i)
 
