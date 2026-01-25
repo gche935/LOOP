@@ -4337,7 +4337,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     } # end (if W)
  
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
+    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
       cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
@@ -4691,25 +4691,24 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
     # -- Create Between Components (Random Intercepts) from Latent Variables -- #
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
-    BX <- paste("  RI", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RI", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
+    BX <- paste("  RI", X, " =~ 1*w", X, "2", sep="")
+    BY <- paste("  RI", Y, " =~ 1*w", Y, "2", sep="")
+    for (i in 3:no.waves) {
       BX <- paste(BX, " +1*w", X, i, sep="")
       BY <- paste(BY, " +1*w", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
- 
     if (Z != "NULL") {
-      BZ <- paste("  RI", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
+      BZ <- paste("  RI", Z, " =~ 1*w", Z, "2", sep="")
+      for (i in 3:no.waves) {
         BZ <- paste(BZ, " +1*w", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RI", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
+      BW <- paste("  RI", W, " =~ 1*w", W, "2", sep="")
+      for (i in 3:no.waves) {
         BW <- paste(BW, " +1*w", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
@@ -4717,31 +4716,31 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
     # -- Create Between Components (Random Slopes) from Latent Variables -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*w", X, "1", sep="")
-    BY <- paste("  RS", Y, " =~ 0*w", Y, "1", sep="")
-    for (i in 2:no.waves) {
+    BX <- paste("  RS", X, " =~ 1*w", X, "2", sep="")
+    BY <- paste("  RS", Y, " =~ 1*w", Y, "2", sep="")
+    for (i in 3:no.waves) {
       BX <- paste(BX, " +", (i-1), "*w", X, i, sep="")
       BY <- paste(BY, " +", (i-1), "*w", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*w", Z, "1", sep="")
-      for (i in 2:no.waves) {
+      BZ <- paste("  RS", Z, " =~ 1*w", Z, "2", sep="")
+      for (i in 3:no.waves) {
         BZ <- paste(BZ, " +", (i-1), "*w", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*w", W, "1", sep="")
-      for (i in 2:no.waves) {
+      BW <- paste("  RS", W, " =~ 1*w", W, "2", sep="")
+      for (i in 3:no.waves) {
         BW <- paste(BW, " +", (i-1), "*w", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
  
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
+    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
     for (i in 1:no.waves) {
       cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
       cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
@@ -4753,8 +4752,8 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # (if W)
     } # end (for i)
 
-    # -- Constrain Means (Intercepts) of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
+    # -- Constrain Intercepts of Latent Variables to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain intercepts of latent variables to zero -- #")
     for (i in 2:no.waves) {
       cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
       cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
@@ -4766,8 +4765,8 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # (if W)
     } # end (for i)
 
-    # -- Estimate Means (Intercepts) of First Indicator -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of first indicator -- #")
+    # -- Estimate Means of First Indicator -- #
+    cat(rep("\n",2), "  # -- Estimate means of first indicator -- #")
     cat("\n", paste("  w", X, "1 ~ MX1*1", sep=""))
     cat("\n", paste("  w", Y, "1 ~ MY1*1", sep=""))
     if (Z != "NULL") {
