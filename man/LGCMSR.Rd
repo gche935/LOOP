@@ -4,14 +4,14 @@
 \alias{LGCMSR}
 \title{Function Latent Growth Curve Model with Structural Residuals (LGCMSR)}
 \usage{
-LGCMSR(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
+LGCMSR(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
+
+LGCMSR(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 }
 \arguments{
 \item{data.source}{name of data.frame}
 
-\item{no.waves}{number of waves (minimum = 3, must be grater than lag)}
-
-\item{lag}{number of waves between two lags (minimum = 1, maximum = 4)}
+\item{no.waves}{number of waves (minimum = 3)}
 
 \item{p}{critical p-value for pairwise comparisons (default is 0.001)}
 
@@ -22,17 +22,28 @@ LGCMSR(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{Z}{name of variable Z.}
 
 \item{W}{name of variable W (Z must come before W).}
+
+\item{lag}{number of waves between two lags (minimum = 1, maximum = 4)}
 }
 \value{
 LGCM-SR outputs.
+
+LGCM outputs.
 }
 \description{
 Latent Growth Curve Model with Structural Residuals (LGCM-SR)
+
+Latent Growth Curve Model (LGCM)
 }
 \examples{
 
 ## -- Example -- ##
 
 LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+
+
+## -- Example -- ##
+
+LGCM(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
 
 }
