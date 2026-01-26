@@ -937,7 +937,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (W != "NULL") {
       LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - indicator residual variance eIWW ##
     } # end (if W != "NULL")
-  } # end (if eIXY1)
+  } # end (if eIXX2)
 
   ## -------------------------------------------------------- ##
 
@@ -963,7 +963,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - eIYW ##
       LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - eIZW ##
     } # end (if W != "NULL")
-  } # end (if eIXY1)
+  } # end (if eIXY2)
 
   ## -------------------------------------------------------- ##
 
@@ -1272,17 +1272,17 @@ LandD_eIXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   cat(rep("\n",3), paste("# -- Indicator residual covariance of cov", a, b, " coefficients -- #", sep=""))
   aa <- get(a)
   bb <- get(b)
-  for (i in 2: no.waves) {
-    Clhs <- paste(aa, i+1, sep="")
-    Crhs <- paste(bb, i+1, sep="")
+  for (i in 1: no.waves) {
+    Clhs <- paste(aa, i, sep="")
+    Crhs <- paste(bb, i, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
-    p.TparEst <- paste("  eI", a, b, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste("  eI", a, b, i, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.waves)
-  p.MeanEst <- paste("   Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual covariances -- #
@@ -1321,8 +1321,8 @@ LandD_eIXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       count4 <- sum(mm[ii,])
       if (count4 > 0) {
         mm.p <- mm
-        for (i in 1:no.path) {
-          mm.p[mm.p == i] <- paste("eI", a, b, i+1, sep="")
+        for (i in 1:no.waves) {
+          mm.p[mm.p == i] <- paste("eI", a, b, i, sep="")
         }
         cat("\n", "    ", mm.p[ii,])
       }
@@ -1457,7 +1457,7 @@ LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       count4 <- sum(mm[ii,])
       if (count4 > 0) {
         mm.p <- mm
-        for (i in 0:no.waves) {
+        for (i in 1:no.waves) {
           mm.p[mm.p == i] <- paste("eI", a, a, i, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
