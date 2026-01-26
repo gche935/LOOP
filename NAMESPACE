@@ -2,6 +2,7 @@
 
 export(ALT)
 export(CLPM)
+export(LGCM)
 export(LGCMSR)
 export(RICLPM)
 export(STARTS)

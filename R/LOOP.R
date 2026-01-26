@@ -913,7 +913,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   if (W != "NULL") {
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
   } # end (if W != "NULL")
-  
+
   ## -------------------------------------------------------- ##
 
 
@@ -988,7 +988,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Intercepts of W ##
     } # end (if W != "NULL")
   } # end (if MwX1)
- 
+
   ## -------------------------------------------------------- ##
 
 
@@ -2061,7 +2061,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
     if (W != "NULL") {
       cat("\n", paste("  RI", W, " ~ 0*1", sep=""))
     } # (if W)
-    
+
     # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
@@ -3070,7 +3070,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   parEst <- lavaan::parameterEstimates(LGCMSRMLR.fit, remove.nonfree = TRUE)
   pest2 <- parEst[,5]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMSRMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
- 
+
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
@@ -3869,7 +3869,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 
     cat(rep("\n", 2))
 
- 
+
   ## ----- Start writing script to STARTS.txt ----- ##
   sink('STARTS.txt')
     cat("\n", "# Specify the model (STARTS)", "\n")
@@ -4264,29 +4264,29 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 #'
 
 ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
- 
+
   ## -- Check inputs -- ##
- 
+
   if (no.waves < 3) stop("Minimum number of waves is 3")
- 
+
   if (lag < 1) stop("Minimum number of lag is 1")
   if (lag > 4) stop("Maximum number of lag is 4")
- 
+
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
- 
+
   if (p > 0.05) stop("p > 0.05 is not recommended")
   if (p < 0.0001) stop("p < 0.0001 is not recommended")
- 
+
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
- 
- 
- 
+
+
+
   ## ----- Creating Model ALT ----- ###
   sink('ALT.txt') # Start writing script to ALT.txt
- 
+
     cat("\n", "## ----- Specify the model (ALT) ----- ##", "\n")
     cat("\n", "ALT <- '")
- 
+
     # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
@@ -4323,7 +4323,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
- 
+
     if (Z != "NULL") {
       BZ <- paste("  RI", Z, " =~ 1*w", Z, "2", sep="")
       for (i in 3:no.waves) {
@@ -4338,7 +4338,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
- 
+
     # -- Create Between Components (Random Slopes) from Latent Variables -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
     BX <- paste("  RS", X, " =~ 1*w", X, "2", sep="")
@@ -4363,7 +4363,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
- 
+
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
     cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
     for (i in 1:no.waves) {
@@ -4437,14 +4437,14 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ RI", W, sep="")
       cat("\n", "   RS", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RI", X, " ~~ RS", X, sep="")
     cat("\n", "   RI", X, " ~~ RI", Y, sep="")
     cat("\n", "   RI", X, " ~~ RS", Y, sep="")
     cat("\n", "   RS", X, " ~~ RI", Y, sep="")
     cat("\n", "   RS", X, " ~~ RS", Y, sep="")
     cat("\n", "   RI", Y, " ~~ RS", Y, sep="")
- 
+
     if (Z != "NULL") {
       cat("\n", "   RI", X, " ~~ RI", Z, sep="")
       cat("\n", "   RI", X, " ~~ RS", Z, sep="")
@@ -4471,7 +4471,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RS", Z, " ~~ RS", W, sep="")
       cat("\n", "   RI", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
-  
+
     # -- Estimate (residual) variance of latent variables -- #
     cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
     for (i in 1:no.waves) {
@@ -4484,7 +4484,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end (for i)
- 
+
     # -- Estimate Covariances Between Residuals of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate covariances between residuals of latent variables -- #")
     for (i in 2:no.waves) {
@@ -4523,7 +4523,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     if (W != "NULL") {
       cat("\n", "   RI", X, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RI", Y, " ~~ w", X, "1", sep="")
     cat("\n", "   RI", Y, " ~~ w", Y, "1", sep="")
     if (Z != "NULL") {
@@ -4544,7 +4544,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ w", Z, "1", sep="")
       cat("\n", "   RI", W, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
      # -- Estimate covariance among RSX RSY, RSZ, RSW and wx1, wy1, wz1, ww1 -- #
     cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and wx1, wy1, wz1, ww1 -- #")
     cat("\n", "   RS", X, " ~~ w", X, "1", sep="")
@@ -4555,7 +4555,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     if (W != "NULL") {
       cat("\n", "   RS", X, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RS", Y, " ~~ w", X, "1", sep="")
     cat("\n", "   RS", Y, " ~~ w", Y, "1", sep="")
     if (Z != "NULL") {
@@ -4576,7 +4576,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RS", W, " ~~ w", Z, "1", sep="")
       cat("\n", "   RS", W, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
      # -- Estimate Lagged Effects Between Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
     for (i in 2:no.waves) {
@@ -4594,7 +4594,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  w", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
       } # end (if Z/W)
     } # end (for i)
- 
+
     if (lag == 2) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 2 waves) -- #")
       for (i in 3:no.waves) {
@@ -4613,7 +4613,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
- 
+
     if (lag == 3) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 3 waves) -- #")
       for (i in 4:no.waves) {
@@ -4632,7 +4632,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
- 
+
     if (lag == 4) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 4 waves) -- #")
       for (i in 5:no.waves) {
@@ -4651,9 +4651,9 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 4)
- 
+
     cat(rep("\n",2), "  '")
- 
+
     # -- Run Model ALTMLR -- #
     cat(rep("\n",2), "# -- Run Model ALTMLR -- #")
     cat(rep("\n",2), "  ALTMLR.fit <- suppressWarnings(lavaan::sem(ALT,")
@@ -4663,24 +4663,24 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "   information = 'observed',")
     cat("\n", "   estimator = 'MLR'")
     cat("\n", "))")
- 
+
   sink()  # Stop writing to file ALT.txt
   ## ------------------------------- ##
- 
- 
+
+
   ## -- Execute ALT.txt and request summary outputs-- ##
   source('ALT.txt')
   print(lavaan::summary(ALTMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
   if (lavaan::lavInspect(ALTMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
   ## ------------------------------- ##
- 
- 
+
+
   ## -- Monte Carlo Simulation -- ##
- 
+
   parEst <- lavaan::parameterEstimates(ALTMLR.fit, remove.nonfree = TRUE)
   pest2 <- parEst[,5]  # Estimated Parameters
   pest3 <- lavaan::lavTech(ALTMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
- 
+
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
@@ -4690,7 +4690,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
   sink('ALT.txt')
     cat("\n", "# Specify the model (ALT)", "\n")
     cat("\n", "ALT <- '")
- 
+
     # -- Create Latent Variables from Indicators -- #
     cat(rep("\n",2), "  # -- Create latent variables -- #")
     for (i in 1:no.waves) {
@@ -4703,7 +4703,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
       }  # end (if W)
     } # end (for i)
- 
+
     # -- Constrain Residual Variance of Indicators to Zero -- #
     cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
     for (i in 1:no.waves) {
@@ -4766,7 +4766,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
- 
+
     # -- Constrain Means (Intercepts) of Indicators to Zero -- #
     cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
     for (i in 1:no.waves) {
@@ -4840,14 +4840,14 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ RI", W, sep="")
       cat("\n", "   RS", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RI", X, " ~~ RS", X, sep="")
     cat("\n", "   RI", X, " ~~ RI", Y, sep="")
     cat("\n", "   RI", X, " ~~ RS", Y, sep="")
     cat("\n", "   RS", X, " ~~ RI", Y, sep="")
     cat("\n", "   RS", X, " ~~ RS", Y, sep="")
     cat("\n", "   RI", Y, " ~~ RS", Y, sep="")
- 
+
     if (Z != "NULL") {
       cat("\n", "   RI", X, " ~~ RI", Z, sep="")
       cat("\n", "   RI", X, " ~~ RS", Z, sep="")
@@ -4874,7 +4874,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RS", Z, " ~~ RS", W, sep="")
       cat("\n", "   RI", W, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
-  
+
     # -- Estimate (residual) variance of latent variables -- #
     cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
     for (i in 1:no.waves) {
@@ -4887,7 +4887,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end (for i)
- 
+
     # -- Estimate Covariances Between Residuals of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate covariances between residuals of latent variables -- #")
     cat("\n", "  ###################################################################")
@@ -4929,7 +4929,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     if (W != "NULL") {
       cat("\n", "   RI", X, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RI", Y, " ~~ w", X, "1", sep="")
     cat("\n", "   RI", Y, " ~~ w", Y, "1", sep="")
     if (Z != "NULL") {
@@ -4950,7 +4950,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RI", W, " ~~ w", Z, "1", sep="")
       cat("\n", "   RI", W, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
      # -- Estimate covariance among RSX RSY, RSZ, RSW and wx1, wy1, wz1, ww1 -- #
     cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and wx1, wy1, wz1, ww1 -- #")
     cat("\n", "   RS", X, " ~~ w", X, "1", sep="")
@@ -4961,7 +4961,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     if (W != "NULL") {
       cat("\n", "   RS", X, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
     cat("\n", "   RS", Y, " ~~ w", X, "1", sep="")
     cat("\n", "   RS", Y, " ~~ w", Y, "1", sep="")
     if (Z != "NULL") {
@@ -4982,7 +4982,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RS", W, " ~~ w", Z, "1", sep="")
       cat("\n", "   RS", W, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
- 
+
     cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
     cat("\n", "  #############################################")
     cat("\n", "  # Remove the subscripts for invariant paths #")
@@ -5002,7 +5002,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
       } # end (if Z)
     } # end (for i)
- 
+
     if (lag == 2) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
       cat("\n", "  #############################################")
@@ -5024,7 +5024,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
- 
+
     if (lag == 3) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
       cat("\n", "  #############################################")
@@ -5046,7 +5046,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
- 
+
     if (lag == 4) {
       cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
       cat("\n", "  #############################################")
@@ -5068,7 +5068,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 4)
- 
+
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
@@ -5082,7 +5082,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
         cat("\n", paste("  #  ", W, i, " ~ sz", i,"*C1", sep=""))
       } # end (if W)
     } # end (for i)
- 
+
     cat(rep("\n",2), "  #########################################")
     cat("\n", "  # Regression of random intercepts on C1 #")
     cat("\n", "  #########################################")
@@ -5093,7 +5093,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     } else if (W != "NULL") {
       cat("\n", "   #  RI", X, " + RI", Y, " + RI", Z, " + RI", W, " ~ C1", sep="")
     } # end (if Z/W)
- 
+
     cat(rep("\n",2), "  ################################################################")
     cat("\n", "  # Regression of time-invariant outcome D1 on random intercepts #")
     cat("\n", "  ################################################################")
@@ -5105,7 +5105,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   #  D1 ~ RI", X, " + RI", Y, " + RI", Z, " + RI", W, sep="")
     } # end (if Z/W)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
- 
+
     cat(rep("\n",2), "  ################################################")
     cat("\n", "  # Regression of outcome D1 on latent variables #")
     cat("\n", "  ################################################")
@@ -5120,9 +5120,9 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       } # end (if W)
     } # end (for i)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
- 
+
     cat(rep("\n",2), "  '")
- 
+
     # -- Run ALTMLR -- #
     cat(rep("\n",2), "  ALTMLR.fit <- lavaan::sem(ALT, ")
     cat("\n", "   ", data.source, ",")
@@ -5131,12 +5131,12 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
     cat("\n", "   information = 'observed',")
     cat("\n", "   estimator = 'MLR'")
     cat("\n", ")")
- 
+
     # Request summary outputs
     cat(rep("\n",2), "  print(lavaan::summary(ALTMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
- 
+
   sink() # Stop writing to file
- 
+
 }  # end (Function ALT)
 
 ## ========================================================================================== ##
@@ -5167,7 +5167,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 #' LGCM(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
 #'
 
-LGCMSR <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -5463,7 +5463,7 @@ LGCMSR <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL")
   parEst <- lavaan::parameterEstimates(LGCMMLR.fit, remove.nonfree = TRUE)
   pest2 <- parEst[,5]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
- 
+
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
