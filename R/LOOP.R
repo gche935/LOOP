@@ -599,57 +599,57 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in indicator residual covariance -- ##
-  if (any(parEst[,4] == "covIXY2")) {
+  if (any(parEst[,4] == "eIXY2")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
-        mcmcA <- (mcmc[, paste0("covIXY", i, sep="")] - mcmc[, paste("covIXY", i-j+1, sep="")])
+        mcmcA <- (mcmc[, paste0("eIXY", i, sep="")] - mcmc[, paste("eIXY", i-j+1, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIXY", i, "-covIXY", i-j+1, sep="")
-        pest2A <- (pest2[paste("covIXY", i, sep="")] - pest2[paste("covIXY", i-j+1, sep="")])
-        names(pest2A) <- paste("covIXY", i, "-covIXY", i-j+1, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXY", i, "-eIXY", i-j+1, sep="")
+        pest2A <- (pest2[paste("eIXY", i, sep="")] - pest2[paste("eIXY", i-j+1, sep="")])
+        names(pest2A) <- paste("eIXY", i, "-eIXY", i-j+1, sep="")
         pest2 <- append(pest2, pest2A)
 
         if (Z != "NULL") {
-          mcmcA <- (mcmc[, paste("covIXZ", i, sep="")] - mcmc[, paste("covIXZ", i-j+1, sep="")])
+          mcmcA <- (mcmc[, paste("eIXZ", i, sep="")] - mcmc[, paste("eIXZ", i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIXZ", i, "-covIXZ", i-j+1, sep="")
-          pest2A <- (pest2[paste("covIXZ", i, sep="")] - pest2[paste("covIXZ", i-j+1, sep="")])
-          names(pest2A) <- paste("covIXZ", i, "-covIXZ", i-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXZ", i, "-eIXZ", i-j+1, sep="")
+          pest2A <- (pest2[paste("eIXZ", i, sep="")] - pest2[paste("eIXZ", i-j+1, sep="")])
+          names(pest2A) <- paste("eIXZ", i, "-eIXZ", i-j+2, sep="")
           pest2 <- append(pest2, pest2A)
 
-          mcmcA <- (mcmc[, paste("covIYZ", i, sep="")] - mcmc[, paste("covIYZ", i-j+1, sep="")])
+          mcmcA <- (mcmc[, paste("eIYZ", i, sep="")] - mcmc[, paste("eIYZ", i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIYZ", i, "-covIYZ", i-j+1, sep="")
-          pest2A <- (pest2[paste("covIYZ", i, sep="")] - pest2[paste("covIYZ", i-j+1, sep="")])
-          names(pest2A) <- paste("covIYZ", i, "-covIYZ", i-j+1, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYZ", i, "-eIYZ", i-j+1, sep="")
+          pest2A <- (pest2[paste("eIYZ", i, sep="")] - pest2[paste("eIYZ", i-j+1, sep="")])
+          names(pest2A) <- paste("eIYZ", i, "-eIYZ", i-j+1, sep="")
           pest2 <- append(pest2, pest2A)
         } # end (if Z != "NULL")
 
         if (W != "NULL") {
-          mcmcA <- (mcmc[, paste("covIXW", i, sep="")] - mcmc[, paste("covIXW", i-j+1, sep="")])
+          mcmcA <- (mcmc[, paste("eIXW", i, sep="")] - mcmc[, paste("eIXW", i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIXW", i, "-covIXW", i-j+1, sep="")
-          pest2A <- (pest2[paste("covIXW", i, sep="")] - pest2[paste("covIXW", i-j+1, sep="")])
-          names(pest2A) <- paste("covIXW", i, "-covIXW", i-j+1, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXW", i, "-eIXW", i-j+1, sep="")
+          pest2A <- (pest2[paste("eIXW", i, sep="")] - pest2[paste("eIXW", i-j+1, sep="")])
+          names(pest2A) <- paste("eIXW", i, "-eIXW", i-j+1, sep="")
           pest2 <- append(pest2, pest2A)
 
-          mcmcA <- (mcmc[, paste("covIYW", i, sep="")] - mcmc[, paste("covIYW", i-j+1, sep="")])
+          mcmcA <- (mcmc[, paste("eIYW", i, sep="")] - mcmc[, paste("eIYW", i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIYW", i, "-covIYW", i-j+1, sep="")
-          pest2A <- (pest2[paste("covIYW", i, sep="")] - pest2[paste("covIYW", i-j+1, sep="")])
-          names(pest2A) <- paste("covIYW", i, "-covIYW", i-j+1, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYW", i, "-eIYW", i-j+1, sep="")
+          pest2A <- (pest2[paste("eIYW", i, sep="")] - pest2[paste("eIYW", i-j+1, sep="")])
+          names(pest2A) <- paste("eIYW", i, "-eIYW", i-j+1, sep="")
           pest2 <- append(pest2, pest2A)
 
-          mcmcA <- (mcmc[, paste("covIZW", i, sep="")] - mcmc[, paste("covIZW", i-j+1, sep="")])
+          mcmcA <- (mcmc[, paste("eIZW", i, sep="")] - mcmc[, paste("eIZW", i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("covIZW", i, "-covIZW", i-j+1, sep="")
-          pest2A <- (pest2[paste("covIZW", i, sep="")] - pest2[paste("covIZW", i-j+1, sep="")])
-          names(pest2A) <- paste("covIZW", i, "-covIZW", i-j+1, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIZW", i, "-eIZW", i-j+1, sep="")
+          pest2A <- (pest2[paste("eIZW", i, sep="")] - pest2[paste("eIZW", i-j+1, sep="")])
+          names(pest2A) <- paste("eIZW", i, "-eIZW", i-j+1, sep="")
           pest2 <- append(pest2, pest2A)
         } # end (if W != "NULL")
       } # end (for i)
     } # end (for j)
-  } # end (if covIXY1)
+  } # end (if eIXY1)
   ## ----- end (Difference in indicator residual covariance) ----- ##
 
 
@@ -878,17 +878,17 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   cat(rep("\n",5), "## ===== Identification of invariant residual covariance ===== ##")
 
-  LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eXY ##
+  LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eXY ##
 
   if (Z != "NULL") {
-    LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z")  ## List and Delete - eXZ ##
-    LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z")  ## List and Delete - eYZ ##
+    LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z")  ## List and Delete - eXZ ##
+    LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z")  ## List and Delete - eYZ ##
   } # end (if Z != "NULL")
 
   if (W != "NULL") {
-    LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W")  ## List and Delete - eXW ##
-    LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - eYW ##
-    LandD_COV(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - eZW ##
+    LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W")  ## List and Delete - eXW ##
+    LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - eYW ##
+    LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - eZW ##
   } # end (if W != "NULL")
 
   ## -------------------------------------------------------- ##
@@ -903,22 +903,47 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   cat(rep("\n",5), "## ===== Identification of invariant residual variance ===== ##")
 
-  LandD_VAR(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
-  LandD_VAR(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
+  LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
+  LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
 
   if (Z != "NULL") {
-    LandD_VAR(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - residual variance eZZ ##
+    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - residual variance eZZ ##
   } # end (if Z != "NULL")
 
   if (W != "NULL") {
-    LandD_VAR(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
+    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
   } # end (if W != "NULL")
   
   ## -------------------------------------------------------- ##
 
 
-  ## ---- List and Delete - Indicator residual covariance covIXY ---- ##
-  if (any(parEst[,4] == "covIXY2")) {
+  ## ---- List and Delete - Indicator residual variance eIXX ---- ##
+  if (any(parEst[,4] == "eIXX2")) {
+
+    # -- Reset MISet and no.compare for residual variance --#
+    no.path = no.waves - 1
+    MIset <- no.waves - 2
+    no.compare = (no.waves - 1)*(no.waves)/2
+
+    cat(rep("\n",5), "## ===== Identification of invariant indicator residual variance ===== ##")
+
+    LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - indicator residual variance eIXX ##
+    LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - indicator residual variance eIYY ##
+
+    if (Z != "NULL") {
+      LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - indicator residual variance eIZZ ##
+    } # end (if Z != "NULL")
+
+    if (W != "NULL") {
+      LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - indicator residual variance eIWW ##
+    } # end (if W != "NULL")
+  } # end (if eIXY1)
+
+  ## -------------------------------------------------------- ##
+
+
+  ## ---- List and Delete - Indicator residual covariance eIXY ---- ##
+  if (any(parEst[,4] == "eIXY2")) {
     # -- Reset MISet and no.compare for residual covariance -- #
     no.path = no.waves - 1
     MIset <- no.waves - 2
@@ -926,26 +951,26 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
     cat(rep("\n",5), "## ===== Identification of invariant residual covariance of indicators ===== ##")
 
-    LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - covIXY ##
+    LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eIXY ##
 
     if (Z != "NULL") {
-      LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z")  ## List and Delete - covIXZ ##
-      LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z")  ## List and Delete - covIYZ ##
+      LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z")  ## List and Delete - eIXZ ##
+      LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z")  ## List and Delete - eIYZ ##
     } # end (if Z != "NULL")
 
     if (W != "NULL") {
-      LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W")  ## List and Delete - covIXW ##
-      LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - covIYW ##
-      LandD_covI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - covIZW ##
+      LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W")  ## List and Delete - eIXW ##
+      LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - eIYW ##
+      LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - eIZW ##
     } # end (if W != "NULL")
-  } # end (if covIXY1)
+  } # end (if eIXY1)
 
   ## -------------------------------------------------------- ##
 
 
   ## ---- List and Delete - Intercepts ---- ##
   if (any(parEst[,4] == "MwX2")) {
-    # -- Reset MISet and no.compare for grand mean  --#
+    # -- Reset MISet and no.compare for intercepts --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
@@ -968,38 +993,38 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in Indicator Residual Variance -- ##
-  if (any(parEst[,4] == "varIX2")) {
+  if (any(parEst[,4] == "eIXX2")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
-        mcmcA <- (mcmc[, paste("varIX", i, sep="")] - mcmc[, paste("varIX", i-1-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("eIXX", i, sep="")] - mcmc[, paste("eIXX", i-1-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("varIX", i, "-varIX", i-1-j+2, sep="")
-        pest2A <- (pest2[paste("varIX", i, sep="")] - pest2[paste("varIX", i-1-j+2, sep="")])
-        names(pest2A) <- paste("varIX", i, "-varIX", i-1-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXX", i, "-eIXX", i-1-j+2, sep="")
+        pest2A <- (pest2[paste("eIXX", i, sep="")] - pest2[paste("eIXX", i-1-j+2, sep="")])
+        names(pest2A) <- paste("eIXX", i, "-eIXX", i-1-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
-        mcmcA <- (mcmc[, paste("varIY", i, sep="")] - mcmc[, paste("varIY", i-1-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("eIYY", i, sep="")] - mcmc[, paste("eIYY", i-1-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("varIY", i, "-varIY", i-1-j+2, sep="")
-        pest2A <- (pest2[paste("varIY", i, sep="")] - pest2[paste("varIY", i-1-j+2, sep="")])
-        names(pest2A) <- paste("varIY", i, "-varIY", i-1-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYY", i, "-eIYY", i-1-j+2, sep="")
+        pest2A <- (pest2[paste("eIYY", i, sep="")] - pest2[paste("eIYY", i-1-j+2, sep="")])
+        names(pest2A) <- paste("eIYY", i, "-eIYY", i-1-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
         if (Z != "NULL") {
-          mcmcA <- (mcmc[, paste("varIZ", i, sep="")] - mcmc[, paste("varIZ", i-1-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("eIZZ", i, sep="")] - mcmc[, paste("eIZZ", i-1-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("varIZ", i, "-varIZ", i-1-j+2, sep="")
-          pest2A <- (pest2[paste("varIZ", i, sep="")] - pest2[paste("varIZ", i-1-j+2, sep="")])
-          names(pest2A) <- paste("varIZ", i, "-varIZ", i-1-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIZZ", i, "-eIZZ", i-1-j+2, sep="")
+          pest2A <- (pest2[paste("eIZZ", i, sep="")] - pest2[paste("eIZZ", i-1-j+2, sep="")])
+          names(pest2A) <- paste("eIZZ", i, "-eIZZ", i-1-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # end (if Z != "NULL")
 
         if (W != "NULL") {
-          mcmcA <- (mcmc[, paste("varIW", i, sep="")] - mcmc[, paste("varIW", i-1-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("eIWW", i, sep="")] - mcmc[, paste("eIWW", i-1-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("varIW", i, "-varIW", i-1-j+2, sep="")
-          pest2A <- (pest2[paste("varIW", i, sep="")] - pest2[paste("varIW", i-1-j+2, sep="")])
-          names(pest2A) <- paste("varIW", i, "-varIW", i-1-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIWW", i, "-eIWW", i-1-j+2, sep="")
+          pest2A <- (pest2[paste("eIWW", i, sep="")] - pest2[paste("eIWW", i-1-j+2, sep="")])
+          names(pest2A) <- paste("eIWW", i, "-eIWW", i-1-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # End (if W != "NULL")
       } # end (for i)
@@ -1011,17 +1036,17 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
     cat(rep("\n",5), "## ===== Identification of invariant indicator residual variance ===== ##")
 
-    LandD_varI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - Indicator Variance of X ##
-    LandD_varI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - Indicator Variance of Y ##
+    LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - Indicator Variance of X ##
+    LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - Indicator Variance of Y ##
 
     if (Z != "NULL") {
-      LandD_varI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - Indicator Variance of Z ##
+      LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - Indicator Variance of Z ##
     } # end (if Z != "NULL")
 
     if (W != "NULL") {
-      LandD_varI(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Indicator Variance of W ##
+      LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Indicator Variance of W ##
     } # end (if W != "NULL")
-  } # end (if varIX1)
+  } # end (if eIXX1)
 
   ## -------------------------------------------------------- ##
 
@@ -1102,7 +1127,7 @@ LandD_Path <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
 
 
 ## ----- Sub-Function List and Delete for Residual Covariance of latent variables ----- ##
-LandD_COV <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
+LandD_eXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
 
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Residual covariance of e", a, b, " coefficients -- #", sep=""))
@@ -1164,7 +1189,7 @@ LandD_COV <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       }
     }
   }
-}  # end (Function LandD_COV)
+}  # end (Function LandD_eXY)
 ## ---------------------------------------------------------------- ##
 
 
@@ -1172,7 +1197,7 @@ LandD_COV <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
 
 
 ## ----- Sub-Function List and Delete for Residual Variance of latent variables ----- ##
-LandD_VAR <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
+LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
 
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Residual variance of e", a, a, " coefficients -- #", sep=""))
@@ -1233,7 +1258,7 @@ LandD_VAR <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
-}  # end (Function LandD_VAR)
+}  # end (Function LandD_eXX)
 ## ---------------------------------------------------------------- ##
 
 
@@ -1241,7 +1266,7 @@ LandD_VAR <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
 
 
 ## ----- Sub-Function List and Delete for Residual Covariance of indicators ----- ##
-LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
+LandD_eIXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
 
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Indicator residual covariance of cov", a, b, " coefficients -- #", sep=""))
@@ -1251,7 +1276,7 @@ LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     Clhs <- paste(aa, i+1, sep="")
     Crhs <- paste(bb, i+1, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
-    p.TparEst <- paste("  covI", a, b, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste("  eI", a, b, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
@@ -1265,7 +1290,7 @@ LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 2:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("covI", a, b, i, "-covI", a, b, i-j+1, sep="")
+      Clhs <- paste("eI", a, b, i, "-eI", a, b, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i
         NI.path[k, 2] <- i-j+1
@@ -1276,7 +1301,7 @@ LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   Count.NI.path = k - 1
 
   ## -- Select sets of invariant residual covariances and print -- ##
-  cat(rep("\n",2), paste("# -- Sets of invariant indicator residual covariance covI", a, b, " coefficients -- #", sep=""))
+  cat(rep("\n",2), paste("# -- Sets of invariant indicator residual covariance eI", a, b, " coefficients -- #", sep=""))
 
   for (k in 0:MIset) {
     Noset <- no.waves - k
@@ -1297,13 +1322,13 @@ LandD_covI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       if (count4 > 0) {
         mm.p <- mm
         for (i in 1:no.path) {
-          mm.p[mm.p == i] <- paste("covI", a, b, i+1, sep="")
+          mm.p[mm.p == i] <- paste("eI", a, b, i+1, sep="")
         }
         cat("\n", "    ", mm.p[ii,])
       }
     }
   }
-}  # end (Function LandD_covI)
+}  # end (Function LandD_eIXY)
 ## ---------------------------------------------------------------- ##
 
 
@@ -1378,7 +1403,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
 
 
 ## ----- Sub-Function List and Delete for Indicator Variance ----- ##
-LandD_varI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
+LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
 
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Indicator Variance of ", a, " -- #", sep=""))
@@ -1387,7 +1412,7 @@ LandD_varI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     Clhs <- paste(aa, i, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Clhs & parEst["op"] == "~~",]
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
-    p.TparEst <- paste("  varI", aa, i, ":  Indicator Variance of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste("  eI", a, a, i, ":  Indicator Variance of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
@@ -1401,7 +1426,7 @@ LandD_varI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 2:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("varI", aa, i-1, "-varI", aa, i-j+1, sep="")
+      Clhs <- paste("eI", a, a, i-1, "-eI", a, a, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
         NI.path[k, 2] <- i-j+1
@@ -1433,13 +1458,13 @@ LandD_varI <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       if (count4 > 0) {
         mm.p <- mm
         for (i in 0:no.waves) {
-          mm.p[mm.p == i] <- paste("varI", aa, i, sep="")
+          mm.p[mm.p == i] <- paste("eI", a, a, i, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
-}  # end (Sub-Function LandD_varI)
+}  # end (Sub-Function LandD_eIXX)
 ## ---------------------------------------------------------------- ##
 
 
@@ -3576,37 +3601,37 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
     if (isFALSE(varI.eq)) {
       cat(rep("\n",2), "  # -- Create variance-covariance of indicator residuals -- #")
       for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ varIX",  i, "*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ varIY",  i, "*", Y, i, sep=""))
-        cat("\n", paste("  ", X, i, " ~~ covIXY", i, "*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ varIZ",  i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ covIXZ", i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ covIYZ", i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Y, i, " ~~ eIYZ", i, "*", Z, i, sep=""))
         } # end (if Z)
         if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ varIW",  i, "*", W, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ covIXW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ covIYW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Z, i, " ~~ covIZW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", W, i, " ~~ eIWW",  i, "*", W, i, sep=""))
+          cat("\n", paste("  ", X, i, " ~~ eIXW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", Y, i, " ~~ eIYW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZW", i, "*", W, i, sep=""))
         } # end (if W)
       } # end (for i)###   ###
     } else {
       cat(rep("\n",2), "  # -- Create residual variance of indicator variables -- #")
       for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ varIX*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ varIY*", Y, i, sep=""))
-        cat("\n", paste("  ", X, i, " ~~ covIXY", i, "*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ varIZ*", Z, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ covIXZ", i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ covIYZ", i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
+          cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Y, i, " ~~ eIYZ", i, "*", Z, i, sep=""))
         } # end (if Z)
         if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ varIW*", W, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ covIXW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ covIYW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Z, i, " ~~ covIZW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
+          cat("\n", paste("  ", X, i, " ~~ eIXW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", Y, i, " ~~ eIYW", i, "*", W, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZW", i, "*", W, i, sep=""))
         } # end (if W)
       } # end (for i)###   ###
     } # end (if varI.eq)
@@ -3887,13 +3912,13 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       cat("\n", "  # Remove the subscripts for invariant indicator variance #")
       cat("\n", "  ##########################################################")
       for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ varI", X, i, "*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ varI", Y, i, "*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ varI", Z, i, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
         } # end (if Z)
         if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ varI", W, i, "*", W, i, sep=""))
+          cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
         } # end (if W)
       } # end (for i)###   ###
     } else {
@@ -3902,13 +3927,13 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       cat("\n", "  # Remove the subscripts for invariant indicator variance #")
       cat("\n", "  ##########################################################")
       for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ varI", X, "*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ varI", Y, "*", Y, i, sep=""))
+        cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
         if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ varI", Z, "*", Z, i, sep=""))
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
         } # end (if Z)
         if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ varI", W, "*", W, i, sep=""))
+          cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
         } # end (if W)
       } # end (for i)###   ###
     } # end (if varI.eq == FALSE)
