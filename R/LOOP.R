@@ -3705,13 +3705,13 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
     # -- Estimate (Residual) Variance of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ ", "w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ ", "w", Y, i, sep=""))
+      cat("\n", paste("  w", X, i, " ~~ eXX", i, "*w", X, i, sep=""))
+      cat("\n", paste("  w", Y, i, " ~~ eYY", i,  "*w", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ ", "w", Z, i, sep=""))
+        cat("\n", paste("  w", Z, i, " ~~ eZZ", i, "*w", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ ", "w", W, i, sep=""))
+        cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end (for i)
 
