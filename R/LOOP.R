@@ -734,7 +734,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## ---- List and Delete - Path Coefficients ---- ##
-
+  if (any(parEst[,4] == "pXX21")) {
   no.path = no.waves - 1
   MIset <- no.waves - 3
   no.compare = (no.path - 1)*(no.path)/2
@@ -872,11 +872,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=4)  ## List and Delete - Path WZ ##
     } # end (if W != "NULL")
   } # end (lag == 4)
-
+  } # end (if pXX21)
   ## -------------------------------------------------------- ##
 
 
   ## ---- List and Delete - Residual covariance eXY ---- ##
+  if (any(parEst[,4] == "eXY2")) {
 
   # -- Reset MISet and no.compare for residual covariance -- #
   no.path = no.waves - 1
@@ -897,11 +898,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - eYW ##
     LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - eZW ##
   } # end (if W != "NULL")
-
+  } # end (if eXY2)
   ## -------------------------------------------------------- ##
 
 
   ## ---- List and Delete - Residual variance eXX ---- ##
+  if (any(parEst[,4] == "eXX2")) {
 
   # -- Reset MISet and no.compare for residual variance --#
   no.path = no.waves - 1
@@ -920,7 +922,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   if (W != "NULL") {
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
   } # end (if W != "NULL")
-
+  } # end (if eXX2)
   ## -------------------------------------------------------- ##
 
 
@@ -1053,7 +1055,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (W != "NULL") {
       LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Indicator Variance of W ##
     } # end (if W != "NULL")
-  } # end (if eIXX1)
+  } # end (if eIXX2)
 
   ## -------------------------------------------------------- ##
 
@@ -1418,7 +1420,6 @@ LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   for (i in 1: no.waves) {
     Clhs <- paste(aa, i, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Clhs & parEst["op"] == "~~",]
-    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
     p.TparEst <- paste("  eI", a, a, i, ":  Indicator Variance of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
@@ -1433,9 +1434,9 @@ LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 2:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("eI", a, a, i-1, "-eI", a, a, i-j+1, sep="")
+      Clhs <- paste("eI", a, a, i, "-eI", a, a, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
-        NI.path[k, 1] <- i-1
+        NI.path[k, 1] <- i
         NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
@@ -5255,6 +5256,19 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
       } # (if W)
     } # end (for i)
 
+    # -- Estimate Residual Variance of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate residual variance of indicators -- #")
+    for (i in 1:no.waves) {
+      cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+      } # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
+      } # end (if W)
+    } # end (for i)
+    
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of random intercepts -- #")
     cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
@@ -5427,6 +5441,22 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
         cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
       } # (if W)
     } # end (for i)
+
+    # -- Estimate Residual Variance of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate residual variance of indicators -- #")
+    cat("\n", "  ##########################################################")
+    cat("\n", "  # Remove the subscripts for invariant indicator variance #")
+    cat("\n", "  ##########################################################")
+    for (i in 1:no.waves) {
+      cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+      } # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
+      } # end (if W)
+    } # end (for i)###   ###
 
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of random intercepts -- #")
