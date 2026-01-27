@@ -2,7 +2,7 @@
 % Please edit documentation in R/LOOP.R
 \name{CLPM}
 \alias{CLPM}
-\title{Function Cross-Lagged Panel Model (CLPM)}
+\title{Function CLPM (Cross-Lagged Panel Model)}
 \usage{
 CLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 }
@@ -24,10 +24,10 @@ CLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-CLPM outputs.
+Cross-Lagged Panel Model (CLPM) outputs.
 }
 \description{
-Cross-Lagged Panel Model
+Cross-Lagged Panel Model (CLPM)
 }
 \examples{
 

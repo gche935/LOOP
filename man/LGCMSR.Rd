@@ -2,7 +2,7 @@
 % Please edit documentation in R/LOOP.R
 \name{LGCMSR}
 \alias{LGCMSR}
-\title{Function Latent Growth Curve Model with Structural Residuals (LGCMSR)}
+\title{Function LGCMSR (Latent Growth Curve Model with Structural Residuals)}
 \usage{
 LGCMSR(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 }

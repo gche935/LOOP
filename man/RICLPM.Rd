@@ -2,7 +2,7 @@
 % Please edit documentation in R/LOOP.R
 \name{RICLPM}
 \alias{RICLPM}
-\title{Function Random Intercept Cross-Lagged Panel Model (RICLPM)}
+\title{Function RICLPM (Random Intercept Cross-Lagged Panel Model)}
 \usage{
 RICLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 }

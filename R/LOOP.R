@@ -2558,9 +2558,9 @@ if (any(parEst[,4] == "eIXX2")) {
 
 
 # ==================== Creating Function "CLPM" ==================== #
-#' Function Cross-Lagged Panel Model (CLPM)
+#' Function CLPM (Cross-Lagged Panel Model)
 #'
-#' Cross-Lagged Panel Model
+#' Cross-Lagged Panel Model (CLPM)
 #'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
@@ -2571,7 +2571,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #' @param Z name of variable Z.
 #' @param W name of variable W (Z must come before W).
 #'
-#' @return CLPM outputs.
+#' @return Cross-Lagged Panel Model (CLPM) outputs.
 #' @export
 #' @examples
 #'
@@ -2849,7 +2849,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
 
 # ==================== Creating Function "RICLPM" ==================== #
-#' Function Random Intercept Cross-Lagged Panel Model (RICLPM)
+#' Function RICLPM (Random Intercept Cross-Lagged Panel Model)
 #'
 #' Random Intercept Cross-Lagged Panel Model (RI-CLPM)
 #'
@@ -3245,7 +3245,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 
 
 # ==================== Creating Function "LGCMSR" ==================== #
-#' Function Latent Growth Curve Model with Structural Residuals (LGCMSR)
+#' Function LGCMSR (Latent Growth Curve Model with Structural Residuals)
 #'
 #' Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 #'
@@ -4170,7 +4170,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+#' ALT(data.source="Data_A", 7, 1, X="EXPOSE", Y="INTENS")
 #'
 
 ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -4652,7 +4652,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
 
 # ==================== Creating Function "LGCM" ==================== #
-#' Function Latent Growth Curve Model (LGCM)
+#' Function LGCM (Latent Growth Curve Model)
 #'
 #' Latent Growth Curve Model (LGCM)
 #'
@@ -4664,7 +4664,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 #' @param Z name of variable Z.
 #' @param W name of variable W (Z must come before W).
 #'
-#' @return LGCM outputs.
+#' @return Latent Growth Curve Model (LGCM) outputs.
 #' @export
 #' @examples
 #'
@@ -5115,7 +5115,7 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #' @param Z name of variable Z.
 #' @param W name of variable W (Z must come before W).
 #'
-#' @return LCS outputs.
+#' @return Latent Change Score Model (LCS) outputs.
 #' @export
 #' @examples
 #'

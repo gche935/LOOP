@@ -22,7 +22,7 @@ LCS(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-LCS outputs.
+Latent Change Score Model (LCS) outputs.
 }
 \description{
 Latent Change Score Model (LCS)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/LOOP.R
 \name{LGCM}
 \alias{LGCM}
-\title{Function Latent Growth Curve Model (LGCM)}
+\title{Function LGCM (Latent Growth Curve Model)}
 \usage{
 LGCM(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 }
@@ -22,7 +22,7 @@ LGCM(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-LGCM outputs.
+Latent Growth Curve Model (LGCM) outputs.
 }
 \description{
 Latent Growth Curve Model (LGCM)
