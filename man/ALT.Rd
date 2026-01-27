@@ -24,7 +24,7 @@ ALT(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-ALT outputs.
+Autoregressive Latent Trajectory Model (ALT) outputs.
 }
 \description{
 Autoregressive Latent Trajectory Model (ALT)

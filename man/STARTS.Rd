@@ -36,7 +36,7 @@ STARTS(
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-STARTS outputs.
+Stable Trait Autoregressive Trait and State Model (STARTS) outputs.
 }
 \description{
 Stable Trait Autoregressive Trait and State Model (STARTS)
@@ -45,6 +45,6 @@ Stable Trait Autoregressive Trait and State Model (STARTS)
 
 ## -- Example -- ##
 
-STARTS(data.source="Data_A", 7, 2, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
+STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
 
 }
