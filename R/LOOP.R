@@ -603,13 +603,13 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in Indicator Residual Variance -- ##
-  if (any(parEst[,4] == "eIXX2")) {
+  if (any(parEst[,4] == "eIXX1")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
         mcmcA <- (mcmc[, paste("eIXX", i, sep="")] - mcmc[, paste("eIXX", i-j+1, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
         colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXX", i, "-eIXX", i-j+1, sep="")
-        pest2A <- (pest2[paste("eIXX", i, sep="")] - pest2[paste("eIXX", i-j+1, sep="")])
+        pest2A <- (pest2[paste("eIXX", i, sep="")] - pest2[paste("eIXX", i-j+2, sep="")])
         names(pest2A) <- paste("eIXX", i, "-eIXX", i-j+1, sep="")
         pest2 <- append(pest2, pest2A)
 
@@ -639,13 +639,49 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         } # End (if W != "NULL")
       } # end (for i)
     } # end (for j)
-  } # end (if eIXX2)
+  } else if (any(parEst[,4] == "eIXX2")) {
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste("eIXX", i, sep="")] - mcmc[, paste("eIXX", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXX", i, "-eIXX", i-j+2, sep="")
+        pest2A <- (pest2[paste("eIXX", i, sep="")] - pest2[paste("eIXX", i-j+2, sep="")])
+        names(pest2A) <- paste("eIXX", i, "-eIXX", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        mcmcA <- (mcmc[, paste("eIYY", i, sep="")] - mcmc[, paste("eIYY", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYY", i, "-eIYY", i-j+2, sep="")
+        pest2A <- (pest2[paste("eIYY", i, sep="")] - pest2[paste("eIYY", i-j+2, sep="")])
+        names(pest2A) <- paste("eIYY", i, "-eIYY", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("eIZZ", i, sep="")] - mcmc[, paste("eIZZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIZZ", i, "-eIZZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIZZ", i, sep="")] - pest2[paste("eIZZ", i-j+2, sep="")])
+          names(pest2A) <- paste("eIZZ", i, "-eIZZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z != "NULL")
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("eIWW", i, sep="")] - mcmc[, paste("eIWW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIWW", i, "-eIWW", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIWW", i, sep="")] - pest2[paste("eIWW", i-j+2, sep="")])
+          names(pest2A) <- paste("eIWW", i, "-eIWW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # End (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+  } # end (if eIXX)
 
   ## -------------------------------------------------------- ##
 
 
   ## -- Differences in indicator residual covariance -- ##
-  if (any(parEst[,4] == "eIXY2")) {
+  if (any(parEst[,4] == "eIXY1")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
         mcmcA <- (mcmc[, paste0("eIXY", i, sep="")] - mcmc[, paste("eIXY", i-j+1, sep="")])
@@ -660,7 +696,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXZ", i, "-eIXZ", i-j+1, sep="")
           pest2A <- (pest2[paste("eIXZ", i, sep="")] - pest2[paste("eIXZ", i-j+1, sep="")])
-          names(pest2A) <- paste("eIXZ", i, "-eIXZ", i-j+2, sep="")
+          names(pest2A) <- paste("eIXZ", i, "-eIXZ", i-j+1, sep="")
           pest2 <- append(pest2, pest2A)
 
           mcmcA <- (mcmc[, paste("eIYZ", i, sep="")] - mcmc[, paste("eIYZ", i-j+1, sep="")])
@@ -695,7 +731,53 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         } # end (if W != "NULL")
       } # end (for i)
     } # end (for j)
+  } else if (any(parEst[,4] == "eIXY2")) {
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste0("eIXY", i, sep="")] - mcmc[, paste("eIXY", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXY", i, "-eIXY", i-j+2, sep="")
+        pest2A <- (pest2[paste("eIXY", i, sep="")] - pest2[paste("eIXY", i-j+2, sep="")])
+        names(pest2A) <- paste("eIXY", i, "-eIXY", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("eIXZ", i, sep="")] - mcmc[, paste("eIXZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXZ", i, "-eIXZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIXZ", i, sep="")] - pest2[paste("eIXZ", i-j+2, sep="")])
+          names(pest2A) <- paste("eIXZ", i, "-eIXZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+          mcmcA <- (mcmc[, paste("eIYZ", i, sep="")] - mcmc[, paste("eIYZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYZ", i, "-eIYZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIYZ", i, sep="")] - pest2[paste("eIYZ", i-j+2, sep="")])
+          names(pest2A) <- paste("eIYZ", i, "-eIYZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z != "NULL")
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("eIXW", i, sep="")] - mcmc[, paste("eIXW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIXW", i, "-eIXW", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIXW", i, sep="")] - pest2[paste("eIXW", i-j+2, sep="")])
+          names(pest2A) <- paste("eIXW", i, "-eIXW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+          mcmcA <- (mcmc[, paste("eIYW", i, sep="")] - mcmc[, paste("eIYW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIYW", i, "-eIYW", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIYW", i, sep="")] - pest2[paste("eIYW", i-j+2, sep="")])
+          names(pest2A) <- paste("eIYW", i, "-eIYW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+          mcmcA <- (mcmc[, paste("eIZW", i, sep="")] - mcmc[, paste("eIZW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("eIZW", i, "-eIZW", i-j+2, sep="")
+          pest2A <- (pest2[paste("eIZW", i, sep="")] - pest2[paste("eIZW", i-j+2, sep="")])
+          names(pest2A) <- paste("eIZW", i, "-eIZW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
   } # end (if eIXY1)
+
   ## ----- end (Difference in indicator residual covariance) ----- ##
 
 
@@ -971,9 +1053,13 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
     # -- Reset MISet and no.compare for residual variance --#
     no.path = no.waves - 1
-    MIset <- no.waves - 2
-    no.compare = (no.waves - 1)*(no.waves)/2
-
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+    if (any(parEst[,4] == "eIXX1")) {
+      no.path = no.waves - 1
+      MIset <- no.waves - 2
+      no.compare = (no.waves - 1)*(no.waves)/2
+    } # end (if eIXX1)
     cat(rep("\n",5), "## ===== Identification of invariant indicator residual variance ===== ##")
 
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - indicator residual variance eIXX ##
@@ -993,10 +1079,15 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Indicator residual covariance eIXY ---- ##
   if (any(parEst[,4] == "eIXY2")) {
-    # -- Reset MISet and no.compare for residual covariance -- #
+    # -- Reset MISet and no.compare for residual variance --#
     no.path = no.waves - 1
-    MIset <- no.waves - 2
-    no.compare = (no.waves - 1)*(no.waves)/2
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+    if (any(parEst[,4] == "eIXY1")) {
+      no.path = no.waves - 1
+      MIset <- no.waves - 2
+      no.compare = (no.waves - 1)*(no.waves)/2
+    } # end (if eIXY1)
 
     cat(rep("\n",5), "## ===== Identification of invariant residual covariance of indicators ===== ##")
 
@@ -5501,327 +5592,7 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
 
 
   ## ----- Creating Model LCS ----- ###
-  sink('LCS.txt') # Start writing script to LCS.txt
 
-    cat("\n", "## ----- Specify the model (LCS) ----- ##", "\n")
-    cat("\n", "LCS <- '")
-
-    # -- Create Latent Variables from Indicators -- #
-    cat(rep("\n",2), "  # -- Create latent variables -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " =~ 1*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " =~ 1*", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
-
-    # -- Create Change Score between Adjacent Latent Variables -- #
-    cat(rep("\n",2), "  # -- Create change score between adjacent latent variables -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " =~ 1*w", X, i, sep=""))
-      cat("\n", paste("  cs", Y, i, " =~ 1*w", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  cs", Z, i, " =~ 1*w", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  cs", W, i, " =~ 1*w", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
-
-    # -- Estimate Difference Between Adjacent Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate difference between adjacent latent variables (Lag = 1 wave) -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ dX", i,i-1, "*w", X,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ dY", i,i-1, "*w", Y,i-1, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  cs", Z, i, " ~ dZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  cs", W, i, " ~ dW", i,i-1, "*w", W,i-1, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Estimate Autoregressive Effects Between Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate autoregressive effects between latent variables (Lag = 1 wave) -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ pXX", i,i-1, "*w", X,i-1, sep=""))
-      cat("\n", paste("  w", Y, i, " ~ pYY", i,i-1, "*w", Y,i-1, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ pWW", i,i-1, "*w", W,i-1, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Estimate Cross-lagged Effects Between Change Scores -- #
-    cat(rep("\n",2), "  # -- Estimate cross-lagged effects between change scores (Lag = 1 wave) -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  cs", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", W, i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-
-    # -- Constrain Intercepts of Indicators to zero -- #
-    cat(rep("\n",2), "  # -- Constrain intercepts of indicators to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Create Variance-Covariance of Indicator Residuals -- #
-    if (isFALSE(varI.eq)) {
-      cat(rep("\n",2), "  # -- Create variance-covariance of indicator residuals -- #")
-      for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
-        cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
-        if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ eIYZ", i, "*", Z, i, sep=""))
-        } # end (if Z)
-        if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ eIWW",  i, "*", W, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ eIXW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ eIYW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Z, i, " ~~ eIZW", i, "*", W, i, sep=""))
-        } # end (if W)
-      } # end (for i)###   ###
-    } else {
-      cat(rep("\n",2), "  # -- Create residual variance of indicator variables -- #")
-      for (i in 1:no.waves) {
-        cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
-        cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
-        cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
-        if (Z != "NULL") {
-          cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ eIYZ", i, "*", Z, i, sep=""))
-        } # end (if Z)
-        if (W != "NULL") {
-          cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
-          cat("\n", paste("  ", X, i, " ~~ eIXW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Y, i, " ~~ eIYW", i, "*", W, i, sep=""))
-          cat("\n", paste("  ", Z, i, " ~~ eIZW", i, "*", W, i, sep=""))
-        } # end (if W)
-      } # end (for i)###   ###
-    } # end (if varI.eq)
-
-
-    # -- Constrain Intercepts of Latent Variables to zero -- #
-    cat(rep("\n",2), "  # -- Constrain intercepts of latent variables to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Constrain Residual Variance of Latent Variables to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of latent variables to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ 0*w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ 0*w", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ 0*w", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ 0*w", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-
-    # -- Constrain Intercepts of Change Scores to zero -- #
-    cat(rep("\n",2), "  # -- Constrain intercepts of changes scores to zero -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  cs", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  cs", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Constrain Residual Variance of Change Scores to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of change scores to zero -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~~ 0*cs", X, i, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~~ 0*cs", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  cs", Z, i, " ~~ 0*cs", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  cs", W, i, " ~~ 0*cs", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Create Between Components (Random Levels) -- #
-    cat(rep("\n",2), "  # -- Create between components (random levels) -- #")
-    cat("\n", paste("  RI", X, " =~ 1*w", X, "1", sep=""))
-    cat("\n", paste("  RI", Y, " =~ 1*w", Y, "1", sep=""))
-    if (Z != "NULL") {
-      cat("\n", paste("  RI", Z, " =~ 1*w", Z, "1", sep=""))
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", paste("  RI", W, " =~ 1*w", W, "1", sep=""))
-    } # end (if W)
-
-    # -- Create Between Components (Random Slopes) -- #
-    cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 1*cs", X, "2", sep="")
-    BY <- paste("  RS", Y, " =~ 1*cs", Y, "2", sep="")
-    for (i in 3:no.waves) {
-      BX <- paste(BX, " +1*cs", X, i, sep="")
-      BY <- paste(BY, " +1*cs", Y, i, sep="")
-    } # end (for i)
-    cat("\n", BX)
-    cat("\n", BY)
-    if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 1*cs", Z, "2", sep="")
-      for (i in 3:no.waves) {
-        BZ <- paste(BZ, " +1*cs", Z, i, sep="")
-      } # end (for i)
-      cat("\n", BZ)
-    } # end (if Z)
-    if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 1*cs", W, "2", sep="")
-      for (i in 3:no.waves) {
-        BW <- paste(BW, " +1*cs", W, i, sep="")
-      } # end (for i)
-      cat("\n", BW)
-    } # end (if W)
-
-    # -- Estimate Means of Random Levels -- #
-    cat(rep("\n",2), "  # -- Estimate means of random levels -- #")
-    cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
-    cat("\n", paste("  RI", Y, " ~ MRI", Y, "*1", sep=""))
-    if (Z != "NULL") {
-      cat("\n", paste("  RI", Z, " ~ MRI", Z, "*1", sep=""))
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", paste("  RI", W, " ~ MRI", W, "*1", sep=""))
-    } # (if W)
-
-    # -- Estimate Means of Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate means of random slopes -- #")
-    cat("\n", paste("  RS", X, " ~ MRS", X, "*1", sep=""))
-    cat("\n", paste("  RS", Y, " ~ MRS", Y, "*1", sep=""))
-    if (Z != "NULL") {
-      cat("\n", paste("  RS", Z, " ~ MRS", Z, "*1", sep=""))
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", paste("  RS", W, " ~ MRS", W, "*1", sep=""))
-    } # (if W)
-
-    # -- Estimate Variance and Covariance of Random Levels and Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate variance and covariance of random levels and random slopes -- #")
-    cat("\n", "   RI", X, " ~~ RI", X, sep="")
-    cat("\n", "   RI", X, " ~~ RS", X, sep="")
-    cat("\n", "   RI", X, " ~~ RI", Y, sep="")
-    cat("\n", "   RI", X, " ~~ RS", Y, sep="")
-    cat("\n", "   RS", X, " ~~ RS", X, sep="")
-    cat("\n", "   RS", X, " ~~ RI", Y, sep="")
-    cat("\n", "   RS", X, " ~~ RS", Y, sep="")
-    cat("\n", "   RI", Y, " ~~ RI", Y, sep="")
-    cat("\n", "   RI", Y, " ~~ RS", Y, sep="")
-    cat("\n", "   RS", Y, " ~~ RS", Y, sep="")
-
-    if (Z != "NULL") {
-      cat("\n", "   RI", X, " ~~ RI", Z, sep="")
-      cat("\n", "   RI", X, " ~~ RS", Z, sep="")
-      cat("\n", "   RS", X, " ~~ RI", Z, sep="")
-      cat("\n", "   RS", X, " ~~ RS", Z, sep="")
-      cat("\n", "   RI", Y, " ~~ RI", Z, sep="")
-      cat("\n", "   RI", Y, " ~~ RS", Z, sep="")
-      cat("\n", "   RS", Y, " ~~ RI", Z, sep="")
-      cat("\n", "   RS", Y, " ~~ RS", Z, sep="")
-      cat("\n", "   RI", Z, " ~~ RI", Z, sep="")
-      cat("\n", "   RI", Z, " ~~ RS", Z, sep="")
-      cat("\n", "   RS", Z, " ~~ RS", Z, sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RI", X, " ~~ RI", W, sep="")
-      cat("\n", "   RI", X, " ~~ RS", W, sep="")
-      cat("\n", "   RS", X, " ~~ RI", W, sep="")
-      cat("\n", "   RS", X, " ~~ RS", W, sep="")
-      cat("\n", "   RI", Y, " ~~ RI", W, sep="")
-      cat("\n", "   RI", Y, " ~~ RS", W, sep="")
-      cat("\n", "   RS", Y, " ~~ RI", W, sep="")
-      cat("\n", "   RS", Y, " ~~ RS", W, sep="")
-      cat("\n", "   RI", Z, " ~~ RI", W, sep="")
-      cat("\n", "   RI", Z, " ~~ RS", W, sep="")
-      cat("\n", "   RS", Z, " ~~ RI", W, sep="")
-      cat("\n", "   RS", Z, " ~~ RS", W, sep="")
-      cat("\n", "   RI", W, " ~~ RI", W, sep="")
-      cat("\n", "   RI", W, " ~~ RS", W, sep="")
-      cat("\n", "   RS", W, " ~~ RS", W, sep="")
-    } # end (if W != "NULL")
-
-
-    cat(rep("\n",2), "  '")
-
-    # -- Run Model LCSMLR -- #
-    cat(rep("\n",2), "# -- Run Model LCSMLR -- #")
-    cat(rep("\n",2), "  LCSMLR.fit <- suppressWarnings(lavaan::sem(LCS,")
-    cat("\n", "   ", data.source, ",")
-    cat("\n", "   missing = 'fiml',")
-    cat("\n", "   meanstructure = TRUE,")
-    cat("\n", "   information = 'observed',")
-    cat("\n", "   estimator = 'MLR'")
-    cat("\n", "))")
-
-  sink()  # Stop writing to file LCS.txt
-  ## ------------------------------- ##
-
-
-  ## -- Execute LCS.txt and request summary outputs-- ##
-  source('LCS.txt')
-  print(lavaan::summary(LCSMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
-  if (lavaan::lavInspect(LCSMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
-  ## ------------------------------- ##
-
-
-
-  ## -- Monte Carlo Simulation -- ##
-
-  parEst <- lavaan::parameterEstimates(LCSMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
-
-    Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
-
-    cat(rep("\n", 2))
-
-
-  ## ----- Start writing script to LCS.txt ----- ##
   sink('LCS.txt')
     cat("\n", "# Specify the model (LCS)", "\n")
     cat("\n", "LCS <- '")
@@ -5839,8 +5610,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       }  # end (if W)
     } # end (for i)
 
-    # -- Create Change Score between Adjacent Latent Variables -- #
-    cat(rep("\n",2), "  # -- Create change score between adjacent latent variables -- #")
+    # -- Create Latent Change Score Latent Variables -- #
+    cat(rep("\n",2), "  # -- Create latent change score latent variables -- #")
     for (i in 2:no.waves) {
       cat("\n", paste("  cs", X, i, " =~ 1*w", X, i, sep=""))
       cat("\n", paste("  cs", Y, i, " =~ 1*w", Y, i, sep=""))
@@ -5852,8 +5623,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       }  # end (if W)
     } # end (for i)
 
-    # -- Estimate Difference Between Adjacent Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate difference between adjacent latent variables (Lag = 1 wave) -- #")
+    # -- Estimate Proportional Change Between Adjacent Latent Variables -- #
+    cat(rep("\n",2), "  # -- Estimate proportional change between adjacent latent variables (Lag = 1 wave) -- #")
     cat("\n", "  ##################################################")
     cat("\n", "  # Remove the subscripts for invariant difference #")
     cat("\n", "  ##################################################")
@@ -5868,19 +5639,16 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       } # end (if W)
     } # end (for i)
 
-    # -- Estimate Autoregressive Effects Between Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate autoregressive effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  ##############################################################")
-    cat("\n", "  # Remove the subscripts for invariant autoregressive effects #")
-    cat("\n", "  ##############################################################")
+    # -- Define Change Score Between Adjacent Latent Variables -- #
+    cat(rep("\n",2), "  # -- Define change score between adjacent latent variables (Lag = 1 wave) -- #")
     for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ pXX", i,i-1, "*w", X,i-1, sep=""))
-      cat("\n", paste("  w", Y, i, " ~ pYY", i,i-1, "*w", Y,i-1, sep=""))
+      cat("\n", paste("  w", X, i, " ~ 1*w", X,i-1, sep=""))
+      cat("\n", paste("  w", Y, i, " ~ 1*w", Y,i-1, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ pZZ", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z, i, " ~ 1*w", Z,i-1, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ pWW", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  w", W, i, " ~ 1*w", W,i-1, sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -5925,7 +5693,7 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       cat("\n", "  ###################################################################")
       cat("\n", "  # Remove the subscripts for invariant indicator residual variance #")
       cat("\n", "  ###################################################################")
-      for (i in 1:no.waves) {
+      for (i in 2:no.waves) {
         cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
         cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
@@ -5937,7 +5705,7 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       } # end (for i)###   ###
     } else {
       cat(rep("\n",2), "  # -- Create residual variance of indicator variables -- #")
-      for (i in 1:no.waves) {
+      for (i in 2:no.waves) {
         cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
         cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
         if (Z != "NULL") {
@@ -5955,7 +5723,7 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       cat("\n", "  #####################################################################")
       cat("\n", "  # Remove the subscripts for invariant indicator residual covariance #")
       cat("\n", "  #####################################################################")
-      for (i in 1:no.waves) {
+      for (i in 2:no.waves) {
         cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
           cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
@@ -5968,9 +5736,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
         } # end (if W)
       } # end (for i)###   ###
     } else {
-      cat(rep("\n",2), "  # -- Create residual variance of indicator variables -- #")
-      for (i in 1:no.waves) {
-        cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
+      cat(rep("\n",2), "  # -- Create residual covariance of indicator variables -- #")
+      for (i in 2:no.waves) {
         cat("\n", paste("  ", X, i, " ~~ eIXY", i, "*", Y, i, sep=""))
         if (Z != "NULL") {
           cat("\n", paste("  ", X, i, " ~~ eIXZ", i, "*", Z, i, sep=""))
@@ -6037,8 +5804,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       } # end (if W)
     } # end (for i)
 
-    # -- Create Between Components (Random Levels) -- #
-    cat(rep("\n",2), "  # -- Create between components (random levels) -- #")
+    # -- Create Initial True Score (Intercept) -- #
+    cat(rep("\n",2), "  # -- Create initial true score (intercept) -- #")
     cat("\n", paste("  RI", X, " =~ 1*w", X, "1", sep=""))
     cat("\n", paste("  RI", Y, " =~ 1*w", Y, "1", sep=""))
     if (Z != "NULL") {
@@ -6048,33 +5815,33 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       cat("\n", paste("  RI", W, " =~ 1*w", W, "1", sep=""))
     } # end (if W)
 
-    # -- Create Between Components (Random Slopes) -- #
-    cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
+    # -- Create Constant Change Estimate -- #
+    cat(rep("\n",2), "  # -- Create constant change estimate -- #")
     BX <- paste("  RS", X, " =~ 1*cs", X, "2", sep="")
     BY <- paste("  RS", Y, " =~ 1*cs", Y, "2", sep="")
     for (i in 3:no.waves) {
-      BX <- paste(BX, " +1*cs", X, i, sep="")
-      BY <- paste(BY, " +1*cs", Y, i, sep="")
+      BX <- paste(BX, " + 1*cs", X, i, sep="")
+      BY <- paste(BY, " + 1*cs", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
       BZ <- paste("  RS", Z, " =~ 1*cs", Z, "2", sep="")
       for (i in 3:no.waves) {
-        BZ <- paste(BZ, " +1*cs", Z, i, sep="")
+        BZ <- paste(BZ, " + 1*cs", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
       BW <- paste("  RS", W, " =~ 1*cs", W, "2", sep="")
       for (i in 3:no.waves) {
-        BW <- paste(BW, " +1*cs", W, i, sep="")
+        BW <- paste(BW, " + 1*cs", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
 
-    # -- Estimate Means of Random Levels -- #
-    cat(rep("\n",2), "  # -- Estimate means of random levels -- #")
+    # -- Estimate Means of Initial True Score (Intercept) -- #
+    cat(rep("\n",2), "  # -- Estimate means of initial true score (intercept) -- #")
     cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
     cat("\n", paste("  RI", Y, " ~ MRI", Y, "*1", sep=""))
     if (Z != "NULL") {
@@ -6084,8 +5851,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       cat("\n", paste("  RI", W, " ~ MRI", W, "*1", sep=""))
     } # (if W)
 
-    # -- Estimate Means of Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate means of random slopes -- #")
+    # -- Estimate Means of Constant Change Estimate -- #
+    cat(rep("\n",2), "  # -- Estimate means of constant change estimates -- #")
     cat("\n", paste("  RS", X, " ~ MRS", X, "*1", sep=""))
     cat("\n", paste("  RS", Y, " ~ MRS", Y, "*1", sep=""))
     if (Z != "NULL") {
@@ -6095,8 +5862,8 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
       cat("\n", paste("  RS", W, " ~ MRS", W, "*1", sep=""))
     } # (if W)
 
-    # -- Estimate Variance and Covariance of Random Levels and Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate variance and covariance of random levels and random slopes -- #")
+    # -- Estimate Variance and Covariance of Initial True Score and Constant Change Estimate -- #
+    cat(rep("\n",2), "  # -- Estimate variance and covariance of initial true score and constant change estimate -- #")
     cat("\n", "   RI", X, " ~~ RI", X, sep="")
     cat("\n", "   RI", X, " ~~ RS", X, sep="")
     cat("\n", "   RI", X, " ~~ RI", Y, sep="")
@@ -6207,6 +5974,27 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
 
   sink() # Stop writing to file
 
+  ## -- Execute LCS.txt and request summary outputs-- ##
+  source('LCS.txt')
+
+#  print(lavaan::summary(LCSMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
+
+  if (lavaan::lavInspect(LCSMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
+  ## ------------------------------- ##
+
+
+
+  ## -- Monte Carlo Simulation -- ##
+
+  parEst <- lavaan::parameterEstimates(LCSMLR.fit, remove.nonfree = TRUE)
+  pest2 <- parEst[,5]  # Estimated Parameters
+  pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+
+  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+
+  cat(rep("\n", 2))
+
 }  # end (Function LCS)
 
 ## ========================================================================================== ##
+
