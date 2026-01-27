@@ -24,7 +24,7 @@ RICLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-RICLPM outputs.
+Random Intercept Cross-Lagged Panel Model (RI-CLPM) outputs.
 }
 \description{
 Random Intercept Cross-Lagged Panel Model (RI-CLPM)

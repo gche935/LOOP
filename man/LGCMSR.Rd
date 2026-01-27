@@ -24,7 +24,7 @@ LGCMSR(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 \item{W}{name of variable W (Z must come before W).}
 }
 \value{
-LGCM-SR outputs.
+Latent Growth Curve Model with Structural Residuals (LGCM-SR) outputs.
 }
 \description{
 Latent Growth Curve Model with Structural Residuals (LGCM-SR)
