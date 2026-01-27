@@ -10,8 +10,8 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   b.no <- nrow(mcmc)  # No. of successful simulated samples
 
 
-  ## -- Differences in path coefficients -- ##
-  if (any(parEst[,4] == "pXY21")) {
+  ## -- Differences in path coefficients pXX -- ##
+  if (any(parEst[,4] == "pXX21")) {
 
     # -- Lag = 1 -- #
     for (j in 3:no.waves) {
@@ -30,6 +30,152 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         names(pest2A) <- paste("pYY", i, i-1, "-pYY", i-j+2, i-j+1, sep="")
         pest2 <- append(pest2, pest2A)
 
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("pZZ", i, i-1, sep="")] - mcmc[, paste("pZZ", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-1, "-pZZ", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("pZZ", i, i-1, sep="")] - pest2[paste("pZZ", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("pZZ", i, i-1, "-pZZ", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z)
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("pWW", i, i-1, sep="")] - mcmc[, paste("pWW", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-1, "-pWW", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("pWW", i, i-1, sep="")] - pest2[paste("pWW", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("pWW", i, i-1, "-pWW", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+
+    # -- Lag = 2 -- #
+    if (lag == 2 & no.waves > 3) {
+      for (j in 4:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("pXX", i, i-2, sep="")] - mcmc[, paste("pXX", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-2, "-pXX", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("pXX", i, i-2, sep="")] - pest2[paste("pXX", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("pXX", i, i-2, "-pXX", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("pYY", i, i-2, sep="")] - mcmc[, paste("pYY", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-2, "-pYY", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("pYY", i, i-2, sep="")] - pest2[paste("pYY", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("pYY", i, i-2, "-pYY", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("pZZ", i, i-2, sep="")] - mcmc[, paste("pZZ", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-2, "-pZZ", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("pZZ", i, i-2, sep="")] - pest2[paste("pZZ", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("pZZ", i, i-2, "-pZZ", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("pWW", i, i-2, sep="")] - mcmc[, paste("pWW", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-2, "-pWW", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("pWW", i, i-2, sep="")] - pest2[paste("pWW", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("pWW", i, i-2, "-pWW", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 2)
+
+    # -- Lag = 3 -- #
+    if (lag == 3 & no.waves > 4) {
+      for (j in 5:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("pXX", i, i-3, sep="")] - mcmc[, paste("pXX", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-3, "-pXX", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("pXX", i, i-3, sep="")] - pest2[paste("pXX", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("pXX", i, i-3, "-pXX", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("pYY", i, i-3, sep="")] - mcmc[, paste("pYY", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-3, "-pYY", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("pYY", i, i-3, sep="")] - pest2[paste("pYY", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("pYY", i, i-3, "-pYY", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("pZZ", i, i-3, sep="")] - mcmc[, paste("pZZ", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-3, "-pZZ", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("pZZ", i, i-3, sep="")] - pest2[paste("pZZ", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("pZZ", i, i-3, "-pZZ", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("pWW", i, i-3, sep="")] - mcmc[, paste("pWW", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-3, "-pWW", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("pWW", i, i-3, sep="")] - pest2[paste("pWW", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("pWW", i, i-3, "-pWW", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 3)
+
+    # -- Lag = 4 -- #
+    if (lag == 4 & no.waves > 5) {
+      for (j in 6:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("pXX", i, i-4, sep="")] - mcmc[, paste("pXX", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-4, "-pXX", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("pXX", i, i-4, sep="")] - pest2[paste("pXX", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("pXX", i, i-4, "-pXX", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("pYY", i, i-4, sep="")] - mcmc[, paste("pYY", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-4, "-pYY", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("pYY", i, i-4, sep="")] - pest2[paste("pYY", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("pYY", i, i-4, "-pYY", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("pZZ", i, i-4, sep="")] - mcmc[, paste("pZZ", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-4, "-pZZ", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("pZZ", i, i-4, sep="")] - pest2[paste("pZZ", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("pZZ", i, i-4, "-pZZ", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("pWW", i, i-4, sep="")] - mcmc[, paste("pWW", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-4, "-pWW", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("pWW", i, i-4, sep="")] - pest2[paste("pWW", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("pWW", i, i-4, "-pWW", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 4)
+  } # end (if pXX21)
+  ## ----- end (Difference in path coefficients) ----- ##
+
+
+  ## -- Differences in path coefficients -- ##
+  if (any(parEst[,4] == "pXY21")) {
+
+    # -- Lag = 1 -- #
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
         mcmcA <- (mcmc[, paste("pXY", i, i-1, sep="")] - mcmc[, paste("pXY", i-j+2, i-j+1, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
         colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXY", i, i-1, "-pXY", i-j+2, i-j+1, sep="")
@@ -45,13 +191,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         pest2 <- append(pest2, pest2A)
 
         if (Z != "NULL") {
-          mcmcA <- (mcmc[, paste("pZZ", i, i-1, sep="")] - mcmc[, paste("pZZ", i-j+2, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-1, "-pZZ", i-j+2, i-j+1, sep="")
-          pest2A <- (pest2[paste("pZZ", i, i-1, sep="")] - pest2[paste("pZZ", i-j+2, i-j+1, sep="")])
-          names(pest2A) <- paste("pZZ", i, i-1, "-pZZ", i-j+2, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
           mcmcA <- (mcmc[, paste("pXZ", i, i-1, sep="")] - mcmc[, paste("pXZ", i-j+2, i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXZ", i, i-1, "-pXZ", i-j+2, i-j+1, sep="")
@@ -82,13 +221,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         } # end (if Z != "NULL")
 
         if (W != "NULL") {
-          mcmcA <- (mcmc[, paste("pWW", i, i-1, sep="")] - mcmc[, paste("pWW", i-j+2, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-1, "-pWW", i-j+2, i-j+1, sep="")
-          pest2A <- (pest2[paste("pWW", i, i-1, sep="")] - pest2[paste("pWW", i-j+2, i-j+1, sep="")])
-          names(pest2A) <- paste("pWW", i, i-1, "-pWW", i-j+2, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
           mcmcA <- (mcmc[, paste("pXW", i, i-1, sep="")] - mcmc[, paste("pXW", i-j+2, i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXW", i, i-1, "-pXW", i-j+2, i-j+1, sep="")
@@ -138,20 +270,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (lag == 2 & no.waves > 3) {
       for (j in 4:no.waves) {
         for (i in j:no.waves) {
-          mcmcA <- (mcmc[, paste("pXX", i, i-2, sep="")] - mcmc[, paste("pXX", i-j+3, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-2, "-pXX", i-j+3, i-j+1, sep="")
-          pest2A <- (pest2[paste("pXX", i, i-2, sep="")] - pest2[paste("pXX", i-j+3, i-j+1, sep="")])
-          names(pest2A) <- paste("pXX", i, i-2, "-pXX", i-j+3, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
-          mcmcA <- (mcmc[, paste("pYY", i, i-2, sep="")] - mcmc[, paste("pYY", i-j+3, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-2, "-pYY", i-j+3, i-j+1, sep="")
-          pest2A <- (pest2[paste("pYY", i, i-2, sep="")] - pest2[paste("pYY", i-j+3, i-j+1, sep="")])
-          names(pest2A) <- paste("pYY", i, i-2, "-pYY", i-j+3, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
           mcmcA <- (mcmc[, paste("pXY", i, i-2, sep="")] - mcmc[, paste("pXY", i-j+3, i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXY", i, i-2, "-pXY", i-j+3, i-j+1, sep="")
@@ -167,13 +285,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           pest2 <- append(pest2, pest2A)
 
           if (Z != "NULL") {
-            mcmcA <- (mcmc[, paste("pZZ", i, i-2, sep="")] - mcmc[, paste("pZZ", i-j+3, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-2, "-pZZ", i-j+3, i-j+1, sep="")
-            pest2A <- (pest2[paste("pZZ", i, i-2, sep="")] - pest2[paste("pZZ", i-j+3, i-j+1, sep="")])
-            names(pest2A) <- paste("pZZ", i, i-2, "-pZZ", i-j+3, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXZ", i, i-2, sep="")] - mcmc[, paste("pXZ", i-j+3, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXZ", i, i-2, "-pXZ", i-j+3, i-j+1, sep="")
@@ -204,13 +315,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           } # end (if Z != "NULL")
 
           if (W != "NULL") {
-            mcmcA <- (mcmc[, paste("pWW", i, i-2, sep="")] - mcmc[, paste("pWW", i-j+3, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-2, "-pWW", i-j+3, i-j+1, sep="")
-            pest2A <- (pest2[paste("pWW", i, i-2, sep="")] - pest2[paste("pWW", i-j+3, i-j+1, sep="")])
-            names(pest2A) <- paste("pWW", i, i-2, "-pWW", i-j+3, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXW", i, i-2, sep="")] - mcmc[, paste("pXW", i-j+3, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXW", i, i-2, "-pXW", i-j+3, i-j+1, sep="")
@@ -261,20 +365,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (lag == 3 & no.waves > 4) {
       for (j in 5:no.waves) {
         for (i in j:no.waves) {
-          mcmcA <- (mcmc[, paste("pXX", i, i-3, sep="")] - mcmc[, paste("pXX", i-j+4, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-3, "-pXX", i-j+4, i-j+1, sep="")
-          pest2A <- (pest2[paste("pXX", i, i-3, sep="")] - pest2[paste("pXX", i-j+4, i-j+1, sep="")])
-          names(pest2A) <- paste("pXX", i, i-3, "-pXX", i-j+4, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
-          mcmcA <- (mcmc[, paste("pYY", i, i-3, sep="")] - mcmc[, paste("pYY", i-j+4, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-3, "-pYY", i-j+4, i-j+1, sep="")
-          pest2A <- (pest2[paste("pYY", i, i-3, sep="")] - pest2[paste("pYY", i-j+4, i-j+1, sep="")])
-          names(pest2A) <- paste("pYY", i, i-3, "-pYY", i-j+4, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
           mcmcA <- (mcmc[, paste("pXY", i, i-3, sep="")] - mcmc[, paste("pXY", i-j+4, i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXY", i, i-3, "-pXY", i-j+4, i-j+1, sep="")
@@ -290,13 +380,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           pest2 <- append(pest2, pest2A)
 
           if (Z != "NULL") {
-            mcmcA <- (mcmc[, paste("pZZ", i, i-3, sep="")] - mcmc[, paste("pZZ", i-j+4, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-3, "-pZZ", i-j+4, i-j+1, sep="")
-            pest2A <- (pest2[paste("pZZ", i, i-3, sep="")] - pest2[paste("pZZ", i-j+4, i-j+1, sep="")])
-            names(pest2A) <- paste("pZZ", i, i-3, "-pZZ", i-j+4, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXZ", i, i-3, sep="")] - mcmc[, paste("pXZ", i-j+4, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXZ", i, i-3, "-pXZ", i-j+4, i-j+1, sep="")
@@ -327,13 +410,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           } # end (if Z != "NULL")
 
           if (W != "NULL") {
-            mcmcA <- (mcmc[, paste("pWW", i, i-3, sep="")] - mcmc[, paste("pWW", i-j+4, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-3, "-pWW", i-j+4, i-j+1, sep="")
-            pest2A <- (pest2[paste("pWW", i, i-3, sep="")] - pest2[paste("pWW", i-j+4, i-j+1, sep="")])
-            names(pest2A) <- paste("pWW", i, i-3, "-pWW", i-j+4, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXW", i, i-3, sep="")] - mcmc[, paste("pXW", i-j+4, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXW", i, i-3, "-pXW", i-j+4, i-j+1, sep="")
@@ -384,20 +460,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (lag == 4 & no.waves > 5) {
       for (j in 6:no.waves) {
         for (i in j:no.waves) {
-          mcmcA <- (mcmc[, paste("pXX", i, i-4, sep="")] - mcmc[, paste("pXX", i-j+5, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXX", i, i-4, "-pXX", i-j+5, i-j+1, sep="")
-          pest2A <- (pest2[paste("pXX", i, i-4, sep="")] - pest2[paste("pXX", i-j+5, i-j+1, sep="")])
-          names(pest2A) <- paste("pXX", i, i-4, "-pXX", i-j+5, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
-          mcmcA <- (mcmc[, paste("pYY", i, i-4, sep="")] - mcmc[, paste("pYY", i-j+5, i-j+1, sep="")])
-          mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pYY", i, i-4, "-pYY", i-j+5, i-j+1, sep="")
-          pest2A <- (pest2[paste("pYY", i, i-4, sep="")] - pest2[paste("pYY", i-j+5, i-j+1, sep="")])
-          names(pest2A) <- paste("pYY", i, i-4, "-pYY", i-j+5, i-j+1, sep="")
-          pest2 <- append(pest2, pest2A)
-
           mcmcA <- (mcmc[, paste("pXY", i, i-4, sep="")] - mcmc[, paste("pXY", i-j+5, i-j+1, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
           colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXY", i, i-4, "-pXY", i-j+5, i-j+1, sep="")
@@ -413,13 +475,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           pest2 <- append(pest2, pest2A)
 
           if (Z != "NULL") {
-            mcmcA <- (mcmc[, paste("pZZ", i, i-4, sep="")] - mcmc[, paste("pZZ", i-j+5, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pZZ", i, i-4, "-pZZ", i-j+5, i-j+1, sep="")
-            pest2A <- (pest2[paste("pZZ", i, i-4, sep="")] - pest2[paste("pZZ", i-j+5, i-j+1, sep="")])
-            names(pest2A) <- paste("pZZ", i, i-4, "-pZZ", i-j+5, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXZ", i, i-4, sep="")] - mcmc[, paste("pXZ", i-j+5, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXZ", i, i-4, "-pXZ", i-j+5, i-j+1, sep="")
@@ -450,13 +505,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
           } # end (if Z != "NULL")
 
           if (W != "NULL") {
-            mcmcA <- (mcmc[, paste("pWW", i, i-4, sep="")] - mcmc[, paste("pWW", i-j+5, i-j+1, sep="")])
-            mcmc <- cbind(mcmc, mcmcA)
-            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pWW", i, i-4, "-pWW", i-j+5, i-j+1, sep="")
-            pest2A <- (pest2[paste("pWW", i, i-4, sep="")] - pest2[paste("pWW", i-j+5, i-j+1, sep="")])
-            names(pest2A) <- paste("pWW", i, i-4, "-pWW", i-j+5, i-j+1, sep="")
-            pest2 <- append(pest2, pest2A)
-
             mcmcA <- (mcmc[, paste("pXW", i, i-4, sep="")] - mcmc[, paste("pXW", i-j+5, i-j+1, sep="")])
             mcmc <- cbind(mcmc, mcmcA)
             colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("pXW", i, i-4, "-pXW", i-j+5, i-j+1, sep="")
@@ -502,7 +550,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         } # end (for i)
       } # end (for j)
     } # end (lag == 4)
-  } # end (if pXX21)
+  } # end (if pXY21)
   ## ----- end (Difference in path coefficients) ----- ##
 
 
