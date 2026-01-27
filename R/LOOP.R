@@ -2033,15 +2033,15 @@ LandD_PC <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, 
     SumEst <- SumEst + TparEst["est"]
   }
   MeanEst <- SumEst/(no.path-LDlag+1)
-  p.MeanEst <- paste("  Average across paths = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across proportional change = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
-  # -- Save pairs of non-invariant paths -- #
+  # -- Save pairs of non-invariant proportional change -- #
   NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
   k = 1
   for (j in 3:(no.waves-LDlag+1)) {
     for (i in j:(no.waves-LDlag+1)) {
-      Clhs <- paste0("d", a, b, (i+LDlag-1), i-1, "-p", a, b, i-j+LDlag+1, i-j+1, sep="")
+      Clhs <- paste0("d", a, b, (i+LDlag-1), i-1, "-d", a, b, i-j+LDlag+1, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
           NI.path[k, 1] <- i-1
           NI.path[k, 2] <- i-j+1
