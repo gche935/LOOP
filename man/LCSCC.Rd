@@ -4,12 +4,23 @@
 \alias{LCSCC}
 \title{Function LCSCC (Latent Change Score Model with Changes-To-Changes Extension)}
 \usage{
-LCSCC(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
+LCSCC(
+  data.source,
+  no.waves,
+  varI.eq = FALSE,
+  p = 0.001,
+  X,
+  Y,
+  Z = "NULL",
+  W = "NULL"
+)
 }
 \arguments{
 \item{data.source}{name of data.frame.}
 
 \item{no.waves}{number of waves (minimum = 3).}
+
+\item{varI.eq}{whether indicator residual variances are constrained to be equal (default is false).}
 
 \item{p}{critical p-value for pairwise comparisons (default is 0.001).}
 
@@ -31,6 +42,6 @@ Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 
 ## -- Example -- ##
 
-LCSCC(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
 
 }

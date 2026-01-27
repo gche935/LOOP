@@ -7146,16 +7146,17 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
         } # end (if W)
       } # end (for i)
     } else {
-    for (i in 2:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)###   ###
+      for (i in 2:no.waves) {
+        cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
+        if (Z != "NULL") {
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
+        } # end (if Z)
+        if (W != "NULL") {
+          cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
+        } # end (if W)
+      } # end (for i)
+    } # end (if varI.eq)
 
     # -- Create Covariance of Indicator Residuals -- #
     cat(rep("\n",2), "  # -- Create covariance of indicator residuals -- #")
@@ -7173,7 +7174,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
         cat("\n", paste("  ", Y, i, " ~~ eIYW", i, "*", W, i, sep=""))
         cat("\n", paste("  ", Z, i, " ~~ eIZW", i, "*", W, i, sep=""))
       } # end (if W)
-    } # end (for i)###   ###
+    } # end (for i)
 
     # -- Constrain Intercepts of Latent Variables to zero -- #
     cat(rep("\n",2), "  # -- Constrain intercepts of latent variables to zero -- #")
