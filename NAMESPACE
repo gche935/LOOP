@@ -3,6 +3,7 @@
 export(ALT)
 export(CLPM)
 export(LCS)
+export(LCSCC)
 export(LGCM)
 export(LGCMSR)
 export(RICLPM)
