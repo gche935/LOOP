@@ -11,7 +11,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in path coefficients -- ##
-  if (any(parEst[,4] == "pXX21")) {
+  if (any(parEst[,4] == "pXY21")) {
 
     # -- Lag = 1 -- #
     for (j in 3:no.waves) {
@@ -1385,7 +1385,7 @@ if (any(parEst[,4] == "eIXY2")) {
   cat(rep("\n",2), paste("# -- Sets of invariant indicator residual covariance eI", a, b, " coefficients -- #", sep=""))
 
   for (k in 0:MIset) {
-    Noset <- no.waves - k
+    Noset <- no.path - k
     NIset <- factorial(no.path)/(factorial(no.path-k)*factorial(k))
     mm <- t(combn((no.path), Noset))
     for (j in 1:Count.NI.path) {
@@ -1409,7 +1409,9 @@ if (any(parEst[,4] == "eIXY2")) {
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
+
 } else if (any(parEst[,4] == "eIXY1")) {
+
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Indicator residual covariance of cov", a, b, " coefficients -- #", sep=""))
   aa <- get(a)
@@ -6101,8 +6103,6 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
 
   ## -- Execute LCS.txt and request summary outputs-- ##
   source('LCS.txt')
-
-#  print(lavaan::summary(LCSMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
 
   if (lavaan::lavInspect(LCSMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
   ## ------------------------------- ##
