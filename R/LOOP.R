@@ -1304,7 +1304,7 @@ LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       Clhs <- paste("e", a, a, i, "-e", a, a, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
-        NI.path[k, 2] <- i-j+1
+        NI.path[k, 2] <- i-j+2
         k <- k + 1
       } # end (if pest2)
     } # end (for i)
@@ -1348,7 +1348,68 @@ LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
 
 ## ----- Sub-Function List and Delete for Residual Covariance of indicators ----- ##
 LandD_eIXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
+if (any(parEst[,4] == "eIXY2")) {
+  SumEst <- 0
+  cat(rep("\n",3), paste("# -- Indicator residual covariance of cov", a, b, " coefficients -- #", sep=""))
+  aa <- get(a)
+  bb <- get(b)
+  for (i in 1: no.path) {
+    Clhs <- paste(aa, i+1, sep="")
+    Crhs <- paste(bb, i+1, sep="")
+    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
+    p.TparEst <- paste("  eI", a, b, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+                       ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
+    cat("\n", p.TparEst)
+    SumEst <- SumEst + TparEst["est"]
+  } # end (for i)
+  MeanEst <- SumEst/(no.waves)
+  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  cat("\n", p.MeanEst)
 
+  # -- Save pairs of non-invariant residual covariances -- #
+  NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
+  k = 1
+  for (j in 3:no.waves) {
+    for (i in j:no.waves) {
+      Clhs <- paste("eI", a, b, i, "-eI", a, b, i-j+2, sep="")
+      if (pest2[Clhs,3] < p) {
+        NI.path[k, 1] <- i
+        NI.path[k, 2] <- i-j+2
+        k <- k + 1
+      } # end (if pest2)
+    } # end (for i)
+  } # end (for j)
+  Count.NI.path = k - 1
+
+  ## -- Select sets of invariant residual covariances and print -- ##
+  cat(rep("\n",2), paste("# -- Sets of invariant indicator residual covariance eI", a, b, " coefficients -- #", sep=""))
+
+  for (k in 0:MIset) {
+    Noset <- no.waves - k
+    NIset <- factorial(no.path)/(factorial(no.path-k)*factorial(k))
+    mm <- t(combn((no.path), Noset))
+    for (j in 1:Count.NI.path) {
+      p.j <- NI.path[j,1]
+      q.j <- NI.path[j,2]
+      for (i in 1:NIset) {
+        count4 <- length(which(mm[i,] == p.j | mm[i,] == q.j))
+        if (count4 > 1) {
+          mm[i,] <- 0
+        } # end (for count4)
+      } # end (for i)
+    } # end (for j)
+    for (ii in 1:NIset) {
+      count4 <- sum(mm[ii,])
+      if (count4 > 0) {
+        mm.p <- mm
+        for (i in 1:no.waves) {
+          mm.p[mm.p == i] <- paste("eI", a, b, i+1, sep="")
+        } # end (for i)
+        cat("\n", "    ", mm.p[ii,])
+      } # end (if count4)
+    } # end (for ii)
+  } # end (for k)
+} else if (any(parEst[,4] == "eIXY1")) {
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Indicator residual covariance of cov", a, b, " coefficients -- #", sep=""))
   aa <- get(a)
@@ -1409,7 +1470,8 @@ LandD_eIXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
-}  # end (Function LandD_eIXY)
+} # end (if eIXY)
+} # end (Function LandD_eIXY)
 ## ---------------------------------------------------------------- ##
 
 
@@ -1486,6 +1548,68 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
 ## ----- Sub-Function List and Delete for Indicator Variance ----- ##
 LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
 
+if (any(parEst[,4] == "eIXX2")) {
+  SumEst <- 0
+  cat(rep("\n",3), paste("# -- Indicator Variance of ", a, " -- #", sep=""))
+  aa <- get(a)
+  for (i in 1: no.path) {
+    Clhs <- paste(aa, i+1, sep="")
+    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Clhs & parEst["op"] == "~~",]
+    p.TparEst <- paste("  eI", a, a, i+1, ":  Indicator Variance of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+                       ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
+    cat("\n", p.TparEst)
+    SumEst <- SumEst + TparEst["est"]
+  } # end (for i)
+  MeanEst <- SumEst/no.waves
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  cat("\n", p.MeanEst)
+
+  # -- Save pairs of non-invariant Indicator Variance -- #
+  NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
+  k = 1
+  for (j in 3:no.waves) {
+    for (i in j:no.waves) {
+      Clhs <- paste("eI", a, a, i, "-eI", a, a, i-j+2, sep="")
+      if (pest2[Clhs,3] < p) {
+        NI.path[k, 1] <- i-1
+        NI.path[k, 2] <- i-j+2
+        k <- k + 1
+      } # end (if pest2)
+    } # end (for i)
+  } # end (for j)
+  Count.NI.path = k - 1
+
+  # -- Select sets of invariant indicator variance and print -- #
+  cat(rep("\n",2), paste("# -- Sets of invariant Indicator Variance ", aa, " -- #", sep=""))
+
+  for (k in 0:MIset) {
+    Noset <- no.path - k
+    NIset <- factorial(no.path)/(factorial(no.path-k)*factorial(k))
+    mm <- t(combn((no.path), Noset))
+    for (j in 1:Count.NI.path) {
+      p.j <- NI.path[j,1]
+      q.j <- NI.path[j,2]
+      for (i in 1:NIset) {
+        count4 <- length(which(mm[i,] == p.j | mm[i,] == q.j))
+        if (count4 > 1) {
+          mm[i,] <- 0
+        } # end (if count4)
+      } # end (for i)
+    } # end (for j)
+    for (ii in 1:NIset) {
+      count4 <- sum(mm[ii,])
+      if (count4 > 0) {
+        mm.p <- mm
+        for (i in 1:no.waves) {
+          mm.p[mm.p == i] <- paste("eI", a, a, i+1, sep="")
+        } # end (for i)
+        cat("\n", "    ", mm.p[ii,])
+      } # end (if count4)
+    } # end (for ii)
+  } # end (for k)
+
+} else if (any(parEst[,4] == "eIXX1")) {
+
   SumEst <- 0
   cat(rep("\n",3), paste("# -- Indicator Variance of ", a, " -- #", sep=""))
   aa <- get(a)
@@ -1544,6 +1668,7 @@ LandD_eIXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
+} # end (if eIXX)
 }  # end (Sub-Function LandD_eIXX)
 ## ---------------------------------------------------------------- ##
 
