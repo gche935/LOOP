@@ -2242,7 +2242,7 @@ if (any(parEst[,4] == "eIXY2")) {
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.waves)
-  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual covariances -- #
@@ -2305,7 +2305,7 @@ if (any(parEst[,4] == "eIXY2")) {
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
   MeanEst <- SumEst/(no.waves)
-  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
   # -- Save pairs of non-invariant residual covariances -- #
@@ -6980,6 +6980,7 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
+#' @param varI.eq whether indicator residual variances are constrained to be equal (default is false).  
 #' @param p critical p-value for pairwise comparisons (default is 0.001).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
@@ -6992,10 +6993,10 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
 #'
 
-LCSCC <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
   lag <- 1
 
@@ -7008,6 +7009,7 @@ LCSCC <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") 
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  if (is.logical(varI.eq) == FALSE) stop("varI.eq (equivalence of indicator residual variance) can only be TRUE or FALSE")
 
   ## ----- Creating Model LCSCC ----- ###
 
@@ -7132,14 +7134,26 @@ LCSCC <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") 
     cat("\n", "  ###################################################################")
     cat("\n", "  # Remove the subscripts for invariant indicator residual variance #")
     cat("\n", "  ###################################################################")
+    if (isFALSE(varI.eq)) {
+      for (i in 2:no.waves) {
+        cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
+        cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+        if (Z != "NULL") {
+          cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+        } # end (if Z)
+        if (W != "NULL") {
+          cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
+        } # end (if W)
+      } # end (for i)
+    } else {
     for (i in 2:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+      cat("\n", paste("  ", X, i, " ~~ eIXX*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ eIYY*", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+        cat("\n", paste("  ", Z, i, " ~~ eIZZ*", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ eIWW",  i, "*", W, i, sep=""))
+        cat("\n", paste("  ", W, i, " ~~ eIWW*", W, i, sep=""))
       } # end (if W)
     } # end (for i)###   ###
 
