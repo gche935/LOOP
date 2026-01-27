@@ -2627,13 +2627,13 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
     } # end (for i)
 
     cat(rep("\n",2), "  # -- Estimate variance of latent variables at first wave -- #")
-    cat("\n", paste("  w", X, i, " ~~ eXX1*w", X, i, sep=""))
-    cat("\n", paste("  w", Y, i, " ~~ eYY1*w", Y, i, sep=""))
+    cat("\n", paste("  w", X, "1 ~~ eXX1*w", X, "1", sep=""))
+    cat("\n", paste("  w", Y, "1 ~~ eYY1*w", Y, "1", sep=""))
     if (Z != "NULL") {
-      cat("\n", paste("  w", Z, i, " ~~ eZZ1*w", Z, i, sep=""))
+      cat("\n", paste("  w", Z, "1 ~~ eZZ1*w", Z, "1", sep=""))
     } # end (if Z)
     if (W != "NULL") {
-      cat("\n", paste("  w", W, i, " ~~ eWW1*w", W, i, sep=""))
+      cat("\n", paste("  w", W, "1 ~~ eWW1*w", W, "1", sep=""))
     } # end (if W)
 
     cat(rep("\n",2), "  # -- Estimate residual variance of latent variables -- #")
