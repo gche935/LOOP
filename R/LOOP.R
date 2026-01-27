@@ -173,10 +173,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## -- Differences in path coefficients -- ##
   if (any(parEst[,4] == "pXY21")) {
 
-cat("\n")
-cat("I'm here")
-cat("\n")
-
     # -- Lag = 1 -- #
     for (j in 3:no.waves) {
       for (i in j:no.waves) {
@@ -556,6 +552,550 @@ cat("\n")
     } # end (lag == 4)
   } # end (if pXY21)
   ## ----- end (Difference in path coefficients) ----- ##
+
+
+  ## -- Differences in proportional change dXX -- ##
+  if (any(parEst[,4] == "dXX21")) {
+
+    # -- Lag = 1 -- #
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste("dXX", i, i-1, sep="")] - mcmc[, paste("dXX", i-j+2, i-j+1, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXX", i, i-1, "-dXX", i-j+2, i-j+1, sep="")
+        pest2A <- (pest2[paste("dXX", i, i-1, sep="")] - pest2[paste("dXX", i-j+2, i-j+1, sep="")])
+        names(pest2A) <- paste("dXX", i, i-1, "-dXX", i-j+2, i-j+1, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        mcmcA <- (mcmc[, paste("dYY", i, i-1, sep="")] - mcmc[, paste("dYY", i-j+2, i-j+1, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYY", i, i-1, "-dYY", i-j+2, i-j+1, sep="")
+        pest2A <- (pest2[paste("dYY", i, i-1, sep="")] - pest2[paste("dYY", i-j+2, i-j+1, sep="")])
+        names(pest2A) <- paste("dYY", i, i-1, "-dYY", i-j+2, i-j+1, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("dZZ", i, i-1, sep="")] - mcmc[, paste("dZZ", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZZ", i, i-1, "-dZZ", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dZZ", i, i-1, sep="")] - pest2[paste("dZZ", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dZZ", i, i-1, "-dZZ", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z)
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("dWW", i, i-1, sep="")] - mcmc[, paste("dWW", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWW", i, i-1, "-dWW", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dWW", i, i-1, sep="")] - pest2[paste("dWW", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dWW", i, i-1, "-dWW", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+
+    # -- Lag = 2 -- #
+    if (lag == 2 & no.waves > 3) {
+      for (j in 4:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXX", i, i-2, sep="")] - mcmc[, paste("dXX", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXX", i, i-2, "-dXX", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXX", i, i-2, sep="")] - pest2[paste("dXX", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("dXX", i, i-2, "-dXX", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYY", i, i-2, sep="")] - mcmc[, paste("dYY", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYY", i, i-2, "-dYY", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYY", i, i-2, sep="")] - pest2[paste("dYY", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("dYY", i, i-2, "-dYY", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dZZ", i, i-2, sep="")] - mcmc[, paste("dZZ", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZZ", i, i-2, "-dZZ", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZZ", i, i-2, sep="")] - pest2[paste("dZZ", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dZZ", i, i-2, "-dZZ", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dWW", i, i-2, sep="")] - mcmc[, paste("dWW", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWW", i, i-2, "-dWW", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWW", i, i-2, sep="")] - pest2[paste("dWW", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dWW", i, i-2, "-dWW", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 2)
+
+    # -- Lag = 3 -- #
+    if (lag == 3 & no.waves > 4) {
+      for (j in 5:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXX", i, i-3, sep="")] - mcmc[, paste("dXX", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXX", i, i-3, "-dXX", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXX", i, i-3, sep="")] - pest2[paste("dXX", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("dXX", i, i-3, "-dXX", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYY", i, i-3, sep="")] - mcmc[, paste("dYY", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYY", i, i-3, "-dYY", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYY", i, i-3, sep="")] - pest2[paste("dYY", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("dYY", i, i-3, "-dYY", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dZZ", i, i-3, sep="")] - mcmc[, paste("dZZ", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZZ", i, i-3, "-dZZ", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZZ", i, i-3, sep="")] - pest2[paste("dZZ", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dZZ", i, i-3, "-dZZ", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dWW", i, i-3, sep="")] - mcmc[, paste("dWW", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWW", i, i-3, "-dWW", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWW", i, i-3, sep="")] - pest2[paste("dWW", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dWW", i, i-3, "-dWW", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 3)
+
+    # -- Lag = 4 -- #
+    if (lag == 4 & no.waves > 5) {
+      for (j in 6:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXX", i, i-4, sep="")] - mcmc[, paste("dXX", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXX", i, i-4, "-dXX", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXX", i, i-4, sep="")] - pest2[paste("dXX", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("dXX", i, i-4, "-dXX", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYY", i, i-4, sep="")] - mcmc[, paste("dYY", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYY", i, i-4, "-dYY", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYY", i, i-4, sep="")] - pest2[paste("dYY", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("dYY", i, i-4, "-dYY", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dZZ", i, i-4, sep="")] - mcmc[, paste("dZZ", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZZ", i, i-4, "-dZZ", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZZ", i, i-4, sep="")] - pest2[paste("dZZ", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dZZ", i, i-4, "-dZZ", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dWW", i, i-4, sep="")] - mcmc[, paste("dWW", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWW", i, i-4, "-dWW", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWW", i, i-4, sep="")] - pest2[paste("dWW", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dWW", i, i-4, "-dWW", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 4)
+  } # end (if dXX21)
+  ## ----- end (Difference in proportional change) ----- ##
+
+
+  ## -- Differences in proportional change dXY -- ##
+  if (any(parEst[,4] == "dXY21")) {
+
+    # -- Lag = 1 -- #
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste("dXY", i, i-1, sep="")] - mcmc[, paste("dXY", i-j+2, i-j+1, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXY", i, i-1, "-dXY", i-j+2, i-j+1, sep="")
+        pest2A <- (pest2[paste("dXY", i, i-1, sep="")] - pest2[paste("dXY", i-j+2, i-j+1, sep="")])
+        names(pest2A) <- paste("dXY", i, i-1, "-dXY", i-j+2, i-j+1, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        mcmcA <- (mcmc[, paste("dYX", i, i-1, sep="")] - mcmc[, paste("dYX", i-j+2, i-j+1, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYX", i, i-1, "-dYX", i-j+2, i-j+1, sep="")
+        pest2A <- (pest2[paste("dYX", i, i-1, sep="")] - pest2[paste("dYX", i-j+2, i-j+1, sep="")])
+        names(pest2A) <- paste("dYX", i, i-1, "-dYX", i-j+2, i-j+1, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("dXZ", i, i-1, sep="")] - mcmc[, paste("dXZ", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXZ", i, i-1, "-dXZ", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXZ", i, i-1, sep="")] - pest2[paste("dXZ", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dXZ", i, i-1, "-dXZ", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYZ", i, i-1, sep="")] - mcmc[, paste("dYZ", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYZ", i, i-1, "-dYZ", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYZ", i, i-1, sep="")] - pest2[paste("dYZ", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dYZ", i, i-1, "-dYZ", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dZX", i, i-1, sep="")] - mcmc[, paste("dZX", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZX", i, i-1, "-dZX", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dZX", i, i-1, sep="")] - pest2[paste("dZX", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dZX", i, i-1, "-dZX", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dZY", i, i-1, sep="")] - mcmc[, paste("dZY", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZY", i, i-1, "-dZY", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dZY", i, i-1, sep="")] - pest2[paste("dZY", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dZY", i, i-1, "-dZY", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z != "NULL")
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("dXW", i, i-1, sep="")] - mcmc[, paste("dXW", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXW", i, i-1, "-dXW", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXW", i, i-1, sep="")] - pest2[paste("dXW", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dXW", i, i-1, "-dXW", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYW", i, i-1, sep="")] - mcmc[, paste("dYW", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYW", i, i-1, "-dYW", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYW", i, i-1, sep="")] - pest2[paste("dYW", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dYW", i, i-1, "-dYW", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dZW", i, i-1, sep="")] - mcmc[, paste("dZW", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZW", i, i-1, "-dZW", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dZW", i, i-1, sep="")] - pest2[paste("dZW", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dZW", i, i-1, "-dZW", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dWX", i, i-1, sep="")] - mcmc[, paste("dWX", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWX", i, i-1, "-dWX", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dWX", i, i-1, sep="")] - pest2[paste("dWX", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dWX", i, i-1, "-dWX", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dWY", i, i-1, sep="")] - mcmc[, paste("dWY", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWY", i, i-1, "-dWY", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dWY", i, i-1, sep="")] - pest2[paste("dWY", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dWY", i, i-1, "-dWY", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dWZ", i, i-1, sep="")] - mcmc[, paste("dWZ", i-j+2, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWZ", i, i-1, "-dWZ", i-j+2, i-j+1, sep="")
+          pest2A <- (pest2[paste("dWZ", i, i-1, sep="")] - pest2[paste("dWZ", i-j+2, i-j+1, sep="")])
+          names(pest2A) <- paste("dWZ", i, i-1, "-dWZ", i-j+2, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+
+    # -- Lag = 2 -- #
+    if (lag == 2 & no.waves > 3) {
+      for (j in 4:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXY", i, i-2, sep="")] - mcmc[, paste("dXY", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXY", i, i-2, "-dXY", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXY", i, i-2, sep="")] - pest2[paste("dXY", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("dXY", i, i-2, "-dXY", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYX", i, i-2, sep="")] - mcmc[, paste("dYX", i-j+3, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYX", i, i-2, "-dYX", i-j+3, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYX", i, i-2, sep="")] - pest2[paste("dYX", i-j+3, i-j+1, sep="")])
+          names(pest2A) <- paste("dYX", i, i-2, "-dYX", i-j+3, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dXZ", i, i-2, sep="")] - mcmc[, paste("dXZ", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXZ", i, i-2, "-dXZ", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXZ", i, i-2, sep="")] - pest2[paste("dXZ", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dXZ", i, i-2, "-dXZ", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYZ", i, i-2, sep="")] - mcmc[, paste("dYZ", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYZ", i, i-2, "-dYZ", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYZ", i, i-2, sep="")] - pest2[paste("dYZ", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dYZ", i, i-2, "-dYZ", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZX", i, i-2, sep="")] - mcmc[, paste("dZX", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZX", i, i-2, "-dZX", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZX", i, i-2, sep="")] - pest2[paste("dZX", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dZX", i, i-2, "-dZX", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZY", i, i-2, sep="")] - mcmc[, paste("dZY", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZY", i, i-2, "-dZY", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZY", i, i-2, sep="")] - pest2[paste("dZY", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dZY", i, i-2, "-dZY", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dXW", i, i-2, sep="")] - mcmc[, paste("dXW", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXW", i, i-2, "-dXW", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXW", i, i-2, sep="")] - pest2[paste("dXW", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dXW", i, i-2, "-dXW", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYW", i, i-2, sep="")] - mcmc[, paste("dYW", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYW", i, i-2, "-dYW", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYW", i, i-2, sep="")] - pest2[paste("dYW", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dYW", i, i-2, "-dYW", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZW", i, i-2, sep="")] - mcmc[, paste("dZW", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZW", i, i-2, "-dZW", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZW", i, i-2, sep="")] - pest2[paste("dZW", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dZW", i, i-2, "-dZW", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWX", i, i-2, sep="")] - mcmc[, paste("dWX", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWX", i, i-2, "-dWX", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWX", i, i-2, sep="")] - pest2[paste("dWX", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dWX", i, i-2, "-dWX", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWY", i, i-2, sep="")] - mcmc[, paste("dWY", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWY", i, i-2, "-dWY", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWY", i, i-2, sep="")] - pest2[paste("dWY", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dWY", i, i-2, "-dWY", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWZ", i, i-2, sep="")] - mcmc[, paste("dWZ", i-j+3, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWZ", i, i-2, "-dWZ", i-j+3, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWZ", i, i-2, sep="")] - pest2[paste("dWZ", i-j+3, i-j+1, sep="")])
+            names(pest2A) <- paste("dWZ", i, i-2, "-dWZ", i-j+3, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 2)
+
+    # -- Lag = 3 -- #
+    if (lag == 3 & no.waves > 4) {
+      for (j in 5:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXY", i, i-3, sep="")] - mcmc[, paste("dXY", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXY", i, i-3, "-dXY", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXY", i, i-3, sep="")] - pest2[paste("dXY", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("dXY", i, i-3, "-dXY", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYX", i, i-3, sep="")] - mcmc[, paste("dYX", i-j+4, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYX", i, i-3, "-dYX", i-j+4, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYX", i, i-3, sep="")] - pest2[paste("dYX", i-j+4, i-j+1, sep="")])
+          names(pest2A) <- paste("dYX", i, i-3, "-dYX", i-j+4, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dXZ", i, i-3, sep="")] - mcmc[, paste("dXZ", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXZ", i, i-3, "-dXZ", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXZ", i, i-3, sep="")] - pest2[paste("dXZ", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dXZ", i, i-3, "-dXZ", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYZ", i, i-3, sep="")] - mcmc[, paste("dYZ", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYZ", i, i-3, "-dYZ", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYZ", i, i-3, sep="")] - pest2[paste("dYZ", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dYZ", i, i-3, "-dYZ", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZX", i, i-3, sep="")] - mcmc[, paste("dZX", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZX", i, i-3, "-dZX", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZX", i, i-3, sep="")] - pest2[paste("dZX", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dZX", i, i-3, "-dZX", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZY", i, i-3, sep="")] - mcmc[, paste("dZY", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZY", i, i-3, "-dZY", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZY", i, i-3, sep="")] - pest2[paste("dZY", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dZY", i, i-3, "-dZY", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dXW", i, i-3, sep="")] - mcmc[, paste("dXW", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXW", i, i-3, "-dXW", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXW", i, i-3, sep="")] - pest2[paste("dXW", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dXW", i, i-3, "-dXW", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYW", i, i-3, sep="")] - mcmc[, paste("dYW", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYW", i, i-3, "-dYW", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYW", i, i-3, sep="")] - pest2[paste("dYW", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dYW", i, i-3, "-dYW", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZW", i, i-3, sep="")] - mcmc[, paste("dZW", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZW", i, i-3, "-dZW", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZW", i, i-3, sep="")] - pest2[paste("dZW", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dZW", i, i-3, "-dZW", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWX", i, i-3, sep="")] - mcmc[, paste("dWX", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWX", i, i-3, "-dWX", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWX", i, i-3, sep="")] - pest2[paste("dWX", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dWX", i, i-3, "-dWX", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWY", i, i-3, sep="")] - mcmc[, paste("dWY", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWY", i, i-3, "-dWY", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWY", i, i-3, sep="")] - pest2[paste("dWY", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dWY", i, i-3, "-dWY", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWZ", i, i-3, sep="")] - mcmc[, paste("dWZ", i-j+4, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWZ", i, i-3, "-dWZ", i-j+4, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWZ", i, i-3, sep="")] - pest2[paste("dWZ", i-j+4, i-j+1, sep="")])
+            names(pest2A) <- paste("dWZ", i, i-3, "-dWZ", i-j+4, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 3)
+
+    # -- Lag = 4 -- #
+    if (lag == 4 & no.waves > 5) {
+      for (j in 6:no.waves) {
+        for (i in j:no.waves) {
+          mcmcA <- (mcmc[, paste("dXY", i, i-4, sep="")] - mcmc[, paste("dXY", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXY", i, i-4, "-dXY", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("dXY", i, i-4, sep="")] - pest2[paste("dXY", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("dXY", i, i-4, "-dXY", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("dYX", i, i-4, sep="")] - mcmc[, paste("dYX", i-j+5, i-j+1, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYX", i, i-4, "-dYX", i-j+5, i-j+1, sep="")
+          pest2A <- (pest2[paste("dYX", i, i-4, sep="")] - pest2[paste("dYX", i-j+5, i-j+1, sep="")])
+          names(pest2A) <- paste("dYX", i, i-4, "-dYX", i-j+5, i-j+1, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          if (Z != "NULL") {
+            mcmcA <- (mcmc[, paste("dXZ", i, i-4, sep="")] - mcmc[, paste("dXZ", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXZ", i, i-4, "-dXZ", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXZ", i, i-4, sep="")] - pest2[paste("dXZ", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dXZ", i, i-4, "-dXZ", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYZ", i, i-4, sep="")] - mcmc[, paste("dYZ", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYZ", i, i-4, "-dYZ", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYZ", i, i-4, sep="")] - pest2[paste("dYZ", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dYZ", i, i-4, "-dYZ", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZX", i, i-4, sep="")] - mcmc[, paste("dZX", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZX", i, i-4, "-dZX", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZX", i, i-4, sep="")] - pest2[paste("dZX", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dZX", i, i-4, "-dZX", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZY", i, i-4, sep="")] - mcmc[, paste("dZY", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZY", i, i-4, "-dZY", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZY", i, i-4, sep="")] - pest2[paste("dZY", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dZY", i, i-4, "-dZY", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if Z != "NULL")
+
+          if (W != "NULL") {
+            mcmcA <- (mcmc[, paste("dXW", i, i-4, sep="")] - mcmc[, paste("dXW", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dXW", i, i-4, "-dXW", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dXW", i, i-4, sep="")] - pest2[paste("dXW", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dXW", i, i-4, "-dXW", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dYW", i, i-4, sep="")] - mcmc[, paste("dYW", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dYW", i, i-4, "-dYW", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dYW", i, i-4, sep="")] - pest2[paste("dYW", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dYW", i, i-4, "-dYW", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dZW", i, i-4, sep="")] - mcmc[, paste("dZW", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dZW", i, i-4, "-dZW", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dZW", i, i-4, sep="")] - pest2[paste("dZW", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dZW", i, i-4, "-dZW", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWX", i, i-4, sep="")] - mcmc[, paste("dWX", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWX", i, i-4, "-dWX", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWX", i, i-4, sep="")] - pest2[paste("dWX", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dWX", i, i-4, "-dWX", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWY", i, i-4, sep="")] - mcmc[, paste("dWY", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWY", i, i-4, "-dWY", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWY", i, i-4, sep="")] - pest2[paste("dWY", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dWY", i, i-4, "-dWY", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+
+            mcmcA <- (mcmc[, paste("dWZ", i, i-4, sep="")] - mcmc[, paste("dWZ", i-j+5, i-j+1, sep="")])
+            mcmc <- cbind(mcmc, mcmcA)
+            colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("dWZ", i, i-4, "-dWZ", i-j+5, i-j+1, sep="")
+            pest2A <- (pest2[paste("dWZ", i, i-4, sep="")] - pest2[paste("dWZ", i-j+5, i-j+1, sep="")])
+            names(pest2A) <- paste("dWZ", i, i-4, "-dWZ", i-j+5, i-j+1, sep="")
+            pest2 <- append(pest2, pest2A)
+          } # end (if W != "NULL")
+        } # end (for i)
+      } # end (for j)
+    } # end (lag == 4)
+  } # end (if dXY21)
+  ## ----- end (Difference in proportional change) ----- ##
 
 
   ## -- Differences in covariance of latent variable residuals -- ##
@@ -1086,6 +1626,186 @@ cat("\n")
   ## -------------------------------------------------------- ##
 
 
+  ## ---- List & Delete - Proportion Change dXX ---- ##
+  if (any(parEst[,4] == "dXX21")) {
+    no.path = no.waves - 1
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
+
+    cat(rep("\n",3), "## ===== Identification of invariant proportional change (Lag = 1 wave) ===== ##")
+
+    LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=1)  ## List & Delete - Proportion Change XX ##
+    LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=1)  ## List & Delete - Proportion Change YY ##
+    if (Z != "NULL") {
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=1)  ## List & Delete - Proportion Change ZZ ##
+    } # end (if Z)
+    if (W != "NULL") {
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=1)  ## List & Delete - Proportion Change WW ##
+    } # end (if W)
+
+    ## -- Lag = 2 -- ##
+    if (lag == 2 & no.waves > 3) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 2 waves) ===== ##")
+      no.compare = (no.path - 2)*(no.path - 1)/2
+      MIset <- no.path - 3
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List & Delete - Proportion Change XX ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List & Delete - Proportion Change YY ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=2)  ## List & Delete - Proportion Change ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=2)  ## List & Delete - Proportion Change WW ##
+      } # end (if W != "NULL")
+    } # end (Lag == 2)
+
+
+    ## -- Lag = 3 -- ##
+    if (lag == 3 & no.waves > 4) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 3 waves) ===== ##")
+      no.compare = (no.path - 3)*(no.path - 2)/2
+      MIset <- no.path - 4
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List & Delete - Proportion Change XX ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List & Delete - Proportion Change YY ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=3)  ## List & Delete - Proportion Change ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=3)  ## List & Delete - Proportion Change WW ##
+      } # end (if W != "NULL")
+    } # end (lag == 3)
+    ## ----- ##
+
+
+    ## -- Lag = 4 -- ##
+    if (lag == 4 & no.waves > 5) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 4 waves) ===== ##")
+      no.compare = (no.path - 4)*(no.path - 3)/2
+      MIset <- no.path - 5
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List & Delete - Proportion Change XX ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List & Delete - Proportion Change YY ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=4)  ## List & Delete - Proportion Change ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=4)  ## List & Delete - Proportion Change WW ##
+      } # end (if W != "NULL")
+    } # end (lag == 4)
+  } # end (if dXX21)
+  ## -------------------------------------------------------- ##
+
+
+  ## ---- List & Delete - Proportion Change Coefficients dXY ---- ##
+  if (any(parEst[,4] == "dXY21")) {
+    no.path = no.waves - 1
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
+
+    cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 1 wave) ===== ##")
+
+    LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=1)  ## List & Delete - Proportion Change XY ##
+    LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=1)  ## List & Delete - Proportion Change YX ##
+    if (Z != "NULL") {
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z", LDlag=1)  ## List & Delete - Proportion Change XZ ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z", LDlag=1)  ## List & Delete - Proportion Change YZ ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="X", LDlag=1)  ## List & Delete - Proportion Change ZX ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Y", LDlag=1)  ## List & Delete - Proportion Change ZY ##
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W", LDlag=1)  ## List & Delete - Proportion Change XW ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W", LDlag=1)  ## List & Delete - Proportion Change YW ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W", LDlag=1)  ## List & Delete - Proportion Change ZW ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="X", LDlag=1)  ## List & Delete - Proportion Change WX ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Y", LDlag=1)  ## List & Delete - Proportion Change WY ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=1)  ## List & Delete - Proportion Change WZ ##
+    } # end (if W != "NULL")
+
+
+    ## -- Lag = 2 -- ##
+    if (lag == 2 & no.waves > 3) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 2 waves) ===== ##")
+      no.compare = (no.path - 2)*(no.path - 1)/2
+      MIset <- no.path - 3
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List & Delete - Proportion Change XY ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List & Delete - Proportion Change YX ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z", LDlag=2)  ## List & Delete - Proportion Change XZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z", LDlag=2)  ## List & Delete - Proportion Change YZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="X", LDlag=2)  ## List & Delete - Proportion Change ZX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Y", LDlag=2)  ## List & Delete - Proportion Change ZY ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W", LDlag=2)  ## List & Delete - Proportion Change XW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W", LDlag=2)  ## List & Delete - Proportion Change YW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W", LDlag=2)  ## List & Delete - Proportion Change ZW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="X", LDlag=2)  ## List & Delete - Proportion Change WX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Y", LDlag=2)  ## List & Delete - Proportion Change WY ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=2)  ## List & Delete - Proportion Change WZ ##
+      } # end (if W != "NULL")
+    } # end (Lag == 2)
+
+
+    ## -- Lag = 3 -- ##
+    if (lag == 3 & no.waves > 4) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 3 waves) ===== ##")
+      no.compare = (no.path - 3)*(no.path - 2)/2
+      MIset <- no.path - 4
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List & Delete - Proportion Change XY ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List & Delete - Proportion Change YX ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z", LDlag=3)  ## List & Delete - Proportion Change XZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z", LDlag=3)  ## List & Delete - Proportion Change YZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="X", LDlag=3)  ## List & Delete - Proportion Change ZX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Y", LDlag=3)  ## List & Delete - Proportion Change ZY ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W", LDlag=3)  ## List & Delete - Proportion Change XW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W", LDlag=3)  ## List & Delete - Proportion Change YW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W", LDlag=3)  ## List & Delete - Proportion Change ZW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="X", LDlag=3)  ## List & Delete - Proportion Change WX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Y", LDlag=3)  ## List & Delete - Proportion Change WY ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=3)  ## List & Delete - Proportion Change WZ ##
+      } # end (if W != "NULL")
+    } # end (lag == 3)
+    ## ----- ##
+
+
+    ## -- Lag = 4 -- ##
+    if (lag == 4 & no.waves > 5) {
+      cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 4 waves) ===== ##")
+      no.compare = (no.path - 4)*(no.path - 3)/2
+      MIset <- no.path - 5
+
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List & Delete - Proportion Change XY ##
+      LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List & Delete - Proportion Change YX ##
+      if (Z != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z", LDlag=4)  ## List & Delete - Proportion Change XZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z", LDlag=4)  ## List & Delete - Proportion Change YZ ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="X", LDlag=4)  ## List & Delete - Proportion Change ZX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Y", LDlag=4)  ## List & Delete - Proportion Change ZY ##
+      } # end (if Z != "NULL")
+
+      if (W != "NULL") {
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W", LDlag=4)  ## List & Delete - Proportion Change XW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W", LDlag=4)  ## List & Delete - Proportion Change YW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W", LDlag=4)  ## List & Delete - Proportion Change ZW ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="X", LDlag=4)  ## List & Delete - Proportion Change WX ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Y", LDlag=4)  ## List & Delete - Proportion Change WY ##
+        LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=4)  ## List & Delete - Proportion Change WZ ##
+      } # end (if W != "NULL")
+    } # end (lag == 4)
+  } # end (if dXY21)
+  ## -------------------------------------------------------- ##
+
+
   ## ---- List and Delete - Residual covariance eXY ---- ##
   if (any(parEst[,4] == "eXY2")) {
 
@@ -1292,6 +2012,76 @@ LandD_Path <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   } # end (for k)
 }  # end (Function LandD_Path)
 ## --------------------------------------------------------- ##
+
+
+
+
+## ----- Sub-Function List and Delete for Proportional Change ----- ##
+LandD_PC <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=1) {
+
+  SumEst <- 0
+  cat(rep("\n",3), paste("# -- Proportional change ", a, b, " coefficients -- #", sep=""))
+  aa <- get(a)
+  bb <- get(b)
+  for (i in 1: (no.path-LDlag+1)) {
+    Clhs <- paste("cs", bb, i+LDlag, sep="")
+    Crhs <- paste("w", aa, i, sep="")
+    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~",]
+    p.TparEst <- paste("  d", a, b, i+LDlag, i, ":  ", Clhs, " ~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+                       ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
+    cat("\n", p.TparEst)
+    SumEst <- SumEst + TparEst["est"]
+  }
+  MeanEst <- SumEst/(no.path-LDlag+1)
+  p.MeanEst <- paste("  Average across paths = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  cat("\n", p.MeanEst)
+
+  # -- Save pairs of non-invariant paths -- #
+  NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
+  k = 1
+  for (j in 3:(no.waves-LDlag+1)) {
+    for (i in j:(no.waves-LDlag+1)) {
+      Clhs <- paste0("d", a, b, (i+LDlag-1), i-1, "-p", a, b, i-j+LDlag+1, i-j+1, sep="")
+      if (pest2[Clhs,3] < p) {
+          NI.path[k, 1] <- i-1
+          NI.path[k, 2] <- i-j+1
+          k <- k + 1
+      } # end (if pest2)
+    } # end (for i)
+  } # end (for j)
+  Count.NI.path = k - 1
+
+  # -- Select sets of invariant proportional change and print -- #
+  cat(rep("\n",2), paste("# -- Sets of invariant Proportional Change ", a, b, " coefficients -- #", sep=""))
+
+  for (k in 0:MIset) {
+    Noset <- no.path - k - LDlag + 1
+    NIset <- factorial(no.path-LDlag+1)/(factorial(no.path-k-LDlag+1)*factorial(k))
+    mm <- t(combn((no.path-LDlag+1), Noset))
+    for (j in 1:Count.NI.path) {
+      p.j <- NI.path[j,1]
+      q.j <- NI.path[j,2]
+      for (i in 1:NIset) {
+        count4 <- length(which(mm[i,] == p.j | mm[i,] == q.j))
+        if (count4 > 1) {
+          mm[i,] <- 0
+        } # end (if count4)
+      } # end (for i)
+    } # end (for j)
+    for (ii in 1:NIset) {
+      count4 <- sum(mm[ii,])
+      if (count4 > 0) {
+        mm.p <- mm
+        for (i in 1:(no.path-LDlag+1)) {
+          mm.p[mm.p == i] <- paste0("d", a, b, i+LDlag, i, sep="")
+        } # end (for i)
+        cat("\n", "    ", mm.p[ii,])
+      } # end (if count4)
+    } # end (for ii)
+  } # end (for k)
+}  # end (Function LandD_PC)
+## --------------------------------------------------------- ##
+
 
 
 
@@ -5847,13 +6637,13 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
     cat("\n", "  # Remove the subscripts for invariant difference #")
     cat("\n", "  ##################################################")
     for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ dX", i,i-1, "*w", X,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ dY", i,i-1, "*w", Y,i-1, sep=""))
+      cat("\n", paste("  cs", X, i, " ~ dXX", i,i-1, "*w", X,i-1, sep=""))
+      cat("\n", paste("  cs", Y, i, " ~ dYY", i,i-1, "*w", Y,i-1, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  cs", Z, i, " ~ dZ", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  cs", Z, i, " ~ dZZ", i,i-1, "*w", Z,i-1, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  cs", W, i, " ~ dW", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  cs", W, i, " ~ dWW", i,i-1, "*w", W,i-1, sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -5876,18 +6666,18 @@ LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL
     cat("\n", "  # Remove the subscripts for invariant cross-lagged effects #")
     cat("\n", "  ############################################################")
     for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, sep=""))
+      cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, sep=""))
+      cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  cs", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, " + dZX", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, " + dZY", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  cs", Z, i, " ~ dXZ", i,i-1, "*w", X,i-1, " + dYZ", i,i-1, "*w", Y,i-1, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  cs", X, i, " ~ pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  cs", W, i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, " + dZX", i,i-1, "*w", Z,i-1, " + dWX", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, " + dZY", i,i-1, "*w", Z,i-1, " + dWY", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  cs", Z, i, " ~ dXZ", i,i-1, "*w", X,i-1, " + dYZ", i,i-1, "*w", Y,i-1, " + dWZ", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  cs", W, i, " ~ dXW", i,i-1, "*w", X,i-1, " + dYW", i,i-1, "*w", Y,i-1, " + dZW", i,i-1, "*w", Z,i-1, sep=""))
       } # end (if W)
     } # end (for i)
 
