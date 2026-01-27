@@ -173,6 +173,10 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## -- Differences in path coefficients -- ##
   if (any(parEst[,4] == "pXY21")) {
 
+cat("\n")
+cat("I'm here")
+cat("\n")
+
     # -- Lag = 1 -- #
     for (j in 3:no.waves) {
       for (i in j:no.waves) {
@@ -902,7 +906,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## ----- end (Prepare pest2 file) ----- ##
 
 
-  ## ---- List and Delete - Path Coefficients ---- ##
+  ## ---- List and Delete - Path Coefficients pXX ---- ##
   if (any(parEst[,4] == "pXX21")) {
     no.path = no.waves - 1
     MIset <- no.waves - 3
@@ -920,6 +924,70 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     if (W != "NULL") {
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=1)  ## List and Delete - Path WW ##
     } # end (if W)
+
+    ## -- Lag = 2 -- ##
+    if (lag == 2 & no.waves > 3) {
+      cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 2 waves) ===== ##")
+      no.compare = (no.path - 2)*(no.path - 1)/2
+      MIset <- no.path - 3
+
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List and Delete - Path XX ##
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List and Delete - Path YY ##
+      if (Z != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=2)  ## List and Delete - Path ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=2)  ## List and Delete - Path WW ##
+      } # end (if W != "NULL")
+    } # end (Lag == 2)
+
+
+    ## -- Lag = 3 -- ##
+    if (lag == 3 & no.waves > 4) {
+      cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 3 waves) ===== ##")
+      no.compare = (no.path - 3)*(no.path - 2)/2
+      MIset <- no.path - 4
+
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List and Delete - Path XX ##
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List and Delete - Path YY ##
+      if (Z != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=3)  ## List and Delete - Path ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=3)  ## List and Delete - Path WW ##
+      } # end (if W != "NULL")
+    } # end (lag == 3)
+    ## ----- ##
+
+
+    ## -- Lag = 4 -- ##
+    if (lag == 4 & no.waves > 5) {
+      cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 4 waves) ===== ##")
+      no.compare = (no.path - 4)*(no.path - 3)/2
+      MIset <- no.path - 5
+
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List and Delete - Path XX ##
+      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List and Delete - Path YY ##
+      if (Z != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=4)  ## List and Delete - Path ZZ ##
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=4)  ## List and Delete - Path WW ##
+      } # end (if W != "NULL")
+    } # end (lag == 4)
+  } # end (if pXX21)
+  ## -------------------------------------------------------- ##
+
+
+  ## ---- List and Delete - Path Coefficients pXY ---- ##
+  if (any(parEst[,4] == "pXY21")) {
+    no.path = no.waves - 1
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
+
+    cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 1 wave) ===== ##")
 
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=1)  ## List and Delete - Path XY ##
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=1)  ## List and Delete - Path YX ##
@@ -945,15 +1013,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       no.compare = (no.path - 2)*(no.path - 1)/2
       MIset <- no.path - 3
 
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List and Delete - Path XX ##
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List and Delete - Path YY ##
-      if (Z != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=2)  ## List and Delete - Path ZZ ##
-      } # end (if Z != "NULL")
-      if (W != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=2)  ## List and Delete - Path WW ##
-      } # end (if W != "NULL")
-
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List and Delete - Path YX ##
       if (Z != "NULL") {
@@ -978,15 +1037,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 3 waves) ===== ##")
       no.compare = (no.path - 3)*(no.path - 2)/2
       MIset <- no.path - 4
-
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List and Delete - Path XX ##
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List and Delete - Path YY ##
-      if (Z != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=3)  ## List and Delete - Path ZZ ##
-      } # end (if Z != "NULL")
-      if (W != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=3)  ## List and Delete - Path WW ##
-      } # end (if W != "NULL")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List and Delete - Path YX ##
@@ -1014,15 +1064,6 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       no.compare = (no.path - 4)*(no.path - 3)/2
       MIset <- no.path - 5
 
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List and Delete - Path XX ##
-      LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List and Delete - Path YY ##
-      if (Z != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="Z", LDlag=4)  ## List and Delete - Path ZZ ##
-      } # end (if Z != "NULL")
-      if (W != "NULL") {
-        LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="W", LDlag=4)  ## List and Delete - Path WW ##
-      } # end (if W != "NULL")
-
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List and Delete - Path YX ##
       if (Z != "NULL") {
@@ -1041,7 +1082,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W", b="Z", LDlag=4)  ## List and Delete - Path WZ ##
       } # end (if W != "NULL")
     } # end (lag == 4)
-  } # end (if pXX21)
+  } # end (if pXY21)
   ## -------------------------------------------------------- ##
 
 
