@@ -2598,214 +2598,6 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
 
   ## ----- Creating Model CLPM ----- ##
-  sink('CLPM.txt')  # Start writing script to CLPM.txt
-
-    cat("\n", "## ----- Specify the model (CLPM) ----- ##", "\n")
-    cat("\n", "CLPM <- '")
-
-    # -- Create Latent Variables from Indicators -- #
-    cat(rep("\n",2), "  # -- Create latent variables -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " =~ 1*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " =~ 1*", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
-
-    # -- Constrain Residual Variance of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ 0*", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ 0*", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Estimate (residual) variance of latent variables -- #
-    cat(rep("\n",2), "  # -- Estimate (residual) variance of latent variables -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXX", i, "*w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ eYY", i, "*w", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ eZZ", i, "*w", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ eWW", i, "*w", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Estimate Covariances Between Residuals of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate covariances between residuals of latent variables -- #")
-    for (i in 2:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ eXY", i, "*w", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXZ", i, "*w", Z, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYZ", i, "*w", Z, i, sep=""))
-      }  # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", X, i, " ~~ eXW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Y, i, " ~~ eYW", i, "*w", W, i, sep=""))
-        cat("\n", paste("  w", Z, i, " ~~ eZW", i, "*w", W, i, sep=""))
-      }  # end (if W)
-    } # end (for i)
-
-    # -- Estimate Covariance Between Latent Variables at First Wave -- #
-    cat(rep("\n",2), "  # -- Estimate covariance between latent variables at first wave -- #")
-    cat("\n", "    w", X, "1 ~~ w", Y, "1", sep="")
-    if (Z != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", Z, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", Z, "1", sep="")
-    }  # end (if Z)
-    if (W != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
-    }  # end (if W)
-
-    # -- Estimate (Mean) Intercepts of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MwX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MwY", i, "*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MwZ", i, "*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MwW", i, "*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Constrain (Mean) Intercepts of Indicators to zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Estimate Lagged Effects Between Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X, i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X, i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W, i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X, i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y, i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z, i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z/W)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 2 waves) -- #")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 3 waves) -- #")
-      for (i in 4:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-    if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between within-person centered variables (Lag = 4 waves) -- #")
-      for (i in 5:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (if lag == 4)
-
-    cat(rep("\n",2), "  '")
-
-    # -- Run Model CLPMMLR -- #
-    cat(rep("\n",2), "# -- Run Model CLPMMLR -- #")
-    cat(rep("\n",2), "  CLPMMLR.fit <- suppressWarnings(lavaan::sem(CLPM,")
-    cat("\n", "   ", data.source, ",")
-    cat("\n", "   missing = 'fiml',")
-    cat("\n", "   meanstructure = TRUE,")
-    cat("\n", "   information = 'observed',")
-    cat("\n", "   estimator = 'MLR'")
-    cat("\n", "))")
-
-  sink()  # Stop writing to file CLPM.txt
-  ## ------------------------------- ##
-
-
-  ## -- Execute CLPM.txt and request summary outputs-- ##
-  source('CLPM.txt')
-  print(lavaan::summary(CLPMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
-  if (lavaan::lavInspect(CLPMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
-  ## ------------------------------- ##
-
-
-  ## -- Monte Carlo Simulation -- ##
-
-  parEst <- lavaan::parameterEstimates(CLPMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(CLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
-
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
-
-  cat(rep("\n", 2))
-
-
-  ## ----- Start writing script to CLPM.txt ----- ##
   sink('CLPM.txt')
     cat("\n", "# == Specify the model (CLPM) == #", "\n")
     cat("\n", "CLPM <- '")
@@ -3031,6 +2823,22 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
     cat(rep("\n",2), "  print(lavaan::summary(CLPMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
+
+  ## -- Execute CLPM.txt and request summary outputs-- ##
+  source('CLPM.txt')
+  if (lavaan::lavInspect(CLPMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
+  ## ------------------------------- ##
+
+
+  ## -- Monte Carlo Simulation -- ##
+
+  parEst <- lavaan::parameterEstimates(CLPMMLR.fit, remove.nonfree = TRUE)
+  pest2 <- parEst[,5]  # Estimated Parameters
+  pest3 <- lavaan::lavTech(CLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+
+  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+
+  cat(rep("\n", 2))
 
 }  # end (Function CLPM)
 
