@@ -5754,6 +5754,8 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
 LCS <- function(data.source, no.waves, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
+  lag <- 1
+
   ## -- Check inputs -- ##
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
