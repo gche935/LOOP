@@ -6044,22 +6044,22 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     BX <- paste("  RS", X, " =~ 1*w", X, "1", sep="")
     BY <- paste("  RS", Y, " =~ 1*w", Y, "1", sep="")
     for (i in 2:no.waves) {
-      BX <- paste(BX, " + u", i, "*w", X, i, sep="")
-      BY <- paste(BY, " + u", i, "*w", Y, i, sep="")
+      BX <- paste(BX, " + uX", i, "*w", X, i, sep="")
+      BY <- paste(BY, " + uY", i, "*w", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
       BZ <- paste("  RS", Z, " =~ 1*w", Z, "1", sep="")
       for (i in 2:no.waves) {
-        BZ <- paste(BZ, " + u", i, "*w", Z, i, sep="")
+        BZ <- paste(BZ, " + uZ", i, "*w", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
       BW <- paste("  RS", W, " =~ 1*w", W, "1", sep="")
       for (i in 2:no.waves) {
-        BW <- paste(BW, " + u", i, "*w", W, i, sep="")
+        BW <- paste(BW, " + uW", i, "*w", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
@@ -6080,13 +6080,13 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     # -- Create Impulses from Latent Variables -- #
     cat(rep("\n",2), "  # -- Create impulses from latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  d", X, i, " =~ 1*", X, i, sep=""))
-      cat("\n", paste("  d", Y, i, " =~ 1*", Y, i, sep=""))
+      cat("\n", paste("  d", X, i, " =~ 1*w", X, i, sep=""))
+      cat("\n", paste("  d", Y, i, " =~ 1*w", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  d", Z, i, " =~ 1*", Z, i, sep=""))
+        cat("\n", paste("  d", Z, i, " =~ 1*w", Z, i, sep=""))
       }  # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  d", W, i, " =~ 1*", W, i, sep=""))
+        cat("\n", paste("  d", W, i, " =~ 1*w", W, i, sep=""))
       }  # end (if W)
     } # end (for i)
 
