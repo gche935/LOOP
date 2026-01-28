@@ -6363,6 +6363,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
           cat("\n", paste("  d", X, j, " ~~ 0*d", X, i, sep=""))
           cat("\n", paste("  d", Y, j, " ~~ 0*d", Y, i, sep=""))
           cat("\n", paste("  d", X, j, " ~~ 0*d", Y, i, sep=""))
+          cat("\n", paste("  d", Y, j, " ~~ 0*d", X, i, sep=""))
           if (Z != "NULL") {
             cat("\n", paste("  d", X, j, " ~~ 0*d", Z, i, sep=""))
             cat("\n", paste("  d", Y, j, " ~~ 0*d", Z, i, sep=""))
