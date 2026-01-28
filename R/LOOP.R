@@ -6145,19 +6145,19 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
     cat(rep("\n",2), "  # -- Estimate moving average of latent variables -- #")
     for (i in 3:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~~ maXX",i, "*eXX", i-1, " + ~~ maYX",i, "*eYY", i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~~ maXY",i, "*eXX", i-1, " + ~~ maYY",i, "*eYY", i-1, sep=""))
+        cat("\n", paste("  w", X, i, " ~~ maXX",i, "*eXX", i-1, " + maYX", i, "*eYY", i-1, sep=""))
+        cat("\n", paste("  w", Y, i, " ~~ maXY",i, "*eXX", i-1, " + maYY", i, "*eYY", i-1, sep=""))
       } # end (if Z)
       if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYX",i, "*eYY", i-1, " + ~~ maZX",i, "*eZZ", i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYY",i, "*eYY", i-1, " + ~~ maZY",i, "*eZZ", i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYZ",i, "*eYY", i-1, " + ~~ maZZ",i, "*eZZ", i-1, sep=""))
+        cat("\n", paste("  w", X, i, " ~~ maXZ",i, "*eXX", i-1, " + maYX", i, "*eYY", i-1, " + maZX", i, "*eZZ", i-1, sep=""))
+        cat("\n", paste("  w", Y, i, " ~~ maXZ",i, "*eXX", i-1, " + maYY", i, "*eYY", i-1, " + maZY", i, "*eZZ", i-1, sep=""))
+        cat("\n", paste("  w", Z, i, " ~~ maXZ",i, "*eXX", i-1, " + maYZ", i, "*eYY", i-1, " + maZZ", i, "*eZZ", i-1, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYX",i, "*eYY", i-1, " + ~~ maZX",i, "*eZZ", i-1, " + ~~ maWX",i, "*eWW", i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYY",i, "*eYY", i-1, " + ~~ maZY",i, "*eZZ", i-1, " + ~~ maWY",i, "*eWW", i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYZ",i, "*eYY", i-1, " + ~~ maZZ",i, "*eZZ", i-1, " + ~~ maWZ",i, "*eWW", i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~~ maXZ",i, "*eXX", i-1, " + ~~ maYW",i, "*eYY", i-1, " + ~~ maZW",i, "*eZZ", i-1, " + ~~ maWW",i, "*eWW", i-1, sep=""))
+        cat("\n", paste("  w", X, i, " ~~ maXZ",i, "*eXX", i-1, " + maYX", i, "*eYY", i-1, " + maZX", i, "*eZZ", i-1, " + maWX", i, "*eWW", i-1, sep=""))
+        cat("\n", paste("  w", Y, i, " ~~ maXZ",i, "*eXX", i-1, " + maYY", i, "*eYY", i-1, " + maZY", i, "*eZZ", i-1, " + maWY", i, "*eWW", i-1, sep=""))
+        cat("\n", paste("  w", Z, i, " ~~ maXZ",i, "*eXX", i-1, " + maYZ", i, "*eYY", i-1, " + maZZ", i, "*eZZ", i-1, " + maWZ", i, "*eWW", i-1, sep=""))
+        cat("\n", paste("  w", W, i, " ~~ maXZ",i, "*eXX", i-1, " + maYW", i, "*eYY", i-1, " + maZW", i, "*eZZ", i-1, " + maWW", i, "*eWW", i-1, sep=""))
       } # end (if W)
     } # end (for i)
 
