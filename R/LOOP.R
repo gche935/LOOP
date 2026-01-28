@@ -6342,16 +6342,16 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       } # end (if W != "NULL")
     } # end (for i)
 
-    # -- Constrain variance of impulses to zero -- #
-    cat(rep("\n",2), "  # -- Constrain variance of impulses to zero -- #")
+    # -- Estimate variance of impulses -- #
+    cat(rep("\n",2), "  # -- Estimate variance of impulses -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  d", X, i, " ~~ 0*d", X, i, sep=""))
-      cat("\n", paste("  d", Y, i, " ~~ 0*d", Y, i, sep=""))
+      cat("\n", paste("  d", X, i, " ~~ eXX", i, "*d", X, i, sep=""))
+      cat("\n", paste("  d", Y, i, " ~~ eYY", i, "*d", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  d", Z, i, " ~~ 0*d", Z, i, sep=""))
+        cat("\n", paste("  d", Z, i, " ~~ eZZ", i, "*d", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  d", W, i, " ~~ 0*d", W, i, sep=""))
+        cat("\n", paste("  d", W, i, " ~~ eWW", i, "*d", W, i, sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -6360,15 +6360,19 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     for (j in 1:no.waves) {
       for (i in 1:no.waves) {
         if (i != j) {
+          cat("\n", paste("  d", X, j, " ~~ 0*d", X, i, sep=""))
+          cat("\n", paste("  d", Y, j, " ~~ 0*d", Y, i, sep=""))
           cat("\n", paste("  d", X, j, " ~~ 0*d", Y, i, sep=""))
           if (Z != "NULL") {
             cat("\n", paste("  d", X, j, " ~~ 0*d", Z, i, sep=""))
             cat("\n", paste("  d", Y, j, " ~~ 0*d", Z, i, sep=""))
+            cat("\n", paste("  d", Z, j, " ~~ 0*d", Z, i, sep=""))
           } # end (if Z)
           if (W != "NULL") {
             cat("\n", paste("  d", X, j, " ~~ 0*d", W, i, sep=""))
             cat("\n", paste("  d", Y, j, " ~~ 0*d", W, i, sep=""))
             cat("\n", paste("  d", Z, j, " ~~ 0*d", W, i, sep=""))
+            cat("\n", paste("  d", W, j, " ~~ 0*d", W, i, sep=""))
           } # end (if W)
         } # end (if i != j)
       } # end (for i)
