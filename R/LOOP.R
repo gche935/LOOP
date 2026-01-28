@@ -6317,19 +6317,6 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "   RS", Z, " ~~ RS", W, sep="")
     } # end (if W != "NULL")
 
-    # -- Constrain (residual) variance of latent variables to zero -- #
-    cat(rep("\n",2), "  # -- Constrain (residual) variance of latent variables to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~~ 0*w", X, i, sep=""))
-      cat("\n", paste("  w", Y, i, " ~~ 0*w", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~~ 0*w", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~~ 0*w", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
     # -- Constrain covariance among RSX RSY, RSZ, RSW and dx, dy, dz, dw -- #
     cat(rep("\n",2), "  # -- Estimate covariance among RSx, RSy, RSz, RSw and dx, dy, dz, dw -- #")
     for (i in 1:no.waves) {
