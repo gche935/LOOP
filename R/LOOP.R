@@ -6358,7 +6358,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     # -- Constrain covariance of impulses to zero -- #
     cat(rep("\n",2), "  # -- Constrain covariance of impulses to zero -- #")
     for (j in 1:no.waves) {
-      for (i in 1:no.waves) {
+      for (i in j:no.waves) {
         if (i != j) {
           cat("\n", paste("  d", X, j, " ~~ 0*d", X, i, sep=""))
           cat("\n", paste("  d", Y, j, " ~~ 0*d", Y, i, sep=""))
