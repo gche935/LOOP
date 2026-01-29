@@ -6133,17 +6133,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     cat("\n", "  #############################################")
     for (i in 2:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, sep=""))
       } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, " + pWX*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, " + pWY*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, " + pWZ*w", W,i-1, sep=""))
+        cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-1, " + pYW*w", Y,i-1, " + pZW*w", Z,i-1, " + pWW*w", W,i-1, sep=""))
       } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, sep=""))
       } # end (if Z)
     } # end (for i)
 
@@ -6174,7 +6174,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 4:no.waves) {
         if (Z == "NULL") {
           cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
           cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
@@ -6196,7 +6196,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 5:no.waves) {
         if (Z == "NULL") {
           cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
           cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
@@ -6220,17 +6220,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     cat("\n", "  #############################################")
     for (i in 2:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ maXX",i,i-1, "*d", X,i-1, " + maYX",i,i-1, "*d", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ maXY",i,i-1, "*d", X,i-1, " + maYY",i,i-1, "*d", Y,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, sep=""))
       } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ maXX",i,i-1, "*d", X,i-1, " + maYX",i,i-1, "*d", Y,i-1, " + maZX",i,i-1, "*d", Z,i-1, " + maWX",i,i-1, "*d", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ maXY",i,i-1, "*d", X,i-1, " + maYY",i,i-1, "*d", Y,i-1, " + maZY",i,i-1, "*d", Z,i-1, " + maWY",i,i-1, "*d", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-1, "*d", X,i-1, " + maYZ",i,i-1, "*d", Y,i-1, " + maZZ",i,i-1, "*d", Z,i-1, " + maWZ",i,i-1, "*d", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ maXW",i,i-1, "*d", X,i-1, " + maYW",i,i-1, "*d", Y,i-1, " + maZW",i,i-1, "*d", Z,i-1, " + maWW",i,i-1, "*d", W,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, " + maZX*d", Z,i-1, " + maWX*d", W,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, " + maZY*d", Z,i-1, " + maWY*d", W,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-1, " + maYZ*d", Y,i-1, " + maZZ*d", Z,i-1, " + maWZ*d", W,i-1, sep=""))
+        cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-1, " + maYW*d", Y,i-1, " + maZW*d", Z,i-1, " + maWW*d", W,i-1, sep=""))
       } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ maXX", i,i-1, "*d", X,i-1, " + maYX",i,i-1, "*d", Y,i-1, " + maZX",i,i-1, "*d", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ maXY", i,i-1, "*d", X,i-1, " + maYY",i,i-1, "*d", Y,i-1, " + maZY",i,i-1, "*d", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ maXZ", i,i-1, "*d", X,i-1, " + maYZ",i,i-1, "*d", Y,i-1, " + maZZ",i,i-1, "*d", Z,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, " + maZX*d", Z,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, " + maZY*d", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-1, " + maYZ*d", Y,i-1, " + maZZ*d", Z,i-1, sep=""))
       } # end (if Z)
     } # end (for i)
 
@@ -6261,7 +6261,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 4:no.waves) {
         if (Z == "NULL") {
           cat("\n", paste("  w", X,i, " ~ maXX",i,i-3, "*d", X,i-3, " + maYX",i,i-3, "*d", Y,i-3, sep=""))
           cat("\n", paste("  w", Y,i, " ~ maXY",i,i-3, "*d", X,i-3, " + maYY",i,i-3, "*d", Y,i-3, sep=""))
@@ -6283,7 +6283,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in 5:no.waves) {
         if (Z == "NULL") {
           cat("\n", paste("  w", X,i, " ~ maXX",i,i-4, "*w", X,i-4, " + maYX",i,i-4, "*w", Y,i-4, sep=""))
           cat("\n", paste("  w", Y,i, " ~ maXY",i,i-4, "*w", X,i-4, " + maYY",i,i-4, "*w", Y,i-4, sep=""))
