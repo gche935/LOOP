@@ -2398,7 +2398,7 @@ LandD_iXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
     for (i in j:no.waves) {
       Clhs <- paste("i", a, a, i, "-i", a, a, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
-        NI.path[k, 1] <- i-1
+        NI.path[k, 1] <- i
         NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
@@ -2497,7 +2497,7 @@ LandD_iXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       count4 <- sum(mm[ii,])
       if (count4 > 0) {
         mm.p <- mm
-        for (i in 1:waves) {
+        for (i in 1:no.waves) {
           mm.p[mm.p == i] <- paste("i", a, b, i, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
