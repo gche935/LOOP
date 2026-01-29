@@ -1194,6 +1194,102 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## ----- end (Difference in variance of latent variable residuals) ----- ##
 
 
+  ## -- Differences in variance of impulses -- ##
+  if (any(parEst[,4] == "iXX2")) {
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste("iXX", i, sep="")] - mcmc[, paste("iXX", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iXX", i, "-iXX", i-j+2, sep="")
+        pest2A <- (pest2[paste("iXX", i, sep="")] - pest2[paste("iXX", i-j+2, sep="")])
+        names(pest2A) <- paste("iXX", i, "-iXX", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        mcmcA <- (mcmc[, paste("iYY", i, sep="")] - mcmc[, paste("iYY", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iYY", i, "-iYY", i-j+2, sep="")
+        pest2A <- (pest2[paste("iYY", i, sep="")] - pest2[paste("iYY", i-j+2, sep="")])
+        names(pest2A) <- paste("iYY", i, "-iYY", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("iZZ", i, sep="")] - mcmc[, paste("iZZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iZZ", i, "-iZZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("iZZ", i, sep="")] - pest2[paste("iZZ", i-j+2, sep="")])
+          names(pest2A) <- paste("iZZ", i, "-iZZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z != "NULL")
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("iWW", i, sep="")] - mcmc[, paste("iWW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iWW", i, "-iWW", i-j+2, sep="")
+          pest2A <- (pest2[paste("iWW", i, sep="")] - pest2[paste("iWW", i-j+2, sep="")])
+          names(pest2A) <- paste("iWW", i, "-iWW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+  } # end (if iXX2)
+  ## ----- end (Difference in variance of latent variable residuals) ----- ##
+
+
+  ## -- Differences in co-movements -- ##
+  if (any(parEst[,4] == "iXY2")) {
+    for (j in 3:no.waves) {
+      for (i in j:no.waves) {
+        mcmcA <- (mcmc[, paste("iXY", i, sep="")] - mcmc[, paste("iXY", i-j+2, sep="")])
+        mcmc <- cbind(mcmc, mcmcA)
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iXY", i, "-iXY", i-j+2, sep="")
+        pest2A <- (pest2[paste("iXY", i, sep="")] - pest2[paste("iXY", i-j+2, sep="")])
+        names(pest2A) <- paste("iXY", i, "-iXY", i-j+2, sep="")
+        pest2 <- append(pest2, pest2A)
+
+        if (Z != "NULL") {
+          mcmcA <- (mcmc[, paste("iXZ", i, sep="")] - mcmc[, paste("iXZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iXZ", i, "-iXZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("iXZ", i, sep="")] - pest2[paste("iXZ", i-j+2, sep="")])
+          names(pest2A) <- paste("iXZ", i, "-iXZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("iYZ", i, sep="")] - mcmc[, paste("iYZ", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iYZ", i, "-iYZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("iYZ", i, sep="")] - pest2[paste("iYZ", i-j+2, sep="")])
+          names(pest2A) <- paste("iYZ", i, "-iYZ", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if Z != "NULL")
+
+        if (W != "NULL") {
+          mcmcA <- (mcmc[, paste("iXW", i, sep="")] - mcmc[, paste("iXW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iXW", i, "-iXW", i-j+2, sep="")
+          pest2A <- (pest2[paste("iXW", i, sep="")] - pest2[paste("iXW", i-j+2, sep="")])
+          names(pest2A) <- paste("iXW", i, "-iXW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("iYW", i, sep="")] - mcmc[, paste("iYW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iYW", i, "-iYW", i-j+2, sep="")
+          pest2A <- (pest2[paste("iYW", i, sep="")] - pest2[paste("iYW", i-j+2, sep="")])
+          names(pest2A) <- paste("iYW", i, "-iYW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+
+          mcmcA <- (mcmc[, paste("iZW", i, sep="")] - mcmc[, paste("iZW", i-j+2, sep="")])
+          mcmc <- cbind(mcmc, mcmcA)
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iZW", i, "-iZW", i-j+2, sep="")
+          pest2A <- (pest2[paste("iZW", i, sep="")] - pest2[paste("iZW", i-j+2, sep="")])
+          names(pest2A) <- paste("iZW", i, "-iZW", i-j+2, sep="")
+          pest2 <- append(pest2, pest2A)
+        } # end (if W != "NULL")
+      } # end (for i)
+    } # end (for j)
+  } # end (if eXY2)
+  ## ----- end (Difference in covariance of latent variable residuals) ----- ##
+
+
   ## -- Differences in Indicator Residual Variance -- ##
   if (any(parEst[,4] == "eIXX1")) {
     for (j in 2:no.waves) {
@@ -1806,6 +1902,31 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## -------------------------------------------------------- ##
 
 
+  ## ---- List and Delete - Residual variance eXX ---- ##
+  if (any(parEst[,4] == "eXX2")) {
+
+    # -- Reset MISet and no.compare for residual variance --#
+    no.path = no.waves - 1
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+
+    cat(rep("\n",5), "## ===== Identification of invariant residual variance ===== ##")
+
+    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
+    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
+
+    if (Z != "NULL") {
+      LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - residual variance eZZ ##
+    } # end (if Z != "NULL")
+
+    if (W != "NULL") {
+      LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
+    } # end (if W != "NULL")
+  } # end (if eXX2)
+
+  ## -------------------------------------------------------- ##
+
+
   ## ---- List and Delete - Residual covariance eXY ---- ##
   if (any(parEst[,4] == "eXY2")) {
 
@@ -1832,28 +1953,54 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   ## -------------------------------------------------------- ##
 
 
-  ## ---- List and Delete - Residual variance eXX ---- ##
-  if (any(parEst[,4] == "eXX2")) {
+  ## ---- List and Delete - Impulse variance iXX ---- ##
+  if (any(parEst[,4] == "iXX2")) {
 
-    # -- Reset MISet and no.compare for residual variance --#
+    # -- Reset MISet and no.compare for impulse variance --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
 
-    cat(rep("\n",5), "## ===== Identification of invariant residual variance ===== ##")
+    cat(rep("\n",5), "## ===== Identification of invariant impulse variance ===== ##")
 
-    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
-    LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
+    LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - impulse variance iX ##
+    LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - impulse variance iY ##
 
     if (Z != "NULL") {
-      LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - residual variance eZZ ##
+      LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z")  ## List and Delete - impulse variance iZ ##
     } # end (if Z != "NULL")
 
     if (W != "NULL") {
-      LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - residual variance eWW ##
+      LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - impulse variance iW ##
     } # end (if W != "NULL")
-  } # end (if eXX2)
+  } # end (if iXX2)
 
+  ## -------------------------------------------------------- ##
+
+
+  ## ---- List and Delete - Co-movements iXY ---- ##
+  if (any(parEst[,4] == "iXY2")) {
+
+    # -- Reset MISet and no.compare for co-movements -- #
+    no.path = no.waves - 1
+    MIset <- no.waves - 3
+    no.compare = (no.path - 1)*(no.path)/2
+
+    cat(rep("\n",5), "## ===== Identification of invariant co-movements ===== ##")
+
+    LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - iXY ##
+
+    if (Z != "NULL") {
+      LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Z")  ## List and Delete - iXZ ##
+      LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Z")  ## List and Delete - iYZ ##
+    } # end (if Z != "NULL")
+
+    if (W != "NULL") {
+      LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="W")  ## List and Delete - iXW ##
+      LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="W")  ## List and Delete - iYW ##
+      LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Z", b="W")  ## List and Delete - iZW ##
+    } # end (if W != "NULL")
+  } # end (if iXY2)
   ## -------------------------------------------------------- ##
 
 
@@ -2085,6 +2232,74 @@ LandD_PC <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, 
 
 
 
+## ----- Sub-Function List and Delete for Residual Variance of latent variables ----- ##
+LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
+
+  SumEst <- 0
+  cat(rep("\n",3), paste("# -- Residual variance of e", a, a, " coefficients -- #", sep=""))
+  aa <- get(a)
+  for (i in 1: no.path) {
+    Clhs <- paste("w", aa, i+1, sep="")
+    Crhs <- paste("w", aa, i+1, sep="")
+    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
+    p.TparEst <- paste("  e", a, a, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+                       ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
+    cat("\n", p.TparEst)
+    SumEst <- SumEst + TparEst["est"]
+  } # end (for i)
+  MeanEst <- SumEst/(no.path)
+  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  cat("\n", p.MeanEst)
+
+  # -- Save pairs of non-invariant residual variances -- #
+  NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
+  k = 1
+  for (j in 3:no.waves) {
+    for (i in j:no.waves) {
+      Clhs <- paste("e", a, a, i, "-e", a, a, i-j+2, sep="")
+      if (pest2[Clhs,3] < p) {
+        NI.path[k, 1] <- i
+        NI.path[k, 2] <- i-j+2
+        k <- k + 1
+      } # end (if pest2)
+    } # end (for i)
+  } # end (for j)
+  Count.NI.path = k - 1
+
+  ## -- Select sets of invariant residual variances and print -- ##
+  cat(rep("\n",2), paste("# -- Sets of invariant residual variance e", a, a, " coefficients -- #", sep=""))
+
+  for (k in 0:MIset) {
+    Noset <- no.path - k
+    NIset <- factorial(no.path)/(factorial(no.path-k)*factorial(k))
+    mm <- t(combn((no.path), Noset))
+    for (j in 1:Count.NI.path) {
+      p.j <- NI.path[j,1]
+      q.j <- NI.path[j,2]
+      for (i in 1:NIset) {
+        count4 <- length(which(mm[i,] == p.j | mm[i,] == q.j))
+        if (count4 > 1) {
+          mm[i,] <- 0
+        } # end (if count4)
+      } # end (for i)
+    } # end (for j)
+    for (ii in 1:NIset) {
+      count4 <- sum(mm[ii,])
+      if (count4 > 0) {
+        mm.p <- mm
+        for (i in 1:no.path) {
+          mm.p[mm.p == i] <- paste("e", a, a, i+1, sep="")
+        } # end (for i)
+        cat("\n", "    ", mm.p[ii,])
+      } # end (if count4)
+    } # end (for ii)
+  } # end (for k)
+}  # end (Function LandD_eXX)
+## ---------------------------------------------------------------- ##
+
+
+
+
 
 ## ----- Sub-Function List and Delete for Residual Covariance of latent variables ----- ##
 LandD_eXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
@@ -2156,46 +2371,116 @@ LandD_eXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
 
 
 
-## ----- Sub-Function List and Delete for Residual Variance of latent variables ----- ##
-LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
+## ----- Sub-Function List and Delete for Impulse Variance ----- ##
+LandD_iXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X") {
 
   SumEst <- 0
-  cat(rep("\n",3), paste("# -- Residual variance of e", a, a, " coefficients -- #", sep=""))
+  cat(rep("\n",3), paste("# -- Impulse variance of i", a, a, " coefficients -- #", sep=""))
   aa <- get(a)
-  for (i in 1: no.path) {
-    Clhs <- paste("w", aa, i+1, sep="")
-    Crhs <- paste("w", aa, i+1, sep="")
+  for (i in 1: no.waves) {
+    Clhs <- paste("d", aa, i, sep="")
+    Crhs <- paste("d", aa, i, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
-    p.TparEst <- paste("  e", a, a, i+1, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste("  i", a, a, i, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
-  MeanEst <- SumEst/(no.path)
-  p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  MeanEst <- SumEst/(no.waves)
+  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
-  # -- Save pairs of non-invariant residual variances -- #
+  # -- Save pairs of non-invariant impulse variances -- #
   NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
   k = 1
-  for (j in 3:no.waves) {
+  for (j in 2:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("e", a, a, i, "-e", a, a, i-j+2, sep="")
+      Clhs <- paste("i", a, a, i, "-i", a, a, i-j+1, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
-        NI.path[k, 2] <- i-j+2
+        NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
     } # end (for i)
   } # end (for j)
   Count.NI.path = k - 1
 
-  ## -- Select sets of invariant residual variances and print -- ##
-  cat(rep("\n",2), paste("# -- Sets of invariant residual variance e", a, a, " coefficients -- #", sep=""))
+  ## -- Select sets of invariant impulse variances and print -- ##
+  cat(rep("\n",2), paste("# -- Sets of invariant impulse variance i", a, a, " coefficients -- #", sep=""))
 
   for (k in 0:MIset) {
-    Noset <- no.path - k
-    NIset <- factorial(no.path)/(factorial(no.path-k)*factorial(k))
+    Noset <- no.waves - k
+    NIset <- factorial(no.waves)/(factorial(no.waves-k)*factorial(k))
+    mm <- t(combn((no.waves), Noset))
+    for (j in 1:Count.NI.path) {
+      p.j <- NI.path[j,1]
+      q.j <- NI.path[j,2]
+      for (i in 1:NIset) {
+        count4 <- length(which(mm[i,] == p.j | mm[i,] == q.j))
+        if (count4 > 1) {
+          mm[i,] <- 0
+        } # end (if count4)
+      } # end (for i)
+    } # end (for j)
+    for (ii in 1:NIset) {
+      count4 <- sum(mm[ii,])
+      if (count4 > 0) {
+        mm.p <- mm
+        for (i in 1:no.waves) {
+          mm.p[mm.p == i] <- paste("i", a, a, i, sep="")
+        } # end (for i)
+        cat("\n", "    ", mm.p[ii,])
+      } # end (if count4)
+    } # end (for ii)
+  } # end (for k)
+}  # end (Function LandD_iXX)
+## ---------------------------------------------------------------- ##
+
+
+
+
+
+## ----- Sub-Function List and Delete for Co-Movements ----- ##
+LandD_iXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y") {
+
+  SumEst <- 0
+  cat(rep("\n",3), paste("# -- Co-Movements of i", a, b, " coefficients -- #", sep=""))
+  aa <- get(a)
+  bb <- get(b)
+  for (i in 1: no.waves) {
+    Clhs <- paste("d", aa, i, sep="")
+    Crhs <- paste("d", bb, i, sep="")
+    TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Crhs & parEst["op"] == "~~",]
+    p.TparEst <- paste("  i", a, b, i, ":  ", Clhs, " ~~ ", Crhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+                       ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
+    cat("\n", p.TparEst)
+    SumEst <- SumEst + TparEst["est"]
+  } # end (for i)
+  MeanEst <- SumEst/(no.waves)
+  p.MeanEst <- paste("  Average across waves from T1 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
+  cat("\n", p.MeanEst)
+
+  # -- Save pairs of non-invariant co-movements -- #
+  NI.path <- t(matrix(0,ncol=no.compare, nrow=2))
+  k = 1
+  for (j in 2:no.waves) {
+    for (i in j:no.waves) {
+      Clhs <- paste("i", a, b, i, "-i", a, b, i-j+1, sep="")
+      if (pest2[Clhs,3] < p) {
+        NI.path[k, 1] <- i-1
+        NI.path[k, 2] <- i-j+1
+        k <- k + 1
+      } # end (if pest2)
+    } # end (for i)
+  } # end (for j)
+  Count.NI.path = k - 1
+
+  ## -- Select sets of invariant residual covariances and print -- ##
+  cat(rep("\n",2), paste("# -- Sets of invariant residual covariance e", a, b, " coefficients -- #", sep=""))
+
+  for (k in 0:MIset) {
+    Noset <- no.waves - k
+    NIset <- factorial(no.waves)/(factorial(no.waves-k)*factorial(k))
     mm <- t(combn((no.path), Noset))
     for (j in 1:Count.NI.path) {
       p.j <- NI.path[j,1]
@@ -2212,13 +2497,13 @@ LandD_eXX <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       if (count4 > 0) {
         mm.p <- mm
         for (i in 1:no.path) {
-          mm.p[mm.p == i] <- paste("e", a, a, i+1, sep="")
+          mm.p[mm.p == i] <- paste("i", a, b, i, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
       } # end (if count4)
     } # end (for ii)
   } # end (for k)
-}  # end (Function LandD_eXX)
+}  # end (Function LandD_iXY)
 ## ---------------------------------------------------------------- ##
 
 
@@ -2241,7 +2526,7 @@ if (any(parEst[,4] == "eIXY2")) {
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
-  MeanEst <- SumEst/(no.waves)
+  MeanEst <- SumEst/(no.path)
   p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
@@ -2373,7 +2658,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
-  MeanEst <- SumEst/no.waves
+  MeanEst <- SumEst/no.path
   p.MeanEst <- paste("  Average intercepts across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
@@ -2441,7 +2726,7 @@ if (any(parEst[,4] == "eIXX2")) {
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
   } # end (for i)
-  MeanEst <- SumEst/no.waves
+  MeanEst <- SumEst/no.path
   p.MeanEst <- paste("  Average across waves from T2 = ", format(round(MeanEst, digits=4), nsmall=4, scientific=FALSE), sep="")
   cat("\n", p.MeanEst)
 
@@ -6345,13 +6630,13 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     # -- Estimate variance of impulses -- #
     cat(rep("\n",2), "  # -- Estimate variance of impulses -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  d", X, i, " ~~ eXX", i, "*d", X, i, sep=""))
-      cat("\n", paste("  d", Y, i, " ~~ eYY", i, "*d", Y, i, sep=""))
+      cat("\n", paste("  d", X, i, " ~~ iXX", i, "*d", X, i, sep=""))
+      cat("\n", paste("  d", Y, i, " ~~ iYY", i, "*d", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  d", Z, i, " ~~ eZZ", i, "*d", Z, i, sep=""))
+        cat("\n", paste("  d", Z, i, " ~~ iZZ", i, "*d", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  d", W, i, " ~~ eWW", i, "*d", W, i, sep=""))
+        cat("\n", paste("  d", W, i, " ~~ iWW", i, "*d", W, i, sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -6385,15 +6670,15 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
     cat("\n", "  # Remove the subscripts for eXY for invariant residual covariance #")
     cat("\n", "  ###################################################################")
     for (i in 1:no.waves) {
-      cat("\n", paste("  d", X, i, " ~~ eXY", i, "*d", Y, i, sep=""))
+      cat("\n", paste("  d", X, i, " ~~ iXY", i, "*d", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  d", X, i, " ~~ eXZ", i, "*d", Z, i, sep=""))
-        cat("\n", paste("  d", Y, i, " ~~ eYZ", i, "*d", Z, i, sep=""))
+        cat("\n", paste("  d", X, i, " ~~ iXZ", i, "*d", Z, i, sep=""))
+        cat("\n", paste("  d", Y, i, " ~~ iYZ", i, "*d", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  d", X, i, " ~~ eXW", i, "*d", W, i, sep=""))
-        cat("\n", paste("  d", Y, i, " ~~ eYW", i, "*d", W, i, sep=""))
-        cat("\n", paste("  d", Z, i, " ~~ eZW", i, "*d", W, i, sep=""))
+        cat("\n", paste("  d", X, i, " ~~ iXW", i, "*d", W, i, sep=""))
+        cat("\n", paste("  d", Y, i, " ~~ iYW", i, "*d", W, i, sep=""))
+        cat("\n", paste("  d", Z, i, " ~~ iZW", i, "*d", W, i, sep=""))
       } # end (if W)
     } # end ((for i)
 
