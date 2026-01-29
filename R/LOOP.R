@@ -1985,7 +1985,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     # -- Reset MISet and no.compare for co-movements -- #
     no.path = no.waves - 1
     MIset <- no.waves - 3
-    no.compare = (no.path - 1)*(no.path)/2
+    no.compare = (no.waves - 1)*(no.waves)/2
 
     cat(rep("\n",5), "## ===== Identification of invariant co-movements ===== ##")
 
@@ -2482,7 +2482,7 @@ LandD_iXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
   for (k in 0:MIset) {
     Noset <- no.waves - k
     NIset <- factorial(no.waves)/(factorial(no.waves-k)*factorial(k))
-    mm <- t(combn((no.path), Noset))
+    mm <- t(combn((no.waves), Noset))
     for (j in 1:Count.NI.path) {
       p.j <- NI.path[j,1]
       q.j <- NI.path[j,2]
