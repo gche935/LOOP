@@ -1,5 +1,5 @@
 options("width"=210)
-options(max.print = 10000)
+options("max.print" = 10000)
 
 
 ## ----- Sub-Function Invariance for testing invariance of parameters ----- ##
@@ -1237,7 +1237,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
 
   ## -- Differences in co-movements -- ##
-  if (any(parEst[,4] == "iXY2")) {
+  if (any(parEst[,4] == "iXY1")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
         mcmcA <- (mcmc[, paste("iXY", i, sep="")] - mcmc[, paste("iXY", i-j+1, sep="")])
@@ -1287,7 +1287,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
         } # end (if W != "NULL")
       } # end (for i)
     } # end (for j)
-  } # end (if iXY2)
+  } # end (if iXY1)
   ## ----- end (Difference in covariance of latent variable residuals) ----- ##
 
 
@@ -1959,7 +1959,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
     # -- Reset MISet and no.compare for impulse variance --#
     no.path = no.waves - 1
-    MIset <- no.waves - 3
+    MIset <- no.waves - 2
     no.compare = (no.waves - 1)*(no.waves)/2
 
     cat(rep("\n",5), "## ===== Identification of invariant impulse variance ===== ##")
@@ -1984,7 +1984,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
     # -- Reset MISet and no.compare for co-movements -- #
     no.path = no.waves - 1
-    MIset <- no.waves - 3
+    MIset <- no.waves - 2
     no.compare = (no.waves - 1)*(no.waves)/2
 
     cat(rep("\n",5), "## ===== Identification of invariant co-movements ===== ##")
@@ -2477,7 +2477,7 @@ LandD_iXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
   Count.NI.path = k - 1
 
   ## -- Select sets of invariant residual covariances and print -- ##
-  cat(rep("\n",2), paste("# -- Sets of invariant residual covariance e", a, b, " coefficients -- #", sep=""))
+  cat(rep("\n",2), paste("# -- Sets of invariant co-movements i", a, b, " coefficients -- #", sep=""))
 
   for (k in 0:MIset) {
     Noset <- no.waves - k
