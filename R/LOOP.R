@@ -1,4 +1,5 @@
 options("width"=210)
+options(max.print = 10000)
 
 
 ## ----- Sub-Function Invariance for testing invariance of parameters ----- ##
@@ -1959,7 +1960,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
     # -- Reset MISet and no.compare for impulse variance --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
-    no.compare = (no.path - 1)*(no.path)/2
+    no.compare = (no.waves - 1)*(no.waves)/2
 
     cat(rep("\n",5), "## ===== Identification of invariant impulse variance ===== ##")
 
