@@ -2497,7 +2497,7 @@ LandD_iXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
       count4 <- sum(mm[ii,])
       if (count4 > 0) {
         mm.p <- mm
-        for (i in 1:no.path) {
+        for (i in 1:waves) {
           mm.p[mm.p == i] <- paste("i", a, b, i, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
