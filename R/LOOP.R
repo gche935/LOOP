@@ -1199,7 +1199,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
   if (any(parEst[,4] == "iXX1")) {
     for (j in 2:no.waves) {
       for (i in j:no.waves) {
-        mcmcA <- (mcmc[, paste("iXX", i, sep="")] - mcmc[, paste("iXX", i-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("iXX", i, sep="")] - mcmc[, paste("iXX", i-j+1, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
         colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("iXX", i, "-iXX", i-j+1, sep="")
         pest2A <- (pest2[paste("iXX", i, sep="")] - pest2[paste("iXX", i-j+1, sep="")])
