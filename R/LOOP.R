@@ -5951,10 +5951,10 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", 7, AR=1, MA=1, X="EXPOSE", Y="INTENS")
+#' GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE", Y="INTENS")
 #'
 
-GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
