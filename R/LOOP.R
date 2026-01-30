@@ -6090,7 +6090,6 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", paste("  RS", W, " ~ 0*1", sep=""))
     } # (if W)
 
-<<<<<<< HEAD
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate autoregression (AR) between latent variables (lag = ", j," wave) -- #", sep=""))
       cat("\n", "  ###########################################################")
