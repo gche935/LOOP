@@ -3731,55 +3731,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
           cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
         } # end (if Z)
       } # end (for i)
-<<<<<<< HEAD
     } # end (for j)
-=======
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 4:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-   if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
->>>>>>> 9d222a9dd04334f4bc62dd2ec732b08af58531d2
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
