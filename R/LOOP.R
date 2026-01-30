@@ -5969,8 +5969,6 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
-  lag <- AR
-
   ## ----- Creating Model GCLM ----- ###
   sink('GCLM.txt')
     cat("\n", "# Specify the model (GCLM)", "\n")
