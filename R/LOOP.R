@@ -2966,91 +2966,27 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
       cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
     } # end (if W)
 
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  #############################################")
-    cat("\n", "  # Remove the subscripts for invariant paths #")
-    cat("\n", "  #############################################")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+    for (j in 1:lag) {
+      cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in (j+1):no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, " + pWX", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, " + pWY", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, " + pWZ", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-j, "*w", X,i-j, " + pYW", i,i-j, "*w", Y,i-j, " + pZW", i,i-j, "*w", Z,i-j, " + pWW", i,i-j, "*w", W,i-j, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
+        } # end (if Z)
       } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-    if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
+    } # end (for j)
 
     cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
@@ -3351,91 +3287,27 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", "   RI", W, " ~~ 0*w", W, "1", sep="")
     } # end (if W)
 
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  #############################################")
-    cat("\n", "  # Remove the subscripts for invariant paths #")
-    cat("\n", "  #############################################")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+    for (j in 1:lag) {
+      cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in (j+1):no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, " + pWX", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, " + pWY", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, " + pWZ", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-j, "*w", X,i-j, " + pYW", i,i-j, "*w", Y,i-j, " + pZW", i,i-j, "*w", Z,i-j, " + pWW", i,i-j, "*w", W,i-j, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
+        } # end (if Z)
       } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-   if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
+    } # end (for j)
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
@@ -3839,91 +3711,27 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
       cat("\n", "   RS", W, " ~~ 0*w", W, "1", sep="")
     } # end (if W != "NULL")
 
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  #############################################")
-    cat("\n", "  # Remove the subscripts for invariant paths #")
-    cat("\n", "  #############################################")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+    for (j in 1:lag) {
+      cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in (j+1):no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, " + pWX", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, " + pWY", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, " + pWZ", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-j, "*w", X,i-j, " + pYW", i,i-j, "*w", Y,i-j, " + pZW", i,i-j, "*w", Z,i-j, " + pWW", i,i-j, "*w", W,i-j, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
+        } # end (if Z)
       } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-   if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
+    } # end (for j)
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
@@ -4255,92 +4063,27 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
       cat("\n", "   RI", W, " ~~ 0*w", W, "1", sep="")
     } # end (if W)
 
-
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  #############################################")
-    cat("\n", "  # Remove the subscripts for invariant paths #")
-    cat("\n", "  #############################################")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+    for (j in 1:lag) {
+      cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in (j+1):no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, " + pWX", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, " + pWY", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, " + pWZ", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-j, "*w", X,i-j, " + pYW", i,i-j, "*w", Y,i-j, " + pZW", i,i-j, "*w", Z,i-j, " + pWW", i,i-j, "*w", W,i-j, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
+        } # end (if Z)
       } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-   if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
+    } # end (for j)
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
@@ -4757,91 +4500,27 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
       cat("\n", "   RS", W, " ~~ w", W, "1", sep="")
     } # end (if W != "NULL")
 
-    cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 1 wave) -- #")
-    cat("\n", "  #############################################")
-    cat("\n", "  # Remove the subscripts for invariant paths #")
-    cat("\n", "  #############################################")
-    for (i in 2:no.waves) {
-      if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, sep=""))
-      } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, " + pWX", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, " + pWY", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, " + pWZ", i,i-1, "*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW", i,i-1, "*w", X,i-1, " + pYW", i,i-1, "*w", Y,i-1, " + pZW", i,i-1, "*w", Z,i-1, " + pWW", i,i-1, "*w", W,i-1, sep=""))
-      } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX", i,i-1, "*w", X,i-1, " + pYX", i,i-1, "*w", Y,i-1, " + pZX", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY", i,i-1, "*w", X,i-1, " + pYY", i,i-1, "*w", Y,i-1, " + pZY", i,i-1, "*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-1, "*w", X,i-1, " + pYZ", i,i-1, "*w", Y,i-1, " + pZZ", i,i-1, "*w", Z,i-1, sep=""))
-      } # end (if Z)
-    } # end (for i)
-
-    if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 2 waves) -- #")
+    for (j in 1:lag) {
+      cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
+      for (i in (j+1):no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, " + pWX", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, " + pWY", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, " + pWZ", i,i-j, "*w", W,i-j, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-j, "*w", X,i-j, " + pYW", i,i-j, "*w", Y,i-j, " + pZW", i,i-j, "*w", Z,i-j, " + pWW", i,i-j, "*w", W,i-j, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
-        } # end (if Z/W)
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-j, "*w", X,i-j, " + pYX", i,i-j, "*w", Y,i-j, " + pZX", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-j, "*w", X,i-j, " + pYY", i,i-j, "*w", Y,i-j, " + pZY", i,i-j, "*w", Z,i-j, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
+        } # end (if Z)
       } # end (for i)
-    } # end (if lag == 2)
-
-    if (lag == 3) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 3)
-
-    if (lag == 4) {
-      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
-      cat("\n", "  #############################################")
-      cat("\n", "  # Remove the subscripts for invariant paths #")
-      cat("\n", "  #############################################")
-      for (i in 3:no.waves) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
-        } # end (if Z/W)
-      } # end (for i)
-    } # end (lag == 4)
+    } # end (for j)
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
@@ -6258,9 +5937,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 #' General Cross-Lagged Panel Model (GCLM)
 #'
 #' @param data.source name of data.frame
-#' @param no.waves number of waves (minimum = 3, must be grater than lag)
-#' @param AR number of lags in autoregressive effect (default = 1)
-#' @param MA number of lags in moving average (default = 1) 
+#' @param no.waves number of waves (minimum = 3, must be grater than AR & MA)
+#' @param lag number of lags in autoregressive effect (AR) and moving average (MA) (default = 1) AR = MA
 #' @param p critical p-value for pairwise comparisons (default is 0.001)
 #' @param X name of variable X.
 #' @param Y name of variable Y.
@@ -6282,10 +5960,9 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
 
-  if (AR < 1) stop("Minimum number of AR is 1")
-  if (AR > 4) stop("Maximum number of AR is 4")
-
-  if ((no.waves - AR) < 1) stop("Number of waves must be greater than AR plus 1")
+  if (lag < 1) stop("Minimum number of lag is 1")
+  if (lag > 4) stop("Maximum number of lag is 4")
+  if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
   if (p > 0.05) stop("p > 0.05 is not recommended")
   if (p < 0.0001) stop("p < 0.0001 is not recommended")
@@ -6413,44 +6090,44 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", paste("  RS", W, " ~ 0*1", sep=""))
     } # (if W)
 
-    cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (Lag = 1 wave) -- #")
+    cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (lag = 1 wave) -- #")
     cat("\n", "  #############################################")
     cat("\n", "  # Remove the subscripts for invariant paths #")
     cat("\n", "  #############################################")
     for (i in 2:no.waves) {
       if (Z == "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, sep=""))
       } else if (W != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, " + pWX*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, " + pWY*w", W,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, " + pWZ*w", W,i-1, sep=""))
-        cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-1, " + pYW*w", Y,i-1, " + pZW*w", Z,i-1, " + pWW*w", W,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, " + pWX*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, " + pWY*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ1*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, " + pWZ*w", W,i-1, sep=""))
+        cat("\n", paste("  w", W,i, " ~ pXW1*w", X,i-1, " + pYW*w", Y,i-1, " + pZW*w", Z,i-1, " + pWW*w", W,i-1, sep=""))
       } else if (Z != "NULL") {
-        cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, sep=""))
-        cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ1*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, sep=""))
       } # end (if Z)
     } # end (for i)
 
     if (lag == 2) {
-      cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (Lag = 2 waves) -- #")
+      cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (lag = 2 waves) -- #")
       cat("\n", "  #############################################")
       cat("\n", "  # Remove the subscripts for invariant paths #")
       cat("\n", "  #############################################")
       for (i in 3:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, " + pWX", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, " + pWY", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, " + pWZ", i,i-2, "*w", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-2, "*w", X,i-2, " + pYW", i,i-2, "*w", Y,i-2, " + pZW", i,i-2, "*w", Z,i-2, " + pWW", i,i-2, "*w", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, " + pZX*w", Z,i-2, " + pWX*w", W,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, " + pZY*w", Z,i-2, " + pWY*w", W,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-2, " + pYZ*w", Y,i-2, " + pZZ*w", Z,i-2, " + pWZ*w", W,i-2, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-2, " + pYW*w", Y,i-2, " + pZW*w", Z,i-2, " + pWW*w", W,i-2, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-2, "*w", X,i-2, " + pYX", i,i-2, "*w", Y,i-2, " + pZX", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-2, "*w", X,i-2, " + pYY", i,i-2, "*w", Y,i-2, " + pZY", i,i-2, "*w", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-2, "*w", X,i-2, " + pYZ", i,i-2, "*w", Y,i-2, " + pZZ", i,i-2, "*w", Z,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, " + pZX*w", Z,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, " + pZY*w", Z,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-2, " + pYZ*w", Y,i-2, " + pZZ*w", Z,i-2, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
@@ -6462,17 +6139,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       for (i in 4:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, " + pZX*w", Z,i-3, " + pWX*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, " + pZY*w", Z,i-3, " + pWY*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-3, " + pYZ*w", Y,i-3, " + pZZ*w", Z,i-3, " + pWZ*w", W,i-3, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-3, " + pYW*w", Y,i-3, " + pZW*w", Z,i-3, " + pWW*w", W,i-3, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, " + pZX*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, " + pZY*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-3, " + pYZ*w", Y,i-3, " + pZZ*w", Z,i-3, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
@@ -6484,17 +6161,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       for (i in 5:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, " + pZX*w", Z,i-4, " + pWX*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, " + pZY*w", Z,i-4, " + pWY*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-4, " + pYZ*w", Y,i-4, " + pZZ*w", Z,i-4, " + pWZ*w", W,i-4, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-4, " + pYW*w", Y,i-4, " + pZW*w", Z,i-4, " + pWW*w", W,i-4, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, " + pZX*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, " + pZY*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-4, " + pYZ*w", Y,i-4, " + pZZ*w", Z,i-4, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 4)
@@ -6527,17 +6204,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       for (i in 3:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-2, "*d", X,i-2, " + maYX",i,i-2, "*d", Y,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-2, "*d", X,i-2, " + maYY",i,i-2, "*d", Y,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-2, "*d", X,i-2, " + maYX",i,i-2, "*d", Y,i-2, " + maZX",i,i-2, "*d", Z,i-2, " + maWX",i,i-2, "*d", W,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-2, "*d", X,i-2, " + maYY",i,i-2, "*d", Y,i-2, " + maZY",i,i-2, "*d", Z,i-2, " + maWY",i,i-2, "*d", W,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-2, "*d", X,i-2, " + maYZ",i,i-2, "*d", Y,i-2, " + maZZ",i,i-2, "*d", Z,i-2, " + maWZ",i,i-2, "*d", W,i-2, sep=""))
-          cat("\n", paste("  w", W,i, " ~ maXW",i,i-2, "*d", X,i-2, " + maYW",i,i-2, "*d", Y,i-2, " + maZW",i,i-2, "*d", Z,i-2, " + maWW",i,i-2, "*d", W,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, " + maZX*d", Z,i-2, " + maWX*d", W,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, " + maZY*d", Z,i-2, " + maWY*d", W,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-2, " + maYZ*d", Y,i-2, " + maZZ*d", Z,i-2, " + maWZ*d", W,i-2, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-2, " + maYW*d", Y,i-2, " + maZW*d", Z,i-2, " + maWW*d", W,i-2, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-2, "*d", X,i-2, " + maYX",i,i-2, "*d", Y,i-2, " + maZX",i,i-2, "*d", Z,i-2, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-2, "*d", X,i-2, " + maYY",i,i-2, "*d", Y,i-2, " + maZY",i,i-2, "*d", Z,i-2, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-2, "*d", X,i-2, " + maYZ",i,i-2, "*d", Y,i-2, " + maZZ",i,i-2, "*d", Z,i-2, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, " + maZX*d", Z,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, " + maZY*d", Z,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-2, " + maYZ*d", Y,i-2, " + maZZ*d", Z,i-2, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (if lag == 2)
@@ -6549,17 +6226,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       for (i in 4:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-3, "*d", X,i-3, " + maYX",i,i-3, "*d", Y,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-3, "*d", X,i-3, " + maYY",i,i-3, "*d", Y,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-3, "*d", X,i-3, " + maYX",i,i-3, "*d", Y,i-3, " + maZX",i,i-3, "*d", Z,i-3, " + maWX",i,i-3, "*d", W,i-3, sep=""))          
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-3, "*d", X,i-3, " + maYY",i,i-3, "*d", Y,i-3, " + maZY",i,i-3, "*d", Z,i-3, " + maWY",i,i-3, "*d", W,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-3, "*d", X,i-3, " + maYZ",i,i-3, "*d", Y,i-3, " + maZZ",i,i-3, "*d", Z,i-3, " + maWZ",i,i-3, "*d", W,i-3, sep=""))
-          cat("\n", paste("  w", W,i, " ~ maXW",i,i-3, "*d", X,i-3, " + maYW",i,i-3, "*d", Y,i-3, " + maZW",i,i-3, "*d", Z,i-3, " + maWW",i,i-3, "*d", W,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, " + maZX*d", Z,i-3, " + maWX*d", W,i-3, sep=""))          
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, " + maZY*d", Z,i-3, " + maWY*d", W,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-3, " + maYZ*d", Y,i-3, " + maZZ*d", Z,i-3, " + maWZ*d", W,i-3, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-3, " + maYW*d", Y,i-3, " + maZW*d", Z,i-3, " + maWW*d", W,i-3, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-3, "*d", X,i-3, " + maYX",i,i-3, "*d", Y,i-3, " + maZX",i,i-3, "*d", Z,i-3, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-3, "*d", X,i-3, " + maYY",i,i-3, "*d", Y,i-3, " + maZY",i,i-3, "*d", Z,i-3, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-3, "*d", X,i-3, " + maYZ",i,i-3, "*d", Y,i-3, " + maZZ",i,i-3, "*d", Z,i-3, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, " + maZX*d", Z,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, " + maZY*d", Z,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-3, " + maYZ*d", Y,i-3, " + maZZ*d", Z,i-3, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 3)
@@ -6571,17 +6248,17 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", "  #############################################")
       for (i in 5:no.waves) {
         if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-4, "*w", X,i-4, " + maYX",i,i-4, "*w", Y,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-4, "*w", X,i-4, " + maYY",i,i-4, "*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, sep=""))
         } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-4, "*w", X,i-4, " + maYX",i,i-4, "*w", Y,i-4, " + maZX",i,i-4, "*w", Z,i-4, " + maWX",i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-4, "*w", X,i-4, " + maYY",i,i-4, "*w", Y,i-4, " + maZY",i,i-4, "*w", Z,i-4, " + maWY",i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-4, "*w", X,i-4, " + maYZ",i,i-4, "*w", Y,i-4, " + maZZ",i,i-4, "*w", Z,i-4, " + maWZ",i,i-4, "*w", W,i-4, sep=""))
-          cat("\n", paste("  w", W,i, " ~ maXW",i,i-4, "*w", X,i-4, " + maYW",i,i-4, "*w", Y,i-4, " + maZW",i,i-4, "*w", Z,i-4, " + maWW",i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, " + maZX*w", Z,i-4, " + maWX*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, " + maZY*w", Z,i-4, " + maWY*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*w", X,i-4, " + maYZ*w", Y,i-4, " + maZZ*w", Z,i-4, " + maWZ*w", W,i-4, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*w", X,i-4, " + maYW*w", Y,i-4, " + maZW*w", Z,i-4, " + maWW*w", W,i-4, sep=""))
         } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ maXX",i,i-4, "*w", X,i-4, " + maYX",i,i-4, "*w", Y,i-4, " + maZX",i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ maXY",i,i-4, "*w", X,i-4, " + maYY",i,i-4, "*w", Y,i-4, " + maZY",i,i-4, "*w", Z,i-4, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ maXZ",i,i-4, "*w", X,i-4, " + maYZ",i,i-4, "*w", Y,i-4, " + maZZ",i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, " + maZX*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, " + maZY*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*w", X,i-4, " + maYZ*w", Y,i-4, " + maZZ*w", Z,i-4, sep=""))
         } # end (if Z/W)
       } # end (for i)
     } # end (lag == 4)
