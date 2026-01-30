@@ -6104,18 +6104,20 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
         } # end (if W)
       } # end (for i)
     } # end (for j)
-    for (j in 1:(lag-1)) {
-      for (i in (j+1):lag) {
-        cat("\n", paste("  w", X,i, " ~ w", X, j, sep=""))
-        cat("\n", paste("  w", Y,i, " ~ w", Y, j, sep=""))
-        if (Z != "NULL") {
-          cat("\n", paste("  w", Z,i, " ~ w", Z, j, sep=""))
-        } # end (if Z)
-        if (W != "NULL") {
-          cat("\n", paste("  w", W,i, " ~ w", W, j, sep=""))
-        } # end (if W)
-      } # end (for i)
-    } # end (for j)
+    if (lag > 1) {
+      for (j in 1:(lag-1)) {
+        for (i in (j+1):lag) {
+          cat("\n", paste("  w", X,i, " ~ w", X, j, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ w", Y, j, sep=""))
+          if (Z != "NULL") {
+            cat("\n", paste("  w", Z,i, " ~ w", Z, j, sep=""))
+          } # end (if Z)
+          if (W != "NULL") {
+            cat("\n", paste("  w", W,i, " ~ w", W, j, sep=""))
+          } # end (if W)
+        } # end (for i)
+      } # end (for j)
+    } # end (if lag)
 
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate moving average (MA) between latent variables (lag = ", j," wave) -- #", sep=""))
@@ -6153,23 +6155,25 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
         cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-1, " + pYZ*w", Y,i-1, sep=""))
       } # end (if Z)
     } # end (for i)
-    for (j in 1:(lag-1)) {
-      for (i in (j+1):lag) {
-        if (Z == "NULL") {
-          cat("\n", paste("  w", X,i, " ~ w", Y,i-j, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ w", X,i-j, sep=""))
-        } else if (W != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ w", Y,i-j, " + w", Z,i-j, " + w", W,i-j, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ w", X,i-j, " + w", Z,i-j, " + w", W,i-j, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ w", X,i-j, " + w", Y,i-j, " + w", W,i-j, sep=""))
-          cat("\n", paste("  w", W,i, " ~ w", X,i-j, " + w", Y,i-j, " + w", Z,i-j, sep=""))
-        } else if (Z != "NULL") {
-          cat("\n", paste("  w", X,i, " ~ w", Y,i-j, " + w", Z,i-j, sep=""))
-          cat("\n", paste("  w", Y,i, " ~ w", X,i-j, " + w", Z,i-j, sep=""))
-          cat("\n", paste("  w", Z,i, " ~ w", X,i-j, " + w", Y,i-j, sep=""))
-        } # end (if Z)
-      } # end (for i)
-    } # end (for j)
+    if (lag > 1) {
+      for (j in 1:(lag-1)) {
+        for (i in (j+1):lag) {
+          if (Z == "NULL") {
+            cat("\n", paste("  w", X,i, " ~ w", Y,i-j, sep=""))
+            cat("\n", paste("  w", Y,i, " ~ w", X,i-j, sep=""))
+          } else if (W != "NULL") {
+            cat("\n", paste("  w", X,i, " ~ w", Y,i-j, " + w", Z,i-j, " + w", W,i-j, sep=""))
+            cat("\n", paste("  w", Y,i, " ~ w", X,i-j, " + w", Z,i-j, " + w", W,i-j, sep=""))
+            cat("\n", paste("  w", Z,i, " ~ w", X,i-j, " + w", Y,i-j, " + w", W,i-j, sep=""))
+            cat("\n", paste("  w", W,i, " ~ w", X,i-j, " + w", Y,i-j, " + w", Z,i-j, sep=""))
+          } else if (Z != "NULL") {
+            cat("\n", paste("  w", X,i, " ~ w", Y,i-j, " + w", Z,i-j, sep=""))
+            cat("\n", paste("  w", Y,i, " ~ w", X,i-j, " + w", Z,i-j, sep=""))
+            cat("\n", paste("  w", Z,i, " ~ w", X,i-j, " + w", Y,i-j, sep=""))
+          } # end (if Z)
+        } # end (for i)
+      } # end (for j)
+    } # end (if lag)
 
     cat(rep("\n",2), paste0("  # -- Estimate cross-lagged moving average (CLMA) (Lag = ", j, " wave) -- #", sep=""))
     cat("\n", "  ############################################")
