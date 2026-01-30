@@ -19,11 +19,7 @@ GCLM(
 \arguments{
 \item{data.source}{name of data.frame}
 
-\item{no.waves}{number of waves (minimum = 3, must be grater than lag)}
-
-\item{AR}{number of lags in autoregressive effect (default = 1)}
-
-\item{MA}{number of lags in moving average (default = 1)}
+\item{no.waves}{number of waves (minimum = 3, must be grater than AR & MA)}
 
 \item{p}{critical p-value for pairwise comparisons (default is 0.001)}
 
@@ -34,6 +30,8 @@ GCLM(
 \item{Z}{name of variable Z.}
 
 \item{W}{name of variable W (Z must come before W).}
+
+\item{lag}{number of lags in autoregressive effect (AR) and moving average (MA) (default = 1) AR = MA}
 }
 \value{
 General Cross-Lagged Panel Model (GCLM) outputs.
