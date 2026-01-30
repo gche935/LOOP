@@ -3731,7 +3731,55 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
           cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-j, "*w", X,i-j, " + pYZ", i,i-j, "*w", Y,i-j, " + pZZ", i,i-j, "*w", Z,i-j, sep=""))
         } # end (if Z)
       } # end (for i)
+<<<<<<< HEAD
     } # end (for j)
+=======
+    } # end (if lag == 2)
+
+    if (lag == 3) {
+      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 3 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 4:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, " + pWX", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, " + pWY", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, " + pWZ", i,i-3, "*w", W,i-3, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-3, "*w", X,i-3, " + pYW", i,i-3, "*w", Y,i-3, " + pZW", i,i-3, "*w", Z,i-3, " + pWW", i,i-3, "*w", W,i-3, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-3, "*w", X,i-3, " + pYX", i,i-3, "*w", Y,i-3, " + pZX", i,i-3, "*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-3, "*w", X,i-3, " + pYY", i,i-3, "*w", Y,i-3, " + pZY", i,i-3, "*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-3, "*w", X,i-3, " + pYZ", i,i-3, "*w", Y,i-3, " + pZZ", i,i-3, "*w", Z,i-3, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 3)
+
+   if (lag == 4) {
+      cat(rep("\n",2), "  # -- Estimate lagged effects between latent variables (Lag = 4 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 3:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, " + pWX", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, " + pWY", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, " + pWZ", i,i-4, "*w", W,i-4, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW", i,i-4, "*w", X,i-4, " + pYW", i,i-4, "*w", Y,i-4, " + pZW", i,i-4, "*w", Z,i-4, " + pWW", i,i-4, "*w", W,i-4, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX", i,i-4, "*w", X,i-4, " + pYX", i,i-4, "*w", Y,i-4, " + pZX", i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY", i,i-4, "*w", X,i-4, " + pYY", i,i-4, "*w", Y,i-4, " + pZY", i,i-4, "*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ", i,i-4, "*w", X,i-4, " + pYZ", i,i-4, "*w", Y,i-4, " + pZZ", i,i-4, "*w", Z,i-4, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 4)
+>>>>>>> 9d222a9dd04334f4bc62dd2ec732b08af58531d2
 
     cat(rep("\n",2), "  ##########################################")
     cat("\n", "  # Regression of indicators on C1 #")
@@ -6090,6 +6138,7 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       cat("\n", paste("  RS", W, " ~ 0*1", sep=""))
     } # (if W)
 
+<<<<<<< HEAD
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate autoregression (AR) between latent variables (lag = ", j," wave) -- #", sep=""))
       cat("\n", "  ###########################################################")
@@ -6194,6 +6243,181 @@ GCLM <- function(data.source, no.waves, AR=1, MA=1, p = 0.001, X, Y, Z="NULL", W
       } # end (if Z)
     } # end (for i)
 
+=======
+    cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (lag = 1 wave) -- #")
+    cat("\n", "  #############################################")
+    cat("\n", "  # Remove the subscripts for invariant paths #")
+    cat("\n", "  #############################################")
+    for (i in 2:no.waves) {
+      if (Z == "NULL") {
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, sep=""))
+      } else if (W != "NULL") {
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, " + pWX*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, " + pWY*w", W,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ1*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, " + pWZ*w", W,i-1, sep=""))
+        cat("\n", paste("  w", W,i, " ~ pXW1*w", X,i-1, " + pYW*w", Y,i-1, " + pZW*w", Z,i-1, " + pWW*w", W,i-1, sep=""))
+      } else if (Z != "NULL") {
+        cat("\n", paste("  w", X,i, " ~ pXX1*w", X,i-1, " + pYX*w", Y,i-1, " + pZX*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ pXY1*w", X,i-1, " + pYY*w", Y,i-1, " + pZY*w", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ pXZ1*w", X,i-1, " + pYZ*w", Y,i-1, " + pZZ*w", Z,i-1, sep=""))
+      } # end (if Z)
+    } # end (for i)
+
+    if (lag == 2) {
+      cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (lag = 2 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 3:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, " + pZX*w", Z,i-2, " + pWX*w", W,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, " + pZY*w", Z,i-2, " + pWY*w", W,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-2, " + pYZ*w", Y,i-2, " + pZZ*w", Z,i-2, " + pWZ*w", W,i-2, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-2, " + pYW*w", Y,i-2, " + pZW*w", Z,i-2, " + pWW*w", W,i-2, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-2, " + pYX*w", Y,i-2, " + pZX*w", Z,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-2, " + pYY*w", Y,i-2, " + pZY*w", Z,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-2, " + pYZ*w", Y,i-2, " + pZZ*w", Z,i-2, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (if lag == 2)
+
+    if (lag == 3) {
+      cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (Lag = 3 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 4:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, " + pZX*w", Z,i-3, " + pWX*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, " + pZY*w", Z,i-3, " + pWY*w", W,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-3, " + pYZ*w", Y,i-3, " + pZZ*w", Z,i-3, " + pWZ*w", W,i-3, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-3, " + pYW*w", Y,i-3, " + pZW*w", Z,i-3, " + pWW*w", W,i-3, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-3, " + pYX*w", Y,i-3, " + pZX*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-3, " + pYY*w", Y,i-3, " + pZY*w", Z,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-3, " + pYZ*w", Y,i-3, " + pZZ*w", Z,i-3, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 3)
+
+    if (lag == 4) {
+      cat(rep("\n",2), "  # -- Estimate AR & CL (lagged effects) between latent variables (Lag = 4 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 5:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, " + pZX*w", Z,i-4, " + pWX*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, " + pZY*w", Z,i-4, " + pWY*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-4, " + pYZ*w", Y,i-4, " + pZZ*w", Z,i-4, " + pWZ*w", W,i-4, sep=""))
+          cat("\n", paste("  w", W,i, " ~ pXW*w", X,i-4, " + pYW*w", Y,i-4, " + pZW*w", Z,i-4, " + pWW*w", W,i-4, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ pXX*w", X,i-4, " + pYX*w", Y,i-4, " + pZX*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ pXY*w", X,i-4, " + pYY*w", Y,i-4, " + pZY*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ pXZ*w", X,i-4, " + pYZ*w", Y,i-4, " + pZZ*w", Z,i-4, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 4)
+
+
+    cat(rep("\n",2), "  # -- Estimate MA & CLMA (moving average & cross-lagged moving average) (Lag = 1 wave) -- #")
+    cat("\n", "  #############################################")
+    cat("\n", "  # Remove the subscripts for invariant paths #")
+    cat("\n", "  #############################################")
+    for (i in 2:no.waves) {
+      if (Z == "NULL") {
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, sep=""))
+      } else if (W != "NULL") {
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, " + maZX*d", Z,i-1, " + maWX*d", W,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, " + maZY*d", Z,i-1, " + maWY*d", W,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-1, " + maYZ*d", Y,i-1, " + maZZ*d", Z,i-1, " + maWZ*d", W,i-1, sep=""))
+        cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-1, " + maYW*d", Y,i-1, " + maZW*d", Z,i-1, " + maWW*d", W,i-1, sep=""))
+      } else if (Z != "NULL") {
+        cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-1, " + maYX*d", Y,i-1, " + maZX*d", Z,i-1, sep=""))
+        cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-1, " + maYY*d", Y,i-1, " + maZY*d", Z,i-1, sep=""))
+        cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-1, " + maYZ*d", Y,i-1, " + maZZ*d", Z,i-1, sep=""))
+      } # end (if Z)
+    } # end (for i)
+
+    if (lag == 2) {
+      cat(rep("\n",2), "  # -- Estimate MA & CLMA (moving average & cross-lagged moving average) (Lag = 2 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 3:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, " + maZX*d", Z,i-2, " + maWX*d", W,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, " + maZY*d", Z,i-2, " + maWY*d", W,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-2, " + maYZ*d", Y,i-2, " + maZZ*d", Z,i-2, " + maWZ*d", W,i-2, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-2, " + maYW*d", Y,i-2, " + maZW*d", Z,i-2, " + maWW*d", W,i-2, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-2, " + maYX*d", Y,i-2, " + maZX*d", Z,i-2, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-2, " + maYY*d", Y,i-2, " + maZY*d", Z,i-2, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-2, " + maYZ*d", Y,i-2, " + maZZ*d", Z,i-2, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (if lag == 2)
+
+    if (lag == 3) {
+      cat(rep("\n",2), "  # -- Estimate MA & CLMA (moving average & cross-lagged moving average) (Lag = 3 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 4:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, " + maZX*d", Z,i-3, " + maWX*d", W,i-3, sep=""))          
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, " + maZY*d", Z,i-3, " + maWY*d", W,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-3, " + maYZ*d", Y,i-3, " + maZZ*d", Z,i-3, " + maWZ*d", W,i-3, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*d", X,i-3, " + maYW*d", Y,i-3, " + maZW*d", Z,i-3, " + maWW*d", W,i-3, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*d", X,i-3, " + maYX*d", Y,i-3, " + maZX*d", Z,i-3, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*d", X,i-3, " + maYY*d", Y,i-3, " + maZY*d", Z,i-3, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*d", X,i-3, " + maYZ*d", Y,i-3, " + maZZ*d", Z,i-3, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 3)
+
+    if (lag == 4) {
+      cat(rep("\n",2), "  # -- Estimate MA & CLMA (moving average & cross-lagged moving average) (Lag = 4 waves) -- #")
+      cat("\n", "  #############################################")
+      cat("\n", "  # Remove the subscripts for invariant paths #")
+      cat("\n", "  #############################################")
+      for (i in 5:no.waves) {
+        if (Z == "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, sep=""))
+        } else if (W != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, " + maZX*w", Z,i-4, " + maWX*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, " + maZY*w", Z,i-4, " + maWY*w", W,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*w", X,i-4, " + maYZ*w", Y,i-4, " + maZZ*w", Z,i-4, " + maWZ*w", W,i-4, sep=""))
+          cat("\n", paste("  w", W,i, " ~ maXW*w", X,i-4, " + maYW*w", Y,i-4, " + maZW*w", Z,i-4, " + maWW*w", W,i-4, sep=""))
+        } else if (Z != "NULL") {
+          cat("\n", paste("  w", X,i, " ~ maXX*w", X,i-4, " + maYX*w", Y,i-4, " + maZX*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Y,i, " ~ maXY*w", X,i-4, " + maYY*w", Y,i-4, " + maZY*w", Z,i-4, sep=""))
+          cat("\n", paste("  w", Z,i, " ~ maXZ*w", X,i-4, " + maYZ*w", Y,i-4, " + maZZ*w", Z,i-4, sep=""))
+        } # end (if Z/W)
+      } # end (for i)
+    } # end (lag == 4)
+
+>>>>>>> 9d222a9dd04334f4bc62dd2ec732b08af58531d2
     # -- Estimate Variance and Covariance of Random Slopes -- #
     cat(rep("\n",2), "  # -- Estimate variance and covariance of random slopes -- #")
     cat("\n", "   RS", X, " ~~ RS", X, sep="")
