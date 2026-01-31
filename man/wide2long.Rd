@@ -31,5 +31,6 @@ Data_B <- Data_A[1:50,]
 # Suppese data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_7
 
 df_long <- wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE) 
+# write.csv(df_long, "file_long.csv") # save dataframe to csv file
 
 }

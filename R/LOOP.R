@@ -6356,6 +6356,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #' # Suppese data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_7
 #'
 #' df_long <- wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE) 
+#' # write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
 ## ===== Convert data file to long format ===== ##
@@ -6412,6 +6413,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #' ## -- Example -- ##
 #' 
 #' df_wide <- long2wide(Data_C, "id", "time", variables=c("EXPOSE", "INTENS"))
+#' # write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
 
 ## ===== Convert data file to wide format ===== ##
