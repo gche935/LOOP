@@ -1,6 +1,3 @@
-options("width"=210)
-options("max.print" = 10000)
-
 
 ## ----- Sub-Function Invariance for testing invariance of parameters ----- ##
 
@@ -6333,3 +6330,53 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
 ## ========================================================================================== ##
 
+
+
+
+
+# ==================== Creating Function "GCLM" ==================== #
+#' Function wide2long (Convert Wide Data Format to Long Data Format)
+#'
+#' Convert wide data format to long data format with the capability to create lagged variables. Variables should be coded with ".1, .2" to indicate the time frame. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
+#'
+#' @param data.source name of data.frame
+#' @param no.waves number of waves of data
+#' @param variables variable names to create long data format 
+#' @param lag1 whether to create lagged (t - 1) data of the variables. Default is FALSE
+#'
+#' @return dataframe df_long_lagged and data file "file_long.csv".
+#' @export
+#' @examples
+#'
+#' ## -- Example -- ##
+#' 
+#' Data_B <- Data_A[1:50,]
+#' wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE)
+#'
+
+## ===== Convert data file to long format ===== ##
+wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=TRUE) {
+  df_long <<- suppressWarnings(reshape(data.source,
+    direction = "long",
+    idvar = "id",
+    varying = list(paste0(variables,1:no.waves)),
+    v.names = variables,
+    timevar = "time",
+    times = c(1: no.waves) # Optional: specify time values explicitly
+  ))
+
+
+  # -- Create Lag 1 Variables -- #
+  if (lag1 == TRUE) {
+    df_long_lagged <- df_long %>%
+    arrange(id, time) %>% # Ensure data is sorted by group and time
+    group_by(id) %>%     # Group by the identifier
+    mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "lag_{.col}")) %>%
+    ungroup()            # Ungroup the data when done
+  } # end (if lag1)
+
+#  write.csv(df_long_lagged, "file_long.csv") 
+
+} # end (function wide2long)
+
+## ========================================================================================== ##

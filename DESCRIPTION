@@ -10,10 +10,12 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.1),
          lavaan,
-         MASS
+         MASS,
+         dplyr
 Imports:
     lavaan,
-    MASS
+    MASS,
+    dplyr
 RoxygenNote: 7.3.3
 URL: https://github.com/gche935/LOOP
 BugReports: https://github.com/gche935/LOOP/issues
