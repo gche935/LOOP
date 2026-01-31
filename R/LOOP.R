@@ -6339,19 +6339,23 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #'
 #' Convert wide data format to long data format with the capability to create lagged variables. Variables should be coded with ".1, .2" to indicate the time frame. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
 #'
-#' @param data.source name of data.frame
-#' @param no.waves number of waves of data
-#' @param variables variable names to create long data format 
-#' @param lag1 whether to create lagged (t - 1) data of the variables. Default is FALSE
+#' @param data.source name of dataframe.
+#' @param no.waves number of waves of data.
+#' @param variables variable names to create long data format. 
+#' @param lag1 whether to create lagged (t - 1) data of the variables. Default is FALSE.
 #'
-#' @return dataframe df_long_lagged and data file "file_long.csv".
+#' @return object as a dataframe.
 #' @export
 #' @examples
 #'
 #' ## -- Example -- ##
 #' 
 #' Data_B <- Data_A[1:50,]
-#' wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE)
+#'
+#' # Suppose df_long is the new dataframe name.
+#' # Suppese data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_7
+#'
+#' df_long <- wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE) 
 #'
 
 ## ===== Convert data file to long format ===== ##
@@ -6374,8 +6378,6 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=TRUE)
     mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "lag_{.col}")) %>%
     ungroup()            # Ungroup the data when done
   } # end (if lag1)
-
-#  write.csv(df_long_lagged, "file_long.csv") 
 
 } # end (function wide2long)
 
