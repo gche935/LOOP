@@ -6356,7 +6356,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
 ## ===== Convert data file to long format ===== ##
 wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=TRUE) {
-  df_long <<- suppressWarnings(reshape(data.source,
+  df_long <- suppressWarnings(reshape(data.source,
     direction = "long",
     idvar = "id",
     varying = list(paste0(variables,1:no.waves)),
