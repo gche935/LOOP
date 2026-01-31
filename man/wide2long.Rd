@@ -4,7 +4,7 @@
 \alias{wide2long}
 \title{Function wide2long (Convert Wide Data Format to Long Data Format)}
 \usage{
-wide2long(data.source, no.waves, variables = c("X", "Y"), lag1 = TRUE)
+wide2long(data.source, no.waves, variables = c("X", "Y"), lag1 = FALSE)
 }
 \arguments{
 \item{data.source}{name of dataframe.}
@@ -19,7 +19,7 @@ wide2long(data.source, no.waves, variables = c("X", "Y"), lag1 = TRUE)
 object as a dataframe.
 }
 \description{
-Convert wide data format to long data format with the capability to create lagged variables. Variables should be coded with ".1, .2" to indicate the time frame. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
+Convert wide data format to long data format with the capability to create lagged (t-1) variables. Variables should be coded with ".1, .2" to indicate the timelines. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
 }
 \examples{
 

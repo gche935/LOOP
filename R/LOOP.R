@@ -6334,10 +6334,10 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
 
 
-# ==================== Creating Function "GCLM" ==================== #
+# ==================== Creating Function "wide2long" ==================== #
 #' Function wide2long (Convert Wide Data Format to Long Data Format)
 #'
-#' Convert wide data format to long data format with the capability to create lagged variables. Variables should be coded with ".1, .2" to indicate the time frame. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
+#' Convert wide data format to long data format with the capability to create lagged (t-1) variables. Variables should be coded with ".1, .2" to indicate the timelines. A new "id" variable will be created as the grouping variable, and a new "time" variable will be created as the timing variable.
 #'
 #' @param data.source name of dataframe.
 #' @param no.waves number of waves of data.
@@ -6359,26 +6359,76 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #'
 
 ## ===== Convert data file to long format ===== ##
-wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=TRUE) {
-  df_long <- suppressWarnings(reshape(data.source,
-    direction = "long",
-    idvar = "id",
-    varying = list(paste0(variables,1:no.waves)),
-    v.names = variables,
-    timevar = "time",
-    times = c(1: no.waves) # Optional: specify time values explicitly
-  ))
+wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE) {
 
+  # -- Check inputs -- #
+  if (is.logical(lag1) == FALSE) stop("lag1 (create time-lagged (t-1) variables can only be TRUE or FALSE")
 
-  # -- Create Lag 1 Variables -- #
-  if (lag1 == TRUE) {
+  if (lag1 == FALSE) {
+    df_long <- suppressWarnings(reshape(data.source,
+      direction = "long",
+      idvar = "id",
+      varying = list(paste0(variables,1:no.waves)),
+      v.names = variables,
+      timevar = "time",
+      times = c(1: no.waves) # Optional: specify time values explicitly
+    ))
+  } else {
+    df_long <- suppressWarnings(reshape(data.source,
+      direction = "long",
+      idvar = "id",
+      varying = list(paste0(variables,1:no.waves)),
+      v.names = variables,
+      timevar = "time",
+      times = c(1: no.waves) # Optional: specify time values explicitly
+    ))
+    # -- Create Lag 1 Variables -- #
     df_long_lagged <- df_long %>%
     arrange(id, time) %>% # Ensure data is sorted by group and time
     group_by(id) %>%     # Group by the identifier
     mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "lag_{.col}")) %>%
     ungroup()            # Ungroup the data when done
   } # end (if lag1)
-
 } # end (function wide2long)
 
 ## ========================================================================================== ##
+
+
+
+
+# ==================== Creating Function "long2wide" ==================== #
+#' Function long2wide (Convert Long Data Format to Wide Data Format)
+#'
+#' Convert long data format to wide data format. New variables will be coded with ".1, .2" to indicate the timelines. 
+#'
+#' @param data.source name of dataframe.
+#' @param id variable indicates group.
+#' @param time variable indicates time. 
+#'
+#' @return object as a dataframe.
+#' @export
+#' @examples
+#'
+#' ## -- Example -- ##
+#' 
+#' df_wide <- long2wide(Data_C, "id", "time", variables=c("EXPOSE", "INTENS"))
+#'
+
+## ===== Convert data file to wide format ===== ##
+long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")) {
+  df_wide <- suppressWarnings(reshape(
+    data = data.source,
+    idvar = id,        
+    timevar = time,    
+    v.names = variables,    
+    direction = "wide"    
+  ))
+} # end (function long2wide)
+
+## ========================================================================================== ##
+
+
+
+
+
+
