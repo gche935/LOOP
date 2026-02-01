@@ -3052,7 +3052,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(CLPMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(CLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -3384,7 +3384,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(RICLPMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(RICLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -3808,7 +3808,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(LGCMSRMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMSRMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -4160,7 +4160,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(STARTSMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(STARTSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -4597,7 +4597,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(ALTMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(ALTMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -4827,7 +4827,7 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(LGCMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -5462,7 +5462,7 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(LCSMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -5913,7 +5913,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(LCSCCMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSCCMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -6318,7 +6318,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   ## -- Monte Carlo Simulation -- ##
 
   parEst <- lavaan::parameterEstimates(GCLMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[,5]  # Estimated Parameters
+  pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(GCLMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
@@ -6369,7 +6369,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = list(paste0(variables,1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6378,7 +6378,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = list(paste0(variables,1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6432,5 +6432,164 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 
 
 
+# Sub-function gmc & gm - Calculate the group-mean centered and group mean variables 
+gmc <- function(x) { x - mean(x, na.rm=TRUE) }
+gm  <- function(x) { mean(x, na.rm=TRUE) }
 
+# Sub-function mL2 - Calculate the group-mean centered variables and group means 
+mL2 <- function(data.source, id, mL2.variables) {
+  data_centered <- data.source %>%
+  group_by(id) %>%
+  mutate(across(all_of(mL2.variables), ~gmc(.x), .names = "gmc_{.col}")) %>%
+  mutate(across(all_of(mL2.variables), ~gm(.x), .names = "gm_{.col}")) %>%
+  ungroup() 
+}
+
+
+
+
+
+# ==================== Create Function "ML" ==================== #
+#' Function ML (Multilevel Model) 
+#'
+#' Multilevel Model allows for both MLM and MSEM and compares paths across levels
+#'
+#'
+#' Define the model only once without specifying the level, and the function will compare the model across levels.
+#'
+#'
+#' @param model User-specified measurement model.
+#' @param data.source A data frame containing the observed variables used in the model.
+#' @param Cluster Cluster variable for nested data. The Monte Carlo simulation method should be used for nested data.
+#' @param L2 If the model should be replicated at L2 (default = TRUE). If L2=FALSE, covariance among variables will be estimated at L2.
+#' @param mL2.variables L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.  
+#'
+#' @return Estimated parameters and differences in estimated parameters across levels
+#' @export
+#' @examples
+#'
+#' ## == Example == ##
+#' # Data file is "Data_A"; cluster variable is "ID"
+#'
+#' # Convert wide-format date file to long-format
+#' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU", "AGE", "BMI_S", "EXPOSE", "INTENS"), lag1=FALSE) 
+#'
+#' ## Specify the path model - Model.D ##
+#' Model.D <- '
+#'  INTENS ~ EDU + AGE + BMI_S
+#'  EXPOSE ~ EDU + AGE + BMI_S
+#' '
+#'
+#' ## ===== Compare Estimated Parameters Across Levels ===== ##
+#' ML(Model.D, Example.D, Cluster = "ID", L2=TRUE, mL2.variables="NULL")
+#'
+ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL") {
+
+  # -- Run Single Level to get model information -- #
+  Model.L1 <- lavaan::sem(model,
+                          data.source,
+                          cluster=Cluster,
+                          estimator = 'MLR')
+
+  temp <- lavaan::parameterEstimates(Model.L1)
+  no.estimates <- nrow(temp)
+
+  # -- Create manifest Level 2 variables and group-mean centered variables -- #
+  if (is.null(mL2.variables) == "FALSE") { 
+    mL2.data <- mL2(data.source, Cluster, mL2.variables) 
+    data.source <- mL2.data
+  } # end (if mL2.variables)
+
+  # -- Create and Run Multilevel Model -- #
+  ML.X <- paste0("Model.ML.X <- '", "\n", "level: 1", "\n")
+  for (i in 1:no.estimates) {
+    var.lhs <- temp[i, "lhs"]
+    var.rhs <- temp[i, "rhs"]
+    if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"]) 
+    if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gmc_", temp[i, "rhs"])
+    ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
+  } # end (for i)
+  if (L2 == TRUE) {
+    ML.X <- paste0(ML.X, paste0("\n", "level: 2", "\n"))
+    for (i in 1:no.estimates) {
+      var.lhs <- temp[i, "lhs"]
+      var.rhs <- temp[i, "rhs"]
+      if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gm_", temp[i, "lhs"])
+      if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gm_", temp[i, "rhs"])
+      ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
+    } # end (for i)
+  } else {
+    unique_variables <- unique(temp[,"lhs"])
+    for (i in 1:length(unique_variables)) {
+      if (unique_variables[i] %in% mL2.variables) {
+        unique_variables[i] <- paste0("gm_", unique_variables[i]) 
+      } # end (if unique_variables)   
+    } # end (for i)
+    ML.X <- paste0(ML.X, paste0("\n", "level: 2", "\n"))
+    for (j in 1:(length(unique_variables)-1)) {
+      for (i in (j+1):(length(unique_variables))) {
+        ML.X <- paste0(ML.X, unique_variables[j], "~~", unique_variables[i], "\n")
+      } # end (for i)
+    } # end (for j) 
+  } # end (if L2 = TRUE) 
+  ML.X <- paste0(ML.X, "'","\n")
+  eval(parse(text = ML.X))
+
+  Model.L2 <- lavaan::sem(Model.ML.X,
+      data.source,
+      estimator = 'MLR',
+      cluster=Cluster,
+      verbose = FALSE)
+
+  cat(rep("\n", 2), "## ===== Multilevel Model ===== ##", "\n")
+  print(lavaan::summary(Model.L2, fit.measure = T, standardized = T, rsq = T))
+  cat("\n")
+
+
+  ## -- Monte Carlo Simulation -- ##
+
+  parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2, remove.nonfree = TRUE), level == 1)
+  no.estimates.L1 <- nrow(parEst.L1)
+  parEst <- lavaan::parameterEstimates(Model.L2, remove.nonfree = TRUE)
+  pest2 <- parEst[, "est"]  # Estimated Parameters
+  pest3 <- lavaan::lavTech(Model.L2, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+
+  mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
+  names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
+  b.no <- nrow(mcmc)  # No. of successful simulated samples
+
+  ## -- Differences in estimated parameters -- ##
+  for (j in 1:no.estimates.L1) {
+    mcmcA <- (mcmc[, j] - mcmc[, j+no.estimates.L1])
+    mcmc <- cbind(mcmc, mcmcA)
+    colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste0("D", j)
+    pest2A <- (pest2[j] - pest2[j+no.estimates.L1])
+    names(pest2A) <- paste0("D", j)
+    pest2 <- append(pest2, pest2A)
+  } # end (for j)
+  ## ----- end (Difference in estimated parameters ) ----- ##
+
+  ## -- Print Results -- ##
+  cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##") 
+  for (j in 1:no.estimates.L1) {
+    cat("\n")
+    print(lavaan::parameterEstimates(Model.L2)[c(j, j+no.estimates),], row.names=FALSE)
+
+    estM <- pest2[paste0("D", j)] # estimated parameter
+    abM <- mcmc[, paste0("D", j)] # simulated parameter
+
+    # Calculate Percentile Probability
+    if (quantile(abM,probs=0.5)>0) {
+      pPCI = 2*(sum(abM<0)/b.no)
+    } else {
+      pPCI = 2*(sum(abM>0)/b.no)
+    } # end (if abM)
+    cat(" Difference in estimated parameter = ", format(round(estM, 4), nsmall = 4), "p = ", format(round(pPCI, 4), nsmall = 4), "\n")
+  } # end (for j)
+  cat("\n")
+
+} ## End (Function ML)
+
+
+# ==================== Finish Function "ML" ==================== #
 
