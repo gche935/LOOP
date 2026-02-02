@@ -20,7 +20,7 @@ mL2 <- function(data.source, id, mL2.variables) {
 
 ## ----- Sub-Function Invariance for testing invariance of parameters ----- ##
 
-Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W) {
+Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W) {
 
   mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
   names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
@@ -1561,13 +1561,18 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Path Coefficients pXX ---- ##
   if (any(parEst[,4] == "pXX21")) {
+    cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 1 wave) ===== ##")
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-    no.compare.M = (no.waves - 1)*(no.waves)/2
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    }
+    cat("\n", "Critical p-value = ", p, "\n")
+#    no.compare.M = (no.waves - 1)*(no.waves)/2
     MIset.M <- no.waves - 2
-
-    cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 1 wave) ===== ##")
 
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=1)  ## List and Delete - Path XX ##
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=1)  ## List and Delete - Path YY ##
@@ -1583,6 +1588,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 2 waves) ===== ##")
       no.compare = (no.path - 2)*(no.path - 1)/2
       MIset <- no.path - 3
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      }
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List and Delete - Path YY ##
@@ -1600,6 +1611,13 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 3 waves) ===== ##")
       no.compare = (no.path - 3)*(no.path - 2)/2
       MIset <- no.path - 4
+
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      }
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List and Delete - Path YY ##
@@ -1619,6 +1637,13 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       no.compare = (no.path - 4)*(no.path - 3)/2
       MIset <- no.path - 5
 
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
+  
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List and Delete - Path YY ##
       if (Z != "NULL") {
@@ -1634,13 +1659,19 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Path Coefficients pXY ---- ##
   if (any(parEst[,4] == "pXY21")) {
+    cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 1 wave) ===== ##")
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-    no.compare.M = (no.waves - 1)*(no.waves)/2
-    MIset.M <- no.waves - 2
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
-    cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 1 wave) ===== ##")
+#    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
 
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=1)  ## List and Delete - Path XY ##
     LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=1)  ## List and Delete - Path YX ##
@@ -1665,6 +1696,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 2 waves) ===== ##")
       no.compare = (no.path - 2)*(no.path - 1)/2
       MIset <- no.path - 3
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List and Delete - Path YX ##
@@ -1690,6 +1727,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 3 waves) ===== ##")
       no.compare = (no.path - 3)*(no.path - 2)/2
       MIset <- no.path - 4
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List and Delete - Path YX ##
@@ -1716,6 +1759,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant paths (Lag = 4 waves) ===== ##")
       no.compare = (no.path - 4)*(no.path - 3)/2
       MIset <- no.path - 5
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List and Delete - Path YX ##
@@ -1741,13 +1790,19 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List & Delete - Proportion Change dXX ---- ##
   if (any(parEst[,4] == "dXX21")) {
+    cat(rep("\n",3), "## ===== Identification of invariant proportional change (Lag = 1 wave) ===== ##")
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-    no.compare.M = (no.waves - 1)*(no.waves)/2
-    MIset.M <- no.waves - 2
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
-    cat(rep("\n",3), "## ===== Identification of invariant proportional change (Lag = 1 wave) ===== ##")
+#    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
 
     LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=1)  ## List & Delete - Proportion Change XX ##
     LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=1)  ## List & Delete - Proportion Change YY ##
@@ -1763,6 +1818,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 2 waves) ===== ##")
       no.compare = (no.path - 2)*(no.path - 1)/2
       MIset <- no.path - 3
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List & Delete - Proportion Change YY ##
@@ -1780,6 +1841,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 3 waves) ===== ##")
       no.compare = (no.path - 3)*(no.path - 2)/2
       MIset <- no.path - 4
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List & Delete - Proportion Change YY ##
@@ -1798,6 +1865,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 4 waves) ===== ##")
       no.compare = (no.path - 4)*(no.path - 3)/2
       MIset <- no.path - 5
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List & Delete - Proportion Change YY ##
@@ -1814,13 +1887,19 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List & Delete - Proportion Change Coefficients dXY ---- ##
   if (any(parEst[,4] == "dXY21")) {
+    cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 1 wave) ===== ##")
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-    no.compare.M = (no.waves - 1)*(no.waves)/2
-    MIset.M <- no.waves - 2
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
-    cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 1 wave) ===== ##")
+#    no.compare.M = (no.waves - 1)*(no.waves)/2
+    MIset.M <- no.waves - 2
 
     LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=1)  ## List & Delete - Proportion Change XY ##
     LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=1)  ## List & Delete - Proportion Change YX ##
@@ -1845,6 +1924,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 2 waves) ===== ##")
       no.compare = (no.path - 2)*(no.path - 1)/2
       MIset <- no.path - 3
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List & Delete - Proportion Change YX ##
@@ -1870,6 +1955,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 3 waves) ===== ##")
       no.compare = (no.path - 3)*(no.path - 2)/2
       MIset <- no.path - 4
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List & Delete - Proportion Change YX ##
@@ -1896,6 +1987,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       cat(rep("\n",3), "## ===== Identification of invariant  proportional change (Lag = 4 waves) ===== ##")
       no.compare = (no.path - 4)*(no.path - 3)/2
       MIset <- no.path - 5
+      if (Type1Adj == "BON") {
+        p <- Type1/no.compare
+      } else {
+        p = Type1
+      } # end (if Type1Adj)   
+      cat("\n", "Critical p-value = ", p, "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List & Delete - Proportion Change YX ##
@@ -1921,13 +2018,18 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Residual variance eXX ---- ##
   if (any(parEst[,4] == "eXX2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant residual variance ===== ##")
 
     # -- Reset MISet and no.compare for residual variance --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-
-    cat(rep("\n",5), "## ===== Identification of invariant residual variance ===== ##")
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
@@ -1946,13 +2048,18 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Residual covariance eXY ---- ##
   if (any(parEst[,4] == "eXY2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant residual covariance ===== ##")
 
     # -- Reset MISet and no.compare for residual covariance -- #
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
-
-    cat(rep("\n",5), "## ===== Identification of invariant residual covariance ===== ##")
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
     LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eXY ##
 
@@ -1972,13 +2079,18 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Impulse variance iXX ---- ##
   if (any(parEst[,4] == "iXX2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant impulse variance ===== ##")
 
     # -- Reset MISet and no.compare for impulse variance --#
     no.path = no.waves - 1
     MIset <- no.waves - 2
     no.compare = (no.waves - 1)*(no.waves)/2
-
-    cat(rep("\n",5), "## ===== Identification of invariant impulse variance ===== ##")
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
     LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - impulse variance iX ##
     LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - impulse variance iY ##
@@ -1997,13 +2109,18 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Co-movements iXY ---- ##
   if (any(parEst[,4] == "iXY2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant co-movements ===== ##")
 
     # -- Reset MISet and no.compare for co-movements -- #
     no.path = no.waves - 1
     MIset <- no.waves - 2
     no.compare = (no.waves - 1)*(no.waves)/2
-
-    cat(rep("\n",5), "## ===== Identification of invariant co-movements ===== ##")
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
     LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - iXY ##
 
@@ -2023,6 +2140,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Indicator residual variance eIXX ---- ##
   if (any(parEst[,4] == "eIXX2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant indicator residual variance ===== ##")
 
     # -- Reset MISet and no.compare for residual variance --#
     no.path = no.waves - 1
@@ -2033,7 +2151,12 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       MIset <- no.waves - 2
       no.compare = (no.waves - 1)*(no.waves)/2
     } # end (if eIXX1)
-    cat(rep("\n",5), "## ===== Identification of invariant indicator residual variance ===== ##")
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - indicator residual variance eIXX ##
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - indicator residual variance eIYY ##
@@ -2052,6 +2175,8 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Indicator residual covariance eIXY ---- ##
   if (any(parEst[,4] == "eIXY2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant residual covariance of indicators ===== ##")
+
     # -- Reset MISet and no.compare for residual variance --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
@@ -2061,8 +2186,13 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
       MIset <- no.waves - 2
       no.compare = (no.waves - 1)*(no.waves)/2
     } # end (if eIXY1)
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
-    cat(rep("\n",5), "## ===== Identification of invariant residual covariance of indicators ===== ##")
 
     LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eIXY ##
 
@@ -2083,12 +2213,19 @@ Invariance <- function(parEst, pest2, pest3, no.path, MIset, no.compare, no.wave
 
   ## ---- List and Delete - Intercepts ---- ##
   if (any(parEst[,4] == "MwX2")) {
+    cat(rep("\n",5), "## ===== Identification of invariant intercepts ===== ##")
+
     # -- Reset MISet and no.compare for intercepts --#
     no.path = no.waves - 1
     MIset <- no.waves - 3
     no.compare = (no.path - 1)*(no.path)/2
+    if (Type1Adj == "BON") {
+      p <- Type1/no.compare
+    } else {
+      p = Type1
+    } # end (if Type1Adj)   
+    cat("\n", "Critical p-value = ", p, "\n")
 
-    cat(rep("\n",5), "## ===== Identification of invariant intercepts ===== ##")
 
     LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - Intercepts of X ##
     LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - Intercepts of Y ##
@@ -2867,7 +3004,8 @@ if (any(parEst[,4] == "eIXX2")) {
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -2879,10 +3017,10 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
+#' CLPM(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -2893,10 +3031,13 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
+
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
 
   ## ----- Creating Model CLPM ----- ##
@@ -3074,7 +3215,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(CLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -3406,7 +3547,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(RICLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -3830,7 +3971,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMSRMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4182,7 +4323,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(STARTSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4619,7 +4760,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(ALTMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4849,7 +4990,7 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5484,7 +5625,7 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5935,7 +6076,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSCCMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -6340,7 +6481,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(GCLMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, MIset, no.compare, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
