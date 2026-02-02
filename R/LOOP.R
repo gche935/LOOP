@@ -1570,7 +1570,8 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     }
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
+
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
     MIset.M <- no.waves - 2
 
@@ -1593,7 +1594,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       }
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List and Delete - Path YY ##
@@ -1617,7 +1618,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       }
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List and Delete - Path YY ##
@@ -1642,7 +1643,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
   
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List and Delete - Path YY ##
@@ -1668,7 +1669,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
     MIset.M <- no.waves - 2
@@ -1701,7 +1702,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List and Delete - Path YX ##
@@ -1732,7 +1733,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List and Delete - Path YX ##
@@ -1764,7 +1765,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List and Delete - Path XY ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List and Delete - Path YX ##
@@ -1799,7 +1800,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
     MIset.M <- no.waves - 2
@@ -1823,7 +1824,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=2)  ## List & Delete - Proportion Change YY ##
@@ -1846,7 +1847,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=3)  ## List & Delete - Proportion Change YY ##
@@ -1870,7 +1871,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List & Delete - Proportion Change XX ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List & Delete - Proportion Change YY ##
@@ -1896,7 +1897,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
     MIset.M <- no.waves - 2
@@ -1929,7 +1930,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=2)  ## List & Delete - Proportion Change YX ##
@@ -1960,7 +1961,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=3)  ## List & Delete - Proportion Change YX ##
@@ -1992,7 +1993,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       } else {
         p = Type1
       } # end (if Type1Adj)   
-      cat("\n", "Critical p-value = ", p, "\n")
+      cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List & Delete - Proportion Change XY ##
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="X", LDlag=4)  ## List & Delete - Proportion Change YX ##
@@ -2029,7 +2030,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - residual variance eYY ##
@@ -2059,7 +2060,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eXY ##
 
@@ -2090,7 +2091,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - impulse variance iX ##
     LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - impulse variance iY ##
@@ -2120,7 +2121,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - iXY ##
 
@@ -2156,7 +2157,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - indicator residual variance eIXX ##
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y")  ## List and Delete - indicator residual variance eIYY ##
@@ -2191,7 +2192,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 
     LandD_eIXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eIXY ##
@@ -2224,7 +2225,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     } else {
       p = Type1
     } # end (if Type1Adj)   
-    cat("\n", "Critical p-value = ", p, "\n")
+    cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 
     LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - Intercepts of X ##
