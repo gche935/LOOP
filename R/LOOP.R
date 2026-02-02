@@ -6365,6 +6365,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #' @param model User-specified measurement model.
 #' @param data.source A data frame containing the observed variables used in the model.
 #' @param Cluster Cluster variable for nested data. The Monte Carlo simulation method should be used for nested data.
+#' @param missing missing = "listwise" or "fiml". lavaan uses listwise deletion for missing cases by default. missing = "fiml" in lavaan multilevel model is new and may have convergence problems. 
 #' @param L2 If the model should be replicated at L2 (default = TRUE). If L2=FALSE, covariance among variables will be estimated at L2.
 #' @param mL2.variables L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.  
 #'
@@ -6378,16 +6379,22 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #' # Convert wide-format date file to long-format
 #' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU", "AGE", "BMI_S", "EXPOSE", "INTENS"), lag1=FALSE) 
 #'
-#' ## Specify the path model - Model.D ##
+#' ## Specify the path model - Model ##
 #' Model <- '
 #'  INTENS ~ EDU + AGE + BMI_S
 #'  EXPOSE ~ EDU + AGE + BMI_S
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(Model, df_long, Cluster = "ID", L2=TRUE, mL2.variables=NULL)
+#' ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU", "AGE", "BMI_S"))
 #'
-ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL") {
+ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables="NULL") {
+
+  arg1_char <- deparse(substitute(model))
+  arg2_char <- deparse(substitute(data.source))
+  arg3_char <- deparse(substitute(Cluster))
+  missing <- tolower(missing)
+  match.arg(missing, c("listwise","fiml"))
 
   # -- Run Single Level to get model information -- #
   Model.L1 <- lavaan::sem(model,
@@ -6400,12 +6407,10 @@ ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL"
 
   # -- Create manifest Level 2 variables and group-mean centered variables -- #
   if (is.null(mL2.variables) == FALSE) { 
-    mL2.data <- mL2(data.source, Cluster, mL2.variables) 
-    data.source <- mL2.data
+    mL2.data <<- mL2(data.source, Cluster, mL2.variables)
   } # end (if mL2.variables)
 
   # -- Create and Run Multilevel Model -- #
-  sink('ML.txt')
     ML.X <- paste0("Model.ML.X <- '", "\n", "level: 1", "\n")
     for (i in 1:no.estimates) {
       var.lhs <- temp[i, "lhs"]
@@ -6440,31 +6445,66 @@ ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL"
     ML.X <- paste0(ML.X, "'","\n")
     eval(parse(text = ML.X))
 
-    Model.L2 <- lavaan::sem(Model.ML.X,
-      data.source,
-      estimator = 'MLR',
-      cluster=Cluster,
-      verbose = FALSE)
+  sink('ML.txt')
+    cat(ML.X)
+    # -- Run Model.ML.X -- #
+    cat(rep("\n",2), "  Model.L2.fit <- suppressWarnings(lavaan::sem(Model.ML.X,")
+    if (is.null(mL2.variables) == FALSE) { 
+      cat("\n", "   data = mL2.data,") 
+    } else {
+      cat("\n", paste0("    data = ", arg2_char,",")) 
+    }
+    if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
+    cat("\n", "   information = 'observed',")
+    cat("\n", "   estimator = 'MLR',")
+    cat("\n", paste0("   cluster = ", arg3_char, ",")) 
+    cat("\n", "   verbose = FALSE))")
 
-    cat(rep("\n", 2), "## ===== Multilevel Model ===== ##", "\n")
-    print(lavaan::summary(Model.L2, fit.measure = T, standardized = T, rsq = T))
-    cat("\n")
+    # Request summary outputs
+    cat(rep("\n",2), "  print(lavaan::summary(Model.L2.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
   ## -- Execute ML.txt and request summary outputs-- ##
   source('ML.txt')
-  if (lavaan::lavInspect(Model.L2, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
+  if (lavaan::lavInspect(Model.L2.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
   ## ------------------------------- ##
 
 
+  ## -- Estimate ICC -- ##
+  est.var1 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 1)
+  est.var2 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 2)
+  unique_variables <- unique(temp[,"lhs"])
+  cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
+  no.variables <- length(unique_variables)   
+  ICC <- matrix(0, nrow=no.variables, ncol=7)
+  colnames(ICC) <- c("Variable", "L1 label", "L2 label", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
+  rownames(ICC) <- unique_variables  
+  for (i in 1:no.variables) {
+    ICC[i, 1] <- unique_variables[i]
+    if (ICC[i, 1] %in% mL2.variables) {
+      ICC[i, 2] <- paste0("gmc_", ICC[i, 1])
+      ICC[i, 3] <- paste0("gm_", ICC[i, 1])
+    } else {
+      ICC[i, 2] <- unique_variables[i]
+      ICC[i, 3] <- unique_variables[i]
+    } # end (if ICC[i, 1])
+    ICC[i, 4] <- round(est.var1[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
+    ICC[i, 5] <- round(est.var2[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
+    ICC[i, 6] <- round(as.numeric(ICC[i, 5]) / (as.numeric(ICC[i, 4]) + as.numeric(ICC[i, 5])), digits=4)
+    ICC[i, 7] <- round(cluster.size*as.numeric(ICC[i, 6]) / (1 + (cluster.size-1)*as.numeric(ICC[i, 6])), digits=4)
+  } # end (for i)
+  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n") 
+  print(as.data.frame(ICC),row.names=F)
+  cat(rep("\n",2))
+
   ## -- Monte Carlo Simulation -- ##
 
-  parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2, remove.nonfree = TRUE), level == 1)
+  parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE), level == 1)
   no.estimates.L1 <- nrow(parEst.L1)
-  parEst <- lavaan::parameterEstimates(Model.L2, remove.nonfree = TRUE)
+  parEst <- lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE)
   pest2 <- parEst[, "est"]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(Model.L2, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+  pest3 <- lavaan::lavTech(Model.L2.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
   mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
   names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
@@ -6485,7 +6525,7 @@ ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL"
   cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##") 
   for (j in 1:no.estimates.L1) {
     cat("\n")
-    print(lavaan::parameterEstimates(Model.L2)[c(j, j+no.estimates),], row.names=FALSE)
+    print(lavaan::parameterEstimates(Model.L2.fit)[c(j, j+no.estimates),], row.names=FALSE)
 
     estM <- pest2[paste0("D", j)] # estimated parameter
     abM <- mcmc[, paste0("D", j)] # simulated parameter
@@ -6499,6 +6539,8 @@ ML <- function(model, data.source, Cluster="NULL", L2=TRUE, mL2.variables="NULL"
     cat(" Difference in estimated parameter = ", format(round(estM, 4), nsmall = 4), "p = ", format(round(pPCI, 4), nsmall = 4), "\n")
   } # end (for j)
   cat("\n")
+
+#  list(lavaan.object = Model.L2.fit)
 
 } ## End (Function ML)
 
@@ -6603,3 +6645,8 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 } # end (function long2wide)
 
 ## ========================================================================================== ##
+
+
+
+
+

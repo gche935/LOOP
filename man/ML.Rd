@@ -4,7 +4,14 @@
 \alias{ML}
 \title{Function ML (Multilevel Model)}
 \usage{
-ML(model, data.source, Cluster = "NULL", L2 = TRUE, mL2.variables = "NULL")
+ML(
+  model,
+  data.source,
+  Cluster = "NULL",
+  missing = "listwise",
+  L2 = TRUE,
+  mL2.variables = "NULL"
+)
 }
 \arguments{
 \item{model}{User-specified measurement model.}
@@ -12,6 +19,8 @@ ML(model, data.source, Cluster = "NULL", L2 = TRUE, mL2.variables = "NULL")
 \item{data.source}{A data frame containing the observed variables used in the model.}
 
 \item{Cluster}{Cluster variable for nested data. The Monte Carlo simulation method should be used for nested data.}
+
+\item{missing}{missing = "listwise" or "fiml". lavaan uses listwise deletion for missing cases by default. missing = "fiml" in lavaan multilevel model is new and may have convergence problems.}
 
 \item{L2}{If the model should be replicated at L2 (default = TRUE). If L2=FALSE, covariance among variables will be estimated at L2.}
 
@@ -34,13 +43,13 @@ Define the model only once without specifying the level, and the function will c
 # Convert wide-format date file to long-format
 # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU", "AGE", "BMI_S", "EXPOSE", "INTENS"), lag1=FALSE) 
 
-## Specify the path model - Model.D ##
-Model.D <- '
+## Specify the path model - Model ##
+Model <- '
  INTENS ~ EDU + AGE + BMI_S
  EXPOSE ~ EDU + AGE + BMI_S
 '
 
 ## ===== Compare Estimated Parameters Across Levels ===== ##
-ML(Model.D, Example.D, Cluster = "ID", L2=TRUE, mL2.variables="NULL")
+ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU", "AGE", "BMI_S"))
 
 }
