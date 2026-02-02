@@ -9,7 +9,8 @@ STARTS(
   no.waves,
   lag = 1,
   varI.eq = FALSE,
-  p = 0.001,
+  Type1 = 0.05,
+  Type1Adj = "BON",
   X,
   Y,
   Z = "NULL",
@@ -25,7 +26,9 @@ STARTS(
 
 \item{varI.eq}{indicator residual variances are invariant across waves if TRUE (default is FALSE).}
 
-\item{p}{critical p-value for pairwise comparisons (default is 0.001).}
+\item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
+
+\item{Type1Adj}{Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).}
 
 \item{X}{name of variable X.}
 
@@ -45,6 +48,6 @@ Stable Trait Autoregressive Trait and State Model (STARTS)
 
 ## -- Example -- ##
 
-STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
+STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }

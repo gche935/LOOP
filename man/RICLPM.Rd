@@ -4,7 +4,17 @@
 \alias{RICLPM}
 \title{Function RICLPM (Random Intercept Cross-Lagged Panel Model)}
 \usage{
-RICLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
+RICLPM(
+  data.source,
+  no.waves,
+  lag = 1,
+  Type1 = 0.05,
+  Type1Adj = "BON",
+  X,
+  Y,
+  Z = "NULL",
+  W = "NULL"
+)
 }
 \arguments{
 \item{data.source}{name of data.frame}
@@ -13,7 +23,9 @@ RICLPM(data.source, no.waves, lag = 1, p = 0.001, X, Y, Z = "NULL", W = "NULL")
 
 \item{lag}{number of waves between two lags (minimum = 1, maximum = 4)}
 
-\item{p}{critical p-value for pairwise comparisons (default is 0.001)}
+\item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
+
+\item{Type1Adj}{Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).}
 
 \item{X}{name of variable X.}
 
@@ -33,6 +45,6 @@ Random Intercept Cross-Lagged Panel Model (RI-CLPM)
 
 ## -- Example -- ##
 
-RICLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
+RICLPM(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }

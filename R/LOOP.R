@@ -3236,7 +3236,8 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -3248,10 +3249,10 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
+#' RICLPM(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -3262,11 +3263,13 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model RICLPM ----- ###
   sink('RICLPM.txt')
@@ -3548,7 +3551,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(RICLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -3568,7 +3571,8 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -3580,10 +3584,10 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
+#' LGCMSR(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LGCMSR <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -3594,11 +3598,13 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
 
   ## ----- Creating Model LGCMSR ----- ###
@@ -3972,7 +3978,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMSRMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -3993,7 +3999,8 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #' @param no.waves number of waves (minimum = 3, must be grater than lag).
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4).
 #' @param varI.eq indicator residual variances are invariant across waves if TRUE (default is FALSE).
-#' @param p critical p-value for pairwise comparisons (default is 0.001).
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -4005,10 +4012,10 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
+#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -4019,13 +4026,15 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
   if (is.logical(varI.eq) == FALSE) stop("varI.eq (equivalence of indicator residual variance) can only be TRUE or FALSE")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model STARTS ----- ###
   sink('STARTS.txt')
@@ -4324,7 +4333,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(STARTSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4345,7 +4354,8 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -4357,10 +4367,10 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source="Data_A", 7, 1, X="EXPOSE.", Y="INTENS.")
+#' ALT(data.source="Data_A", 7, 1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -4371,11 +4381,13 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model ALT ----- ###
   sink('ALT.txt')
@@ -4761,7 +4773,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(ALTMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4781,7 +4793,8 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 #'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3)
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -4793,20 +4806,22 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
+#' LGCM(data.source="Data_A", 7, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model LGCM ----- ###
   sink('LGCM.txt') # Start writing script to LGCM.txt
@@ -4991,7 +5006,7 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5232,7 +5247,8 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
-#' @param p critical p-value for pairwise comparisons (default is 0.001).
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -5244,10 +5260,10 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' ## -- Example -- ##
 #'
-#' LCS(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
+#' LCS(data.source="Data_A", 7, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   lag <- 1
 
@@ -5255,11 +5271,13 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model LCS ----- ###
 
@@ -5626,7 +5644,7 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5646,7 +5664,8 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
 #' @param varI.eq whether indicator residual variances are constrained to be equal (default is false).  
-#' @param p critical p-value for pairwise comparisons (default is 0.001).
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -5658,10 +5677,10 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
+#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   lag <- 1
 
@@ -5669,12 +5688,15 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
 
   if (is.logical(varI.eq) == FALSE) stop("varI.eq (equivalence of indicator residual variance) can only be TRUE or FALSE")
+
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model LCSCC ----- ###
 
@@ -6077,7 +6099,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSCCMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -6097,7 +6119,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than AR & MA)
 #' @param lag number of lags in autoregressive effect (AR) and moving average (MA) (default = 1) AR = MA
-#' @param p critical p-value for pairwise comparisons (default is 0.001)
+#' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
+#' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
 #' @param Y name of variable Y.
 #' @param Z name of variable Z.
@@ -6109,10 +6132,10 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE.", Y="INTENS.")
+#' GCLM(data.source="Data_A", 7, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
+GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -6122,10 +6145,13 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   if (lag > 4) stop("Maximum number of lag is 4")
   if ((no.waves - lag) < 1) stop("Number of waves must be greater than lag plus 1")
 
-  if (p > 0.05) stop("p > 0.05 is not recommended")
-  if (p < 0.0001) stop("p < 0.0001 is not recommended")
+  if (Type1 > 0.05) stop("Type I error rate > 0.05 is not recommended")
+  if (Type1 < 0.0001) stop("Type I error rate < 0.0001 is not recommended")
 
   if (Z == "NULL" & W != "NULL") stop("Z must be defined before W")
+
+  Type1Adj <- toupper(Type1Adj)
+  match.arg(Type1Adj, c("BON", "NULL"))
 
   ## ----- Creating Model GCLM ----- ###
   sink('GCLM.txt')
@@ -6482,7 +6508,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(GCLMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
 
   cat(rep("\n", 2))
 

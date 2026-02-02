@@ -8,7 +8,8 @@ LCSCC(
   data.source,
   no.waves,
   varI.eq = FALSE,
-  p = 0.001,
+  Type1 = 0.05,
+  Type1Adj = "BON",
   X,
   Y,
   Z = "NULL",
@@ -22,7 +23,9 @@ LCSCC(
 
 \item{varI.eq}{whether indicator residual variances are constrained to be equal (default is false).}
 
-\item{p}{critical p-value for pairwise comparisons (default is 0.001).}
+\item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
+
+\item{Type1Adj}{Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).}
 
 \item{X}{name of variable X.}
 
@@ -42,6 +45,6 @@ Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 
 ## -- Example -- ##
 
-LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
+LCSCC(data.source="Data_A", 7, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }

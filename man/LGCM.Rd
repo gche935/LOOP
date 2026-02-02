@@ -4,14 +4,25 @@
 \alias{LGCM}
 \title{Function LGCM (Latent Growth Curve Model)}
 \usage{
-LGCM(data.source, no.waves, p = 0.001, X, Y, Z = "NULL", W = "NULL")
+LGCM(
+  data.source,
+  no.waves,
+  Type1 = 0.05,
+  Type1Adj = "BON",
+  X,
+  Y,
+  Z = "NULL",
+  W = "NULL"
+)
 }
 \arguments{
 \item{data.source}{name of data.frame}
 
 \item{no.waves}{number of waves (minimum = 3)}
 
-\item{p}{critical p-value for pairwise comparisons (default is 0.001)}
+\item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
+
+\item{Type1Adj}{Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).}
 
 \item{X}{name of variable X.}
 
@@ -31,6 +42,6 @@ Latent Growth Curve Model (LGCM)
 
 ## -- Example -- ##
 
-LGCM(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
+LGCM(data.source="Data_A", 7, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }
