@@ -10,7 +10,7 @@ ML(
   Cluster = "NULL",
   missing = "listwise",
   L2 = TRUE,
-  mL2.variables = "NULL"
+  mL2.variables = NULL
 )
 }
 \arguments{

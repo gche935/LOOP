@@ -6388,7 +6388,7 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
 #' ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU", "AGE", "BMI_S"))
 #'
-ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables="NULL") {
+ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
   arg1_char <- deparse(substitute(model))
   arg2_char <- deparse(substitute(data.source))
