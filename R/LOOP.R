@@ -20,7 +20,11 @@ mL2 <- function(data.source, id, mL2.variables) {
 
 ## ----- Sub-Function Invariance for testing invariance of parameters ----- ##
 
+<<<<<<< HEAD
 Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W) {
+=======
+Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, p, X, Y, Z, W) {
+>>>>>>> 0a14b8be2fb3d1339a09ae22cd48f19420343edc
 
   mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
   names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
