@@ -1,11 +1,11 @@
 
-## ----- Sub-function gmc & gm - Calculate the group-mean centered and group mean variables ----- ##
+## ----- Sub-function gmc & gm - Calculate the group-mean centered and group mean ----- ##
 gmc <- function(x) { x - mean(x, na.rm=TRUE) }
 gm  <- function(x) { mean(x, na.rm=TRUE) }
 ## -------------------------------------------------------- ##
 
 
-## ----- Sub-function mL2 - Calculate the group-mean centered variables and group means ----- ##
+## ----- Sub-function mL2 - Create the group-mean centered and group mean variables ----- ##
 mL2 <- function(data.source, id, mL2.variables) {
   data_centered <- data.source %>%
   group_by(id) %>%
@@ -2879,7 +2879,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+#' CLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
 #'
 
 CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -3106,7 +3106,7 @@ CLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+#' RICLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
 #'
 
 RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -3438,7 +3438,7 @@ RICLPM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+#' LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
 #'
 
 LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -3863,7 +3863,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = 
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
+#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
 #'
 
 STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -4215,7 +4215,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, p = 0.001, X, 
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source="Data_A", 7, 1, X="EXPOSE", Y="INTENS")
+#' ALT(data.source="Data_A", 7, 1, X="EXPOSE.", Y="INTENS.")
 #'
 
 ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -4651,7 +4651,7 @@ ALT <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NU
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+#' LGCM(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
 #'
 
 LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -5102,7 +5102,7 @@ LGCM <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' ## -- Example -- ##
 #'
-#' LCS(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+#' LCS(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
 #'
 
 LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -5516,7 +5516,7 @@ LCS <- function(data.source, no.waves, p = 0.001, X, Y, Z="NULL", W = "NULL") {
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
+#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
 #'
 
 LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -5967,7 +5967,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, p = 0.001, X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE", Y="INTENS")
+#' GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE.", Y="INTENS.")
 #'
 
 GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "NULL") {
@@ -6377,16 +6377,16 @@ GCLM <- function(data.source, no.waves, lag=1, p = 0.001, X, Y, Z="NULL", W = "N
 #' # Data file is "Data_A"; cluster variable is "ID"
 #'
 #' # Convert wide-format date file to long-format
-#' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU", "AGE", "BMI_S", "EXPOSE", "INTENS"), lag1=FALSE) 
+#' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU.", "AGE.", "BMI_S.", "EXPOSE.", "INTENS."), lag1=FALSE) 
 #'
 #' ## Specify the path model - Model ##
 #' Model <- '
-#'  INTENS ~ EDU + AGE + BMI_S
-#'  EXPOSE ~ EDU + AGE + BMI_S
+#'  INTENS. ~ EDU. + AGE. + BMI_S.
+#'  EXPOSE. ~ EDU. + AGE. + BMI_S.
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU", "AGE", "BMI_S"))
+#' ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
@@ -6570,7 +6570,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #' # Suppose df_long is the new dataframe name.
 #' # Suppose data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_A
 #'
-#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE", "INTENS"), lag1=FALSE) 
+#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE.", "INTENS."), lag1=FALSE) 
 #' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
@@ -6584,7 +6584,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = lapply(variables, function(x) paste0(x, ".", 1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6593,7 +6593,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = lapply(variables, function(x) paste0(x, ".", 1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6628,7 +6628,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #'
 #' ## -- Example -- ##
 #' 
-#' df_wide <- long2wide(df_long, "id", "time", variables=c("EXPOSE", "INTENS"))
+#' df_wide <- long2wide(df_long, "id", "time", variables=c("EXPOSE.", "INTENS."))
 #' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
 

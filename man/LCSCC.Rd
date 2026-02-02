@@ -42,6 +42,6 @@ Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 
 ## -- Example -- ##
 
-LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
+LCSCC(data.source="Data_A", 7, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
 
 }

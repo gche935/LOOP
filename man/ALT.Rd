@@ -33,6 +33,6 @@ Autoregressive Latent Trajectory Model (ALT)
 
 ## -- Example -- ##
 
-ALT(data.source="Data_A", 7, 1, X="EXPOSE", Y="INTENS")
+ALT(data.source="Data_A", 7, 1, X="EXPOSE.", Y="INTENS.")
 
 }

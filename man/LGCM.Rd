@@ -31,6 +31,6 @@ Latent Growth Curve Model (LGCM)
 
 ## -- Example -- ##
 
-LGCM(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+LGCM(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
 
 }

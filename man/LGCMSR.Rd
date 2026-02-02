@@ -33,6 +33,6 @@ Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 
 ## -- Example -- ##
 
-LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+LGCMSR(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
 
 }

@@ -33,6 +33,6 @@ Cross-Lagged Panel Model (CLPM)
 
 ## -- Example -- ##
 
-CLPM(data.source="Data_A", 7, 2, X="EXPOSE", Y="INTENS")
+CLPM(data.source="Data_A", 7, 2, X="EXPOSE.", Y="INTENS.")
 
 }

@@ -31,6 +31,6 @@ Latent Change Score Model (LCS)
 
 ## -- Example -- ##
 
-LCS(data.source="Data_A", 7, X="EXPOSE", Y="INTENS")
+LCS(data.source="Data_A", 7, X="EXPOSE.", Y="INTENS.")
 
 }

@@ -33,6 +33,6 @@ General Cross-Lagged Panel Model (GCLM)
 
 ## -- Example -- ##
 
-GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE", Y="INTENS")
+GCLM(data.source="Data_A", 7, lag=1, X="EXPOSE.", Y="INTENS.")
 
 }

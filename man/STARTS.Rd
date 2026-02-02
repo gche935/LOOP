@@ -45,6 +45,6 @@ Stable Trait Autoregressive Trait and State Model (STARTS)
 
 ## -- Example -- ##
 
-STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE", Y="INTENS")
+STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, X="EXPOSE.", Y="INTENS.")
 
 }

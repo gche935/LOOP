@@ -41,15 +41,15 @@ Define the model only once without specifying the level, and the function will c
 # Data file is "Data_A"; cluster variable is "ID"
 
 # Convert wide-format date file to long-format
-# df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU", "AGE", "BMI_S", "EXPOSE", "INTENS"), lag1=FALSE) 
+# df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU.", "AGE.", "BMI_S.", "EXPOSE.", "INTENS."), lag1=FALSE) 
 
 ## Specify the path model - Model ##
 Model <- '
- INTENS ~ EDU + AGE + BMI_S
- EXPOSE ~ EDU + AGE + BMI_S
+ INTENS. ~ EDU. + AGE. + BMI_S.
+ EXPOSE. ~ EDU. + AGE. + BMI_S.
 '
 
 ## ===== Compare Estimated Parameters Across Levels ===== ##
-ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU", "AGE", "BMI_S"))
+ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
 
 }
