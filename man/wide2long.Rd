@@ -25,12 +25,11 @@ Convert wide data format to long data format with the capability to create lagge
 
 ## -- Example -- ##
 
-Data_B <- Data_A[1:50,]
 
 # Suppose df_long is the new dataframe name.
-# Suppese data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_7
+# Suppose data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_A
 
-df_long <- wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE) 
-# write.csv(df_long, "file_long.csv") # save dataframe to csv file
+df_long <- wide2long(Data_A, 7, variables=c("EXPOSE", "INTENS"), lag1=FALSE) 
+write.csv(df_long, "file_long.csv") # save dataframe to csv file
 
 }

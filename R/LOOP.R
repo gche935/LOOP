@@ -6566,13 +6566,12 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #'
 #' ## -- Example -- ##
 #' 
-#' Data_B <- Data_A[1:50,]
 #'
 #' # Suppose df_long is the new dataframe name.
-#' # Suppese data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_7
+#' # Suppose data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_A
 #'
-#' df_long <- wide2long(Data_B, 7, variables=c("EXPOSE", "INTENS"), lag1=TRUE) 
-#' # write.csv(df_long, "file_long.csv") # save dataframe to csv file
+#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE", "INTENS"), lag1=FALSE) 
+#' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
 ## ===== Convert data file to long format ===== ##
@@ -6585,7 +6584,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, ".", 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6594,7 +6593,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long <- suppressWarnings(reshape(data.source,
       direction = "long",
       idvar = "id",
-      varying = lapply(variables, function(x) paste0(x, 1:no.waves)),
+      varying = lapply(variables, function(x) paste0(x, ".", 1:no.waves)),
       v.names = variables,
       timevar = "time",
       times = c(1: no.waves) # Optional: specify time values explicitly
@@ -6603,7 +6602,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
     df_long_lagged <- df_long %>%
     arrange(id, time) %>% # Ensure data is sorted by group and time
     group_by(id) %>%     # Group by the identifier
-    mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "lag_{.col}")) %>%
+    mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "{.col}_lag")) %>%
     ungroup()            # Ungroup the data when done
   } # end (if lag1)
 } # end (function wide2long)
@@ -6629,8 +6628,8 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #'
 #' ## -- Example -- ##
 #' 
-#' df_wide <- long2wide(Data_C, "id", "time", variables=c("EXPOSE", "INTENS"))
-#' # write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
+#' df_wide <- long2wide(df_long, "id", "time", variables=c("EXPOSE", "INTENS"))
+#' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
 
 ## ===== Convert data file to wide format ===== ##
