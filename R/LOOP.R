@@ -11,7 +11,7 @@ mL2 <- function(data.source, id, mL2.variables) {
   group_by(id) %>%
   mutate(across(all_of(mL2.variables), ~gmc(.x), .names = "gmc_{.col}")) %>%
   mutate(across(all_of(mL2.variables), ~gm(.x), .names = "gm_{.col}")) %>%
-  ungroup() 
+  ungroup()
 }
 
 ## -------------------------------------------------------- ##
@@ -1642,9 +1642,9 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
-  
+
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List and Delete - Path XX ##
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="Y", b="Y", LDlag=4)  ## List and Delete - Path YY ##
       if (Z != "NULL") {
@@ -1668,7 +1668,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
@@ -1701,7 +1701,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List and Delete - Path XY ##
@@ -1732,7 +1732,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List and Delete - Path XY ##
@@ -1764,7 +1764,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_Path(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List and Delete - Path XY ##
@@ -1799,7 +1799,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
@@ -1823,7 +1823,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=2)  ## List & Delete - Proportion Change XX ##
@@ -1846,7 +1846,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=3)  ## List & Delete - Proportion Change XX ##
@@ -1870,7 +1870,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="X", LDlag=4)  ## List & Delete - Proportion Change XX ##
@@ -1896,7 +1896,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 #    no.compare.M = (no.waves - 1)*(no.waves)/2
@@ -1929,7 +1929,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=2)  ## List & Delete - Proportion Change XY ##
@@ -1960,7 +1960,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=3)  ## List & Delete - Proportion Change XY ##
@@ -1992,7 +1992,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
         p <- Type1/no.compare
       } else {
         p = Type1
-      } # end (if Type1Adj)   
+      } # end (if Type1Adj)
       cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
       LandD_PC(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y", LDlag=4)  ## List & Delete - Proportion Change XY ##
@@ -2029,7 +2029,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - residual variance eXX ##
@@ -2059,7 +2059,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - eXY ##
@@ -2090,7 +2090,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_iXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - impulse variance iX ##
@@ -2120,7 +2120,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_iXY(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X", b="Y")  ## List and Delete - iXY ##
@@ -2156,7 +2156,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
     LandD_eIXX(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="X")  ## List and Delete - indicator residual variance eIXX ##
@@ -2191,7 +2191,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 
@@ -2224,7 +2224,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
       p <- Type1/no.compare
     } else {
       p = Type1
-    } # end (if Type1Adj)   
+    } # end (if Type1Adj)
     cat("\n", sprintf("Critical p-value is: %.4f\n", p), "\n")
 
 
@@ -4012,7 +4012,8 @@ LGCMSR <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.",
+#'  Y="INTENS.")
 #'
 
 STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -4904,7 +4905,7 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
         cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
       } # end (if W)
     } # end (for i)
-    
+
     # -- Estimate Means (Intercepts) of Random Intercepts -- #
     cat(rep("\n",2), "  # -- Estimate means (intercepts) of random intercepts -- #")
     cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
@@ -5663,7 +5664,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
-#' @param varI.eq whether indicator residual variances are constrained to be equal (default is false).  
+#' @param varI.eq whether indicator residual variances are constrained to be equal (default is false).
 #' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
 #' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
@@ -6476,7 +6477,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
       } # end (if W)
     } # end ((for i)
 
-    # -- Define New Parameters -- # 
+    # -- Define New Parameters -- #
     cat(rep("\n",2), "  # -- Define New Parameters -- #")
 
     cat(rep("\n",2), "  '")
@@ -6522,7 +6523,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
 
 # ==================== Create Function "ML" ==================== #
-#' Function ML (Multilevel Model) 
+#' Function ML (Multilevel Model)
 #'
 #' Multilevel Model allows for both MLM and MSEM and compares paths across levels
 #'
@@ -6533,9 +6534,9 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' @param model User-specified measurement model.
 #' @param data.source A data frame containing the observed variables used in the model.
 #' @param Cluster Cluster variable for nested data. The Monte Carlo simulation method should be used for nested data.
-#' @param missing missing = "listwise" or "fiml". lavaan uses listwise deletion for missing cases by default. missing = "fiml" in lavaan multilevel model is new and may have convergence problems. 
+#' @param missing missing = "listwise" or "fiml". lavaan uses listwise deletion for missing cases by default. missing = "fiml" in lavaan multilevel model is new and may have convergence problems.
 #' @param L2 If the model should be replicated at L2 (default = TRUE). If L2=FALSE, covariance among variables will be estimated at L2.
-#' @param mL2.variables L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.  
+#' @param mL2.variables L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.
 #'
 #' @return Estimated parameters and differences in estimated parameters across levels
 #' @export
@@ -6545,7 +6546,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' # Data file is "Data_A"; cluster variable is "ID"
 #'
 #' # Convert wide-format date file to long-format
-#' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU.", "AGE.", "BMI_S.", "EXPOSE.", "INTENS."), lag1=FALSE) 
+#' # df_long <- wide2long(Data_A, no.waves=7, variables=c("EDU.", "AGE.", "BMI_S.",
+#' # "EXPOSE.", "INTENS."), lag1=FALSE)
 #'
 #' ## Specify the path model - Model ##
 #' Model <- '
@@ -6574,7 +6576,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   no.estimates <- nrow(temp)
 
   # -- Create manifest Level 2 variables and group-mean centered variables -- #
-  if (is.null(mL2.variables) == FALSE) { 
+  if (is.null(mL2.variables) == FALSE) {
     mL2.data <<- mL2(data.source, Cluster, mL2.variables)
   } # end (if mL2.variables)
 
@@ -6583,7 +6585,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     for (i in 1:no.estimates) {
       var.lhs <- temp[i, "lhs"]
       var.rhs <- temp[i, "rhs"]
-      if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"]) 
+      if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"])
       if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gmc_", temp[i, "rhs"])
       ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
     } # end (for i)
@@ -6600,16 +6602,16 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
       unique_variables <- unique(temp[,"lhs"])
       for (i in 1:length(unique_variables)) {
         if (unique_variables[i] %in% mL2.variables) {
-          unique_variables[i] <- paste0("gm_", unique_variables[i]) 
-        } # end (if unique_variables)   
+          unique_variables[i] <- paste0("gm_", unique_variables[i])
+        } # end (if unique_variables)
       } # end (for i)
       ML.X <- paste0(ML.X, paste0("\n", "level: 2", "\n"))
       for (j in 1:(length(unique_variables)-1)) {
         for (i in (j+1):(length(unique_variables))) {
           ML.X <- paste0(ML.X, unique_variables[j], "~~", unique_variables[i], "\n")
         } # end (for i)
-      } # end (for j) 
-    } # end (if L2 = TRUE) 
+      } # end (for j)
+    } # end (if L2 = TRUE)
     ML.X <- paste0(ML.X, "'","\n")
     eval(parse(text = ML.X))
 
@@ -6617,15 +6619,15 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     cat(ML.X)
     # -- Run Model.ML.X -- #
     cat(rep("\n",2), "  Model.L2.fit <- suppressWarnings(lavaan::sem(Model.ML.X,")
-    if (is.null(mL2.variables) == FALSE) { 
-      cat("\n", "   data = mL2.data,") 
+    if (is.null(mL2.variables) == FALSE) {
+      cat("\n", "   data = mL2.data,")
     } else {
-      cat("\n", paste0("    data = ", arg2_char,",")) 
+      cat("\n", paste0("    data = ", arg2_char,","))
     }
     if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
     cat("\n", "   information = 'observed',")
     cat("\n", "   estimator = 'MLR',")
-    cat("\n", paste0("   cluster = ", arg3_char, ",")) 
+    cat("\n", paste0("   cluster = ", arg3_char, ","))
     cat("\n", "   verbose = FALSE))")
 
     # Request summary outputs
@@ -6644,10 +6646,10 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   est.var2 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 2)
   unique_variables <- unique(temp[,"lhs"])
   cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
-  no.variables <- length(unique_variables)   
+  no.variables <- length(unique_variables)
   ICC <- matrix(0, nrow=no.variables, ncol=7)
   colnames(ICC) <- c("Variable", "L1 label", "L2 label", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
-  rownames(ICC) <- unique_variables  
+  rownames(ICC) <- unique_variables
   for (i in 1:no.variables) {
     ICC[i, 1] <- unique_variables[i]
     if (ICC[i, 1] %in% mL2.variables) {
@@ -6662,7 +6664,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     ICC[i, 6] <- round(as.numeric(ICC[i, 5]) / (as.numeric(ICC[i, 4]) + as.numeric(ICC[i, 5])), digits=4)
     ICC[i, 7] <- round(cluster.size*as.numeric(ICC[i, 6]) / (1 + (cluster.size-1)*as.numeric(ICC[i, 6])), digits=4)
   } # end (for i)
-  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n") 
+  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n")
   print(as.data.frame(ICC),row.names=F)
   cat(rep("\n",2))
 
@@ -6690,7 +6692,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   ## ----- end (Difference in estimated parameters ) ----- ##
 
   ## -- Print Results -- ##
-  cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##") 
+  cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##")
   for (j in 1:no.estimates.L1) {
     cat("\n")
     print(lavaan::parameterEstimates(Model.L2.fit)[c(j, j+no.estimates),], row.names=FALSE)
@@ -6725,7 +6727,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #'
 #' @param data.source name of dataframe.
 #' @param no.waves number of waves of data.
-#' @param variables variable names to create long data format. 
+#' @param variables variable names to create long data format.
 #' @param lag1 whether to create lagged (t - 1) data of the variables. Default is FALSE.
 #'
 #' @return object as a dataframe.
@@ -6733,12 +6735,12 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #' @examples
 #'
 #' ## -- Example -- ##
-#' 
+#'
 #'
 #' # Suppose df_long is the new dataframe name.
 #' # Suppose data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_A
 #'
-#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE.", "INTENS."), lag1=FALSE) 
+#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE.", "INTENS."), lag1=FALSE)
 #' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
@@ -6784,18 +6786,18 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 # ==================== Creating Function "long2wide" ==================== #
 #' Function long2wide (Convert Long Data Format to Wide Data Format)
 #'
-#' Convert long data format to wide data format. New variables will be coded with ".1, .2" to indicate the timelines. 
+#' Convert long data format to wide data format. New variables will be coded with ".1, .2" to indicate the timelines.
 #'
 #' @param data.source name of dataframe.
 #' @param id variable indicates group.
-#' @param time variable indicates time. 
+#' @param time variable indicates time.
 #'
 #' @return object as a dataframe.
 #' @export
 #' @examples
 #'
 #' ## -- Example -- ##
-#' 
+#'
 #' df_wide <- long2wide(df_long, "id", "time", variables=c("EXPOSE.", "INTENS."))
 #' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
@@ -6804,10 +6806,10 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")) {
   df_wide <- suppressWarnings(reshape(
     data = data.source,
-    idvar = id,        
-    timevar = time,    
-    v.names = variables,    
-    direction = "wide"    
+    idvar = id,
+    timevar = time,
+    v.names = variables,
+    direction = "wide"
   ))
 } # end (function long2wide)
 
