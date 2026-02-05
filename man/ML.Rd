@@ -51,6 +51,6 @@ Model <- '
 '
 
 ## ===== Compare Estimated Parameters Across Levels ===== ##
-ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
+ML(model=Model, data.source=df_long, Cluster="id", missing="listwise", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
 
 }

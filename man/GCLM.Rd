@@ -45,6 +45,6 @@ General Cross-Lagged Panel Model (GCLM)
 
 ## -- Example -- ##
 
-GCLM(data.source="Data_A", 7, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+GCLM(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }

@@ -3551,7 +3551,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(RICLPMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -3978,7 +3978,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMSRMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4283,7 +4283,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
     cat("\n", "  ################################################################")
     if (Z == "NULL") {
       cat("\n", "   #  D1 ~ RI", X, " + RI", Y, sep="")
-    } else if (Z != "NULL") {
+    } else if (Z != "NULL") {Type1Adj
       cat("\n", "   #  D1 ~ RI", X, " + RI", Y, " + RI", Z, sep="")
     } else if (W != "NULL") {
       cat("\n", "   #  D1 ~ RI", X, " + RI", Y, " + RI", Z, " + RI", W, sep="")
@@ -4334,7 +4334,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(STARTSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -4774,7 +4774,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(ALTMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5007,7 +5007,7 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -5645,7 +5645,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -6100,7 +6100,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(LCSCCMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
@@ -6509,7 +6509,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
   pest2 <- parEst[, "est"]  # Estimated Parameters
   pest3 <- lavaan::lavTech(GCLMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1=0.05, Type1Adj="BON", X, Y, Z, W)
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
 
