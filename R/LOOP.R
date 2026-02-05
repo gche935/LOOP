@@ -2483,8 +2483,8 @@ LandD_eXY <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X,
     for (i in j:no.waves) {
       Clhs <- paste("e", a, b, i, "-e", a, b, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
-        NI.path[k, 1] <- i
-        NI.path[k, 2] <- i-j+2
+        NI.path[k, 1] <- i-1
+        NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
     } # end (for i)
@@ -2692,8 +2692,8 @@ if (any(parEst[,4] == "eIXY2")) {
     for (i in j:no.waves) {
       Clhs <- paste("eI", a, b, i, "-eI", a, b, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
-        NI.path[k, 1] <- i
-        NI.path[k, 2] <- i-j+2
+        NI.path[k, 1] <- i-1
+        NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
     } # end (for i)
@@ -2893,7 +2893,7 @@ if (any(parEst[,4] == "eIXX2")) {
       Clhs <- paste("eI", a, a, i, "-eI", a, a, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
-        NI.path[k, 2] <- i-j+2
+        NI.path[k, 2] <- i-j+1
         k <- k + 1
       } # end (if pest2)
     } # end (for i)
