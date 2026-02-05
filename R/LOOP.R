@@ -4794,6 +4794,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3)
+#' @param slope Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".
 #' @param Type1 Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.
 #' @param Type1Adj Adjustment of Type I error rate for multiple tests for each estimated parameter. Default is "BON" (Bonferroni adjustment -- Type I error rate/no. of pairwise comparisons), can also be "NULL" (without adjustment).
 #' @param X name of variable X.
@@ -4807,10 +4808,10 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source="Data_A", no.waves=6, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' LGCM(data.source="Data_A", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
-LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
+LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
 
@@ -4824,10 +4825,14 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
 
+  slope <- tolower(slope)
+  match.arg(slope, c("linear", "unspecified", "quadratic"))
+
+
   ## ----- Creating Model LGCM ----- ###
   sink('LGCM.txt') # Start writing script to LGCM.txt
     cat("\n", "# Specify the model (LGCM)", "\n")
-    cat("\n", "LGCMSR <- '")
+    cat("\n", "LGCM <- '")
 
     # -- Create Between Components (Random Intercepts) -- #
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
@@ -4856,28 +4861,98 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
 
     # -- Create Between Components (Random Slopes) -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
-    BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
-    for (i in 3:no.waves) {
-      BX <- paste(BX, " +", (i-1), "*", X, i, sep="")
-      BY <- paste(BY, " +", (i-1), "*", Y, i, sep="")
-    } # end (for i)
-    cat("\n", BX)
-    cat("\n", BY)
-    if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+    if (slope == "linear") {
+      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
       for (i in 3:no.waves) {
-        BZ <- paste(BZ, " +", (i-1), "*", Z, i, sep="")
+        BX <- paste(BX, " + ", (i-1), "*", X, i, sep="")
+        BY <- paste(BY, " + ", (i-1), "*", Y, i, sep="")
       } # end (for i)
-      cat("\n", BZ)
-    } # end (if Z)
-    if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+      cat("\n", BX)
+      cat("\n", BY)
+      if (Z != "NULL") {
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        for (i in 3:no.waves) {
+          BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
+        } # end (for i)
+        cat("\n", BZ)
+      } # end (if Z)
+      if (W != "NULL") {
+        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        for (i in 3:no.waves) {
+          BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
+        } # end (for i)
+        cat("\n", BW)
+      } # end (if W)
+    } else if (slope == "unspecified") {
+      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
       for (i in 3:no.waves) {
-        BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
+        BX <- paste(BX, " + ", X, i, sep="")
+        BY <- paste(BY, " + ", Y, i, sep="")
       } # end (for i)
-      cat("\n", BW)
-    } # end (if W)
+      cat("\n", BX)
+      cat("\n", BY)
+      if (Z != "NULL") {
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        for (i in 3:no.waves) {
+          BZ <- paste(BZ, " + ", Z, i, sep="")
+        } # end (for i)
+        cat("\n", BZ)
+      } # end (if Z)
+      if (W != "NULL") {
+        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        for (i in 3:no.waves) {
+          BW <- paste(BW, " + ", W, i, sep="")
+        } # end (for i)
+        cat("\n", BW)
+      } # end (if W)
+    } else if (slope == "quadratic") {
+      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      for (i in 3:no.waves) {
+        BX <- paste(BX, " + ", (i-1), "*", X, i, sep="")
+        BY <- paste(BY, " + ", (i-1), "*", Y, i, sep="")
+      } # end (for i)
+      cat("\n", BX)
+      cat("\n", BY)
+      if (Z != "NULL") {
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        for (i in 3:no.waves) {
+          BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
+        } # end (for i)
+        cat("\n", BZ)
+      } # end (if Z)
+      if (W != "NULL") {
+        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        for (i in 3:no.waves) {
+          BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
+        } # end (for i)
+        cat("\n", BW)
+      } # end (if W)
+      QX <- paste("  RQ", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
+      QY <- paste("  RQ", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      for (i in 3:no.waves) {
+        QX <- paste(QX, " + ", (i-1)^2, "*", X, i, sep="")
+        QY <- paste(QY, " + ", (i-1)^2, "*", Y, i, sep="")
+      } # end (for i)
+      cat("\n", QX)
+      cat("\n", QY)
+      if (Z != "NULL") {
+        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        for (i in 3:no.waves) {
+          QZ <- paste(QZ, " + ", (i-1)^2, "*", Z, i, sep="")
+        } # end (for i)
+        cat("\n", QZ)
+      } # end (if Z)
+      if (W != "NULL") {
+        QW <- paste("  RQ", W, " =~ 0*", W, "1*", W, "2", sep="")
+        for (i in 3:no.waves) {
+          QW <- paste(QW, " +", (i-1)^2, "*", W, i, sep="")
+        } # end (for i)
+        cat("\n", QW)
+      } # end (if W)
+    } # end (if slope)
 
     # -- Constrain Means (Intercepts) of Indicators to zero -- #
     cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")

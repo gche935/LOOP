@@ -7,6 +7,7 @@
 LGCM(
   data.source,
   no.waves,
+  slope = "linear",
   Type1 = 0.05,
   Type1Adj = "BON",
   X,
@@ -19,6 +20,8 @@ LGCM(
 \item{data.source}{name of data.frame}
 
 \item{no.waves}{number of waves (minimum = 3)}
+
+\item{slope}{Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".}
 
 \item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
 
@@ -42,6 +45,6 @@ Latent Growth Curve Model (LGCM)
 
 ## -- Example -- ##
 
-LGCM(data.source="Data_A", no.waves=6, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+LGCM(data.source="Data_A", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }
