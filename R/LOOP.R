@@ -3867,6 +3867,76 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
       } # end (if W)
     } # end ((for i)
 
+    # -- Constrain covariance among RIX RIY, RIZ, RIW and wx1, wy1, wz1, ww1 -- #
+    cat(rep("\n",2), "  # -- Constrain covariance among RIx, RIy, RIz, RIw and wx1, wy1, wz1, ww1 -- #")
+    cat("\n", "   RI", X, " ~~ 0*w", X, "1", sep="")
+    cat("\n", "   RI", X, " ~~ 0*w", Y, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ 0*w", X, "1", sep="")
+    cat("\n", "   RI", Y, " ~~ 0*w", Y, "1", sep="")
+    if (Z != "NULL") {
+      cat("\n", "   RI", X, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ 0*w", Y, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ 0*w", Z, "1", sep="")
+    } # end (if Z)
+    if (W != "NULL") {
+      cat("\n", "   RI", X, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RI", Y, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RI", Z, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RI", W, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RI", W, " ~~ 0*w", Y, "1", sep="")
+      cat("\n", "   RI", W, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RI", W, " ~~ 0*w", W, "1", sep="")
+    } # end (if W)
+
+    # -- Constrain covariance among RSX RSY, RSZ, RSW and wx1, wy1, wz1, ww1 -- #
+    cat(rep("\n",2), "  # -- Constrain covariance among RSx, RSy, RSz, RSw and wx1, wy1, wz1, ww1 -- #")
+    cat("\n", "   RS", X, " ~~ 0*w", X, "1", sep="")
+    cat("\n", "   RS", X, " ~~ 0*w", Y, "1", sep="")
+    cat("\n", "   RS", Y, " ~~ 0*w", X, "1", sep="")
+    cat("\n", "   RS", Y, " ~~ 0*w", Y, "1", sep="")
+    if (Z != "NULL") {
+      cat("\n", "   RS", X, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RS", Y, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ 0*w", Y, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ 0*w", Z, "1", sep="")
+    } # end (if Z != "NULL")
+    if (W != "NULL") {
+      cat("\n", "   RS", X, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RS", Y, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RS", Z, " ~~ 0*w", W, "1", sep="")
+      cat("\n", "   RS", W, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RS", W, " ~~ 0*w", Y, "1", sep="")
+      cat("\n", "   RS", W, " ~~ 0*w", Z, "1", sep="")
+      cat("\n", "   RS", W, " ~~ 0*w", W, "1", sep="")
+    } # end (if W != "NULL")
+
+    # -- Constrain covariance among RQX RQY, RQZ, RQW and wx1, wy1, wz1, ww1 -- #
+    if (slope == "quadratic") {
+      cat(rep("\n",2), "  # -- Constrain covariance among RQx, RQy, RQz, RQw and wx1, wy1, wz1, ww1 -- #")
+      cat("\n", "   RQ", X, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RQ", X, " ~~ 0*w", Y, "1", sep="")
+      cat("\n", "   RQ", Y, " ~~ 0*w", X, "1", sep="")
+      cat("\n", "   RQ", Y, " ~~ 0*w", Y, "1", sep="")
+      if (Z != "NULL") {
+        cat("\n", "   RQ", X, " ~~ 0*w", Z, "1", sep="")
+        cat("\n", "   RQ", Y, " ~~ 0*w", Z, "1", sep="")
+        cat("\n", "   RQ", Z, " ~~ 0*w", X, "1", sep="")
+        cat("\n", "   RQ", Z, " ~~ 0*w", Y, "1", sep="")
+        cat("\n", "   RQ", Z, " ~~ 0*w", Z, "1", sep="")
+      } # end (if Z != "NULL")
+      if (W != "NULL") {
+        cat("\n", "   RQ", X, " ~~ 0*w", W, "1", sep="")
+        cat("\n", "   RQ", Y, " ~~ 0*w", W, "1", sep="")
+        cat("\n", "   RQ", Z, " ~~ 0*w", W, "1", sep="")
+        cat("\n", "   RQ", W, " ~~ 0*w", X, "1", sep="")
+        cat("\n", "   RQ", W, " ~~ 0*w", Y, "1", sep="")
+        cat("\n", "   RQ", W, " ~~ 0*w", Z, "1", sep="")
+        cat("\n", "   RQ", W, " ~~ 0*w", W, "1", sep="")
+      } # end (if W != "NULL")
+    } # end (if slope)
 
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
