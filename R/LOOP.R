@@ -4983,8 +4983,8 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       } # end (if W)
     } # end (for i)###   ###
 
-    # -- Estimate Means (Intercepts) of Random Intercepts -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of random intercepts -- #")
+    # -- Estimate Means of Random Intercepts -- #
+    cat(rep("\n",2), "  # -- Estimate means of random intercepts -- #")
     cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
     cat("\n", paste("  RI", Y, " ~ MRI", Y, "*1", sep=""))
     if (Z != "NULL") {
@@ -4994,8 +4994,8 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", paste("  RI", W, " ~ MRI", W, "*1", sep=""))
     } # (if W)
 
-    # -- Estimate Means (Intercepts) of Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of random slopes -- #")
+    # -- Estimate Means of Linear Slopes -- #
+    cat(rep("\n",2), "  # -- Estimate means of linear slopes -- #")
     cat("\n", paste("  RS", X, " ~ MRS", X, "*1", sep=""))
     cat("\n", paste("  RS", Y, " ~ MRS", Y, "*1", sep=""))
     if (Z != "NULL") {
@@ -5004,6 +5004,19 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     if (W != "NULL") {
       cat("\n", paste("  RS", W, " ~ MRS", W, "*1", sep=""))
     } # (if W)
+
+    if (slope == "quadratic" {
+      # -- Estimate Means of Quadratic Slopes -- #
+      cat(rep("\n",2), "  # -- Estimate means (intercepts) of random slopes -- #")
+      cat("\n", paste("  RQ", X, " ~ MRQ", X, "*1", sep=""))
+      cat("\n", paste("  RQ", Y, " ~ MRQ", Y, "*1", sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("  RQ", Z, " ~ MRQ", Z, "*1", sep=""))
+      } # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("  RQ", W, " ~ MRQ", W, "*1", sep=""))
+      } # (if W)
+    } # end (if slope)
 
     # -- Estimate Variance and Covariance of Random Intercepts and Random Slopes -- #
     cat(rep("\n",2), "  # -- Estimate variance and covariance of random intercepts and random slopes -- #")
