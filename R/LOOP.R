@@ -5005,7 +5005,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", paste("  RS", W, " ~ MRS", W, "*1", sep=""))
     } # (if W)
 
-    if (slope == "quadratic" {
+    if (slope == "quadratic") {
       # -- Estimate Means of Quadratic Slopes -- #
       cat(rep("\n",2), "  # -- Estimate means (intercepts) of random slopes -- #")
       cat("\n", paste("  RQ", X, " ~ MRQ", X, "*1", sep=""))
