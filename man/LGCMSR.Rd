@@ -8,6 +8,7 @@ LGCMSR(
   data.source,
   no.waves,
   lag = 1,
+  slope = "linear",
   Type1 = 0.05,
   Type1Adj = "BON",
   X,
@@ -22,6 +23,8 @@ LGCMSR(
 \item{no.waves}{number of waves (minimum = 3, must be grater than lag)}
 
 \item{lag}{number of waves between two lags (minimum = 1, maximum = 4)}
+
+\item{slope}{Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".}
 
 \item{Type1}{Overall Type I error rate (default is 0.05) for comparing estimated parameters in the List and Delete method.}
 
@@ -45,6 +48,6 @@ Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 
 ## -- Example -- ##
 
-LGCMSR(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+LGCMSR(data.source="Data_A", no.waves=6, lag=2, slope="linear", Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 
 }
