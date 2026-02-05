@@ -48,6 +48,7 @@ Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 
 ## -- Example -- ##
 
-LGCMSR(data.source="Data_A", no.waves=6, lag=2, slope="linear", Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+LGCMSR(data.source="Data_A", no.waves=6, lag=2, slope="linear", Type1=0.05, Type1Adj="BON",
+X="EXPOSE.", Y="INTENS.")
 
 }

@@ -45,6 +45,7 @@ Latent Growth Curve Model (LGCM)
 
 ## -- Example -- ##
 
-LGCM(data.source="Data_A", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+LGCM(data.source="Data_A", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
+X="EXPOSE.", Y="INTENS.")
 
 }

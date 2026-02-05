@@ -45,6 +45,7 @@ Random Intercept Cross-Lagged Panel Model (RI-CLPM)
 
 ## -- Example -- ##
 
-RICLPM(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+RICLPM(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", 
+Y="INTENS.")
 
 }
