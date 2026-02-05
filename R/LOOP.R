@@ -3018,7 +3018,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' CLPM(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -3249,7 +3249,7 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' RICLPM(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -3584,7 +3584,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCMSR(data.source="Data_A", 7, 2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' LGCMSR(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 LGCMSR <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -4012,7 +4012,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Data_A", 8, 1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.",
+#' STARTS(data.source="Data_A", no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.",
 #'  Y="INTENS.")
 #'
 
@@ -4368,7 +4368,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source="Data_A", 7, 1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' ALT(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -4807,7 +4807,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source="Data_A", 7, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' LGCM(data.source="Data_A", no.waves=6, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -5261,7 +5261,7 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
 #'
 #' ## -- Example -- ##
 #'
-#' LCS(data.source="Data_A", 7, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' LCS(data.source="Data_A", no.waves=6, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -5678,7 +5678,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source="Data_A", 7, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' LCSCC(data.source="Data_A", no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -6133,7 +6133,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", 7, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' GCLM(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
 #'
 
 GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -6556,7 +6556,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(Model, df_long, Cluster = "id", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
+#' ML(model=Model, data.source=df_long, Cluster="id", missing="listwise", L2=TRUE, mL2.variables=c("EDU.", "AGE.", "BMI_S."))
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
@@ -6740,7 +6740,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #' # Suppose df_long is the new dataframe name.
 #' # Suppose data are "EXPOSE.1", "EXPOSE.2", "EXPOSE.3", ... "EXPOSE.7" in Data_A
 #'
-#' df_long <- wide2long(Data_A, 7, variables=c("EXPOSE.", "INTENS."), lag1=FALSE)
+#' df_long <- wide2long(data.source=Data_A, no.waves=7, variables=c("EXPOSE.", "INTENS."), lag1=FALSE)
 #' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
@@ -6798,7 +6798,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #'
 #' ## -- Example -- ##
 #'
-#' df_wide <- long2wide(df_long, "id", "time", variables=c("EXPOSE.", "INTENS."))
+#' df_wide <- long2wide(data.source=df_long, id="id", time="time", variables=c("EXPOSE.", "INTENS."))
 #' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
 
