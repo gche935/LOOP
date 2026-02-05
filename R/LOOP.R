@@ -4826,193 +4826,6 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
 
   ## ----- Creating Model LGCM ----- ###
   sink('LGCM.txt') # Start writing script to LGCM.txt
-
-    cat("\n", "## ----- Specify the model (LGCM) ----- ##", "\n")
-    cat("\n", "LGCM <- '")
-
-    # -- Create Between Components (Random Intercepts) -- #
-    cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
-    BX <- paste("  RI", X, " =~ 1*", X, "1", sep="")
-    BY <- paste("  RI", Y, " =~ 1*", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +1*", X, i, sep="")
-      BY <- paste(BY, " +1*", Y, i, sep="")
-    } # end (for i)
-    cat("\n", BX)
-    cat("\n", BY)
-    if (Z != "NULL") {
-      BZ <- paste("  RI", Z, " =~ 1*", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +1*", Z, i, sep="")
-      } # end (for i)
-      cat("\n", BZ)
-    } # end (if Z)
-    if (W != "NULL") {
-      BW <- paste("  RI", W, " =~ 1*", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +1*", W, i, sep="")
-      } # end (for i)
-      cat("\n", BW)
-    } # end (if W)
-
-    # -- Create Between Components (Random Slopes) -- #
-    cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*", X, "1", sep="")
-    BY <- paste("  RS", Y, " =~ 0*", Y, "1", sep="")
-    for (i in 2:no.waves) {
-      BX <- paste(BX, " +", (i-1), "*", X, i, sep="")
-      BY <- paste(BY, " +", (i-1), "*", Y, i, sep="")
-    } # end (for i)
-    cat("\n", BX)
-    cat("\n", BY)
-    if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*", Z, "1", sep="")
-      for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +", (i-1), "*", Z, i, sep="")
-      } # end (for i)
-      cat("\n", BZ)
-    } # end (if Z)
-    if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*", W, "1", sep="")
-      for (i in 2:no.waves) {
-        BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
-      } # end (for i)
-      cat("\n", BW)
-    } # end (if W)
-
-    # -- Constrain Means (Intercepts) of Indicators to zero -- #
-    cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
-      } # (if W)
-    } # end (for i)
-
-    # -- Estimate Residual Variance of Indicators -- #
-    cat(rep("\n",2), "  # -- Estimate residual variance of indicators -- #")
-    for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
-      if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
-      } # end (if Z)
-      if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
-      } # end (if W)
-    } # end (for i)
-
-    # -- Estimate Means (Intercepts) of Random Intercepts -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of random intercepts -- #")
-    cat("\n", paste("  RI", X, " ~ MRI", X, "*1", sep=""))
-    cat("\n", paste("  RI", Y, " ~ MRI", Y, "*1", sep=""))
-    if (Z != "NULL") {
-      cat("\n", paste("  RI", Z, " ~ MRI", Z, "*1", sep=""))
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", paste("  RI", W, " ~ MRI", W, "*1", sep=""))
-    } # (if W)
-
-    # -- Estimate Means (Intercepts) of Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of random slopes -- #")
-    cat("\n", paste("  RS", X, " ~ MRS", X, "*1", sep=""))
-    cat("\n", paste("  RS", Y, " ~ MRS", Y, "*1", sep=""))
-    if (Z != "NULL") {
-      cat("\n", paste("  RS", Z, " ~ MRS", Z, "*1", sep=""))
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", paste("  RS", W, " ~ MRS", W, "*1", sep=""))
-    } # (if W)
-
-    # -- Estimate Variance and Covariance of Random Intercepts and Random Slopes -- #
-    cat(rep("\n",2), "  # -- Estimate variance and covariance of random intercepts and random slopes -- #")
-    cat("\n", "   RI", X, " ~~ RI", X, sep="")
-    cat("\n", "   RS", X, " ~~ RS", X, sep="")
-    cat("\n", "   RI", Y, " ~~ RI", Y, sep="")
-    cat("\n", "   RS", Y, " ~~ RS", Y, sep="")
-    if (Z != "NULL") {
-      cat("\n", "   RI", Z, " ~~ RI", Z, sep="")
-      cat("\n", "   RS", Z, " ~~ RS", Z, sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RI", W, " ~~ RI", W, sep="")
-      cat("\n", "   RS", W, " ~~ RS", W, sep="")
-    } # end (if W != "NULL")
-
-    cat("\n", "   RI", X, " ~~ RS", X, sep="")
-    cat("\n", "   RI", X, " ~~ RI", Y, sep="")
-    cat("\n", "   RI", X, " ~~ RS", Y, sep="")
-    cat("\n", "   RS", X, " ~~ RI", Y, sep="")
-    cat("\n", "   RS", X, " ~~ RS", Y, sep="")
-    cat("\n", "   RI", Y, " ~~ RS", Y, sep="")
-
-    if (Z != "NULL") {
-      cat("\n", "   RI", X, " ~~ RI", Z, sep="")
-      cat("\n", "   RI", X, " ~~ RS", Z, sep="")
-      cat("\n", "   RS", X, " ~~ RI", Z, sep="")
-      cat("\n", "   RS", X, " ~~ RS", Z, sep="")
-      cat("\n", "   RI", Y, " ~~ RI", Z, sep="")
-      cat("\n", "   RI", Y, " ~~ RS", Z, sep="")
-      cat("\n", "   RS", Y, " ~~ RI", Z, sep="")
-      cat("\n", "   RS", Y, " ~~ RS", Z, sep="")
-      cat("\n", "   RI", Z, " ~~ RS", Z, sep="")
-    } # end (if Z != "NULL")
-    if (W != "NULL") {
-      cat("\n", "   RI", X, " ~~ RI", W, sep="")
-      cat("\n", "   RI", X, " ~~ RS", W, sep="")
-      cat("\n", "   RS", X, " ~~ RI", W, sep="")
-      cat("\n", "   RS", X, " ~~ RS", W, sep="")
-      cat("\n", "   RI", Y, " ~~ RI", W, sep="")
-      cat("\n", "   RI", Y, " ~~ RS", W, sep="")
-      cat("\n", "   RS", Y, " ~~ RI", W, sep="")
-      cat("\n", "   RS", Y, " ~~ RS", W, sep="")
-      cat("\n", "   RI", Z, " ~~ RI", W, sep="")
-      cat("\n", "   RI", Z, " ~~ RS", W, sep="")
-      cat("\n", "   RS", Z, " ~~ RI", W, sep="")
-      cat("\n", "   RS", Z, " ~~ RS", W, sep="")
-      cat("\n", "   RI", W, " ~~ RS", W, sep="")
-    } # end (if W != "NULL")
-
-    cat(rep("\n",2), "  '")
-
-    # -- Run Model LGCMMLR -- #
-    cat(rep("\n",2), "# -- Run Model LGCMMLR -- #")
-    cat(rep("\n",2), "  LGCMMLR.fit <- suppressWarnings(lavaan::sem(LGCM,")
-    cat("\n", "   ", data.source, ",")
-    cat("\n", "   missing = 'fiml',")
-    cat("\n", "   meanstructure = TRUE,")
-    cat("\n", "   information = 'observed',")
-    cat("\n", "   estimator = 'MLR'")
-    cat("\n", "))")
-
-  sink()  # Stop writing to file LGCM.txt
-  ## -------------------------------------- ##
-
-
-  ## -- Execute LGCM.txt and request summary outputs-- ##
-  source('LGCM.txt')
-  print(lavaan::summary(LGCMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
-  if (lavaan::lavInspect(LGCMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
-  ## ------------------------------- ##
-
-
-
-  ## -- Monte Carlo Simulation -- ##
-
-  parEst <- lavaan::parameterEstimates(LGCMMLR.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[, "est"]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
-
-  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
-
-  cat(rep("\n", 2))
-
-  ## ----- Start writing script to LGCM.txt ----- ##
-  sink('LGCM.txt')
     cat("\n", "# Specify the model (LGCM)", "\n")
     cat("\n", "LGCMSR <- '")
 
@@ -5043,24 +4856,24 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
 
     # -- Create Between Components (Random Slopes) -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
-    BX <- paste("  RS", X, " =~ 0*", X, "1", sep="")
-    BY <- paste("  RS", Y, " =~ 0*", Y, "1", sep="")
-    for (i in 2:no.waves) {
+    BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
+    BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+    for (i in 3:no.waves) {
       BX <- paste(BX, " +", (i-1), "*", X, i, sep="")
       BY <- paste(BY, " +", (i-1), "*", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
-      BZ <- paste("  RS", Z, " =~ 0*", Z, "1", sep="")
-      for (i in 2:no.waves) {
+      BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+      for (i in 3:no.waves) {
         BZ <- paste(BZ, " +", (i-1), "*", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RS", W, " =~ 0*", W, "1", sep="")
-      for (i in 2:no.waves) {
+      BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+      for (i in 3:no.waves) {
         BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
@@ -5233,6 +5046,22 @@ LGCM <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NUL
     cat(rep("\n",2), "  print(lavaan::summary(LGCMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n", 3))
 
   sink() # Stop writing to file
+
+  ## -- Execute LGCM.txt and request summary outputs-- ##
+  source('LGCM.txt')
+  if (lavaan::lavInspect(LGCMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
+  ## ------------------------------- ##
+
+
+  ## -- Monte Carlo Simulation -- ##
+
+  parEst <- lavaan::parameterEstimates(LGCMMLR.fit, remove.nonfree = TRUE)
+  pest2 <- parEst[, "est"]  # Estimated Parameters
+  pest3 <- lavaan::lavTech(LGCMMLR.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+
+  Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
+
+  cat(rep("\n", 2))
 
 }  # end (Function LGCM)
 
