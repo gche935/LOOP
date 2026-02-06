@@ -3655,14 +3655,14 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
         } # end (for i)
@@ -3678,14 +3678,14 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " + ", W, i, sep="")
         } # end (for i)
@@ -3701,14 +3701,14 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
         } # end (for i)
@@ -3723,14 +3723,14 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
       cat("\n", QX)
       cat("\n", QY)
       if (Z != "NULL") {
-        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           QZ <- paste(QZ, " + ", (i-1)^2, "*", Z, i, sep="")
         } # end (for i)
         cat("\n", QZ)
       } # end (if Z)
       if (W != "NULL") {
-        QW <- paste("  RQ", W, " =~ 0*", W, "1*", W, "2", sep="")
+        QW <- paste("  RQ", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           QW <- paste(QW, " +", (i-1)^2, "*", W, i, sep="")
         } # end (for i)
@@ -4937,14 +4937,14 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
         } # end (for i)
@@ -4960,14 +4960,14 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " + ", W, i, sep="")
         } # end (for i)
@@ -4983,14 +4983,14 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
         } # end (for i)
@@ -5005,14 +5005,14 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
       cat("\n", QX)
       cat("\n", QY)
       if (Z != "NULL") {
-        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1*", Z, "2", sep="")
+        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
         for (i in 3:no.waves) {
           QZ <- paste(QZ, " + ", (i-1)^2, "*", Z, i, sep="")
         } # end (for i)
         cat("\n", QZ)
       } # end (if Z)
       if (W != "NULL") {
-        QW <- paste("  RQ", W, " =~ 0*", W, "1*", W, "2", sep="")
+        QW <- paste("  RQ", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
         for (i in 3:no.waves) {
           QW <- paste(QW, " +", (i-1)^2, "*", W, i, sep="")
         } # end (for i)
