@@ -41,7 +41,8 @@ Define the model only once without specifying the level, and the function will c
 # Data file is "Data_A"; cluster variable is "ID"
 
 # Convert wide-format date file to long-format
-# df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), lag1=FALSE)
+# df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), 
+lag1=FALSE)
 
 ## Specify the path model - Model ##
 Model <- '

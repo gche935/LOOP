@@ -26,7 +26,8 @@ Convert wide data format to long data format with the capability to create lagge
 ## -- Example -- ##
 
 
-df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), lag1=FALSE)
+df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.", 
+"lifesat."), lag1=FALSE)
 write.csv(df_long, "file_long.csv") # save dataframe to csv file
 
 }

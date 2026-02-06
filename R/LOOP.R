@@ -3018,7 +3018,8 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source="Trust", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", Y="lonely.", Z="lifesat.")
+#' CLPM(data.source="Trust", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' Y="lonely.", Z="lifesat.")
 #'
 
 CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -3586,7 +3587,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCMSR(data.source="Trust", no.waves=6, lag=2, slope="linear", Type1=0.05, Type1Adj="BON",
+#' LGCMSR(data.source="Trust", no.waves=6, lag=1, slope="linear", Type1=0.05, Type1Adj="BON",
 #' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
@@ -6123,7 +6124,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
+#' GCLM(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", 
+#' Y="INTENS.")
 #'
 
 GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -6536,7 +6538,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' # Data file is "Data_A"; cluster variable is "ID"
 #'
 #' # Convert wide-format date file to long-format
-#' # df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), lag1=FALSE)
+#' # df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), 
+#' lag1=FALSE)
 #'
 #' ## Specify the path model - Model ##
 #' Model <- '
@@ -6726,7 +6729,8 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #' ## -- Example -- ##
 #'
 #'
-#' df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), lag1=FALSE)
+#' df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.", 
+#' "lifesat."), lag1=FALSE)
 #' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
 
