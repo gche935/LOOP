@@ -41,11 +41,3 @@ Random Intercept Cross-Lagged Panel Model (RI-CLPM) outputs.
 \description{
 Random Intercept Cross-Lagged Panel Model (RI-CLPM)
 }
-\examples{
-
-## -- Example -- ##
-
-RICLPM(data.source="Data_A", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="EXPOSE.", 
-Y="INTENS.")
-
-}

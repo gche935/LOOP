@@ -41,11 +41,3 @@ Latent Change Score Model with Changes-To-Changes Extension (LCSCC) outputs.
 \description{
 Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 }
-\examples{
-
-## -- Example -- ##
-
-LCSCC(data.source="Data_A", no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="EXPOSE.", 
-Y="INTENS.")
-
-}

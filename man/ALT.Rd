@@ -41,10 +41,3 @@ Autoregressive Latent Trajectory Model (ALT) outputs.
 \description{
 Autoregressive Latent Trajectory Model (ALT)
 }
-\examples{
-
-## -- Example -- ##
-
-ALT(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
-
-}

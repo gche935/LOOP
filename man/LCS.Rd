@@ -38,10 +38,3 @@ Latent Change Score Model (LCS) outputs.
 \description{
 Latent Change Score Model (LCS)
 }
-\examples{
-
-## -- Example -- ##
-
-LCS(data.source="Data_A", no.waves=6, Type1=0.05, Type1Adj="BON", X="EXPOSE.", Y="INTENS.")
-
-}
