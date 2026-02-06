@@ -5330,8 +5330,10 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
     cat("\n", "  # Remove the subscripts for invariant cross-lagged effects #")
     cat("\n", "  ############################################################")
     for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, sep=""))
+      if (Z == "NULL") {
+        cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, sep=""))
+      } # end (if Z)
       if (Z != "NULL") {
         cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, " + dZX", i,i-1, "*w", Z,i-1, sep=""))
         cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, " + dZY", i,i-1, "*w", Z,i-1, sep=""))
@@ -5750,8 +5752,10 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
     cat("\n", "  # Remove the subscripts for invariant cross-lagged effects #")
     cat("\n", "  ############################################################")
     for (i in 2:no.waves) {
-      cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, sep=""))
-      cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, sep=""))
+      if (Z == "NULL") {
+        cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, sep=""))
+        cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, sep=""))
+      } # end (if Z)
       if (Z != "NULL") {
         cat("\n", paste("  cs", X, i, " ~ dYX", i,i-1, "*w", Y,i-1, " + dZX", i,i-1, "*w", Z,i-1, sep=""))
         cat("\n", paste("  cs", Y, i, " ~ dXY", i,i-1, "*w", X,i-1, " + dZY", i,i-1, "*w", Z,i-1, sep=""))
