@@ -3250,7 +3250,7 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' ## -- Example -- ##
 #'
 #' RICLPM(data.source="Trust", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
-#' Y="lonely.", Z="lifesat.)
+#' Y="lonely.", Z="lifesat.")
 #'
 
 RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -3587,7 +3587,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #' ## -- Example -- ##
 #'
 #' LGCMSR(data.source="Trust", no.waves=6, lag=2, slope="linear", Type1=0.05, Type1Adj="BON",
-#' X="trust.", Y="lonely.", Z="lifesat.)
+#' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
 LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -4434,7 +4434,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 #' ## -- Example -- ##
 #'
 #' ALT(data.source="Trust", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.", 
-#' Y="lonely.", Z="lifesat.)
+#' Y="lonely.", Z="lifesat.")
 #'
 
 ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -4875,7 +4875,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #' ## -- Example -- ##
 #'
 #' LGCM(data.source="Trust", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
-#' X="trust.", Y="lonely.", Z="lifesat.)
+#' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
 LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -5246,7 +5246,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 #' ## -- Example -- ##
 #'
 #' LCS(data.source="Trust", no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
-#' Y="lonely.", Z="lifesat.)
+#' Y="lonely.", Z="lifesat.")
 #'
 
 LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -5666,7 +5666,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #' ## -- Example -- ##
 #'
 #' LCSCC(data.source="Trust", no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.", 
-#' Y="lonely.", Z="lifesat.)
+#' Y="lonely.", Z="lifesat.")
 #'
 
 LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {

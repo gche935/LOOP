@@ -41,3 +41,11 @@ Latent Growth Curve Model (LGCM) outputs.
 \description{
 Latent Growth Curve Model (LGCM)
 }
+\examples{
+
+## -- Example -- ##
+
+LGCM(data.source="Trust", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
+X="trust.", Y="lonely.", Z="lifesat.")
+
+}
