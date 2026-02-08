@@ -3048,6 +3048,7 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
 
+arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model CLPM ----- ##
   sink('CLPM.txt')
@@ -3200,7 +3201,8 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     # -- Run CLPMMLR -- #
     cat(rep("\n",2), "  CLPMMLR.fit <- lavaan::sem(CLPM, ")
-    cat("\n", "  ", data.source, ",")
+#    cat("\n", "  ", data.source, ",")
+    cat("\n", "  ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
