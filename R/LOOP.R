@@ -1487,43 +1487,43 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
 
 
   ## -- Differences in Intercept of Latent Variables -- ##
-  if (any(parEst[,4] == "MwX2")) {
+  if (any(parEst[,4] == "MX2")) {
     for (j in 3:no.waves) {
       for (i in j:no.waves) {
-        mcmcA <- (mcmc[, paste("MwX", i, sep="")] - mcmc[, paste("MwX", i-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("MX", i, sep="")] - mcmc[, paste("MX", i-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MwX", i, "-MwX", i-j+2, sep="")
-        pest2A <- (pest2[paste("MwX", i, sep="")] - pest2[paste("MwX", i-j+2, sep="")])
-        names(pest2A) <- paste("MwX", i, "-MwX", i-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MX", i, "-MX", i-j+2, sep="")
+        pest2A <- (pest2[paste("MX", i, sep="")] - pest2[paste("MX", i-j+2, sep="")])
+        names(pest2A) <- paste("MX", i, "-MX", i-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
-        mcmcA <- (mcmc[, paste("MwY", i, sep="")] - mcmc[, paste("MwY", i-j+2, sep="")])
+        mcmcA <- (mcmc[, paste("MY", i, sep="")] - mcmc[, paste("MY", i-j+2, sep="")])
         mcmc <- cbind(mcmc, mcmcA)
-        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MwY", i, "-MwY", i-j+2, sep="")
-        pest2A <- (pest2[paste("MwY", i, sep="")] - pest2[paste("MwY", i-j+2, sep="")])
-        names(pest2A) <- paste("MwY", i, "-MwY", i-j+2, sep="")
+        colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MY", i, "-MY", i-j+2, sep="")
+        pest2A <- (pest2[paste("MY", i, sep="")] - pest2[paste("MY", i-j+2, sep="")])
+        names(pest2A) <- paste("MY", i, "-MY", i-j+2, sep="")
         pest2 <- append(pest2, pest2A)
 
         if (Z != "NULL") {
-          mcmcA <- (mcmc[, paste("MwZ", i, sep="")] - mcmc[, paste("MwZ", i-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("MZ", i, sep="")] - mcmc[, paste("MZ", i-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MwZ", i, "-MwZ", i-j+2, sep="")
-          pest2A <- (pest2[paste("MwZ", i, sep="")] - pest2[paste("MwZ", i-j+2, sep="")])
-          names(pest2A) <- paste("MwZ", i, "-MwZ", i-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MZ", i, "-MZ", i-j+2, sep="")
+          pest2A <- (pest2[paste("MZ", i, sep="")] - pest2[paste("MZ", i-j+2, sep="")])
+          names(pest2A) <- paste("MZ", i, "-MZ", i-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # end (if Z != "NULL")
 
         if (W != "NULL") {
-          mcmcA <- (mcmc[, paste("MwW", i, sep="")] - mcmc[, paste("MwW", i-j+2, sep="")])
+          mcmcA <- (mcmc[, paste("MW", i, sep="")] - mcmc[, paste("MW", i-j+2, sep="")])
           mcmc <- cbind(mcmc, mcmcA)
-          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MwW", i, "-MwW", i-j+2, sep="")
-          pest2A <- (pest2[paste("MwW", i, sep="")] - pest2[paste("MwW", i-j+2, sep="")])
-          names(pest2A) <- paste("MwW", i, "-MwW", i-j+2, sep="")
+          colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste("MW", i, "-MW", i-j+2, sep="")
+          pest2A <- (pest2[paste("MW", i, sep="")] - pest2[paste("MW", i-j+2, sep="")])
+          names(pest2A) <- paste("MW", i, "-MW", i-j+2, sep="")
           pest2 <- append(pest2, pest2A)
         } # End (if W != "NULL")
       } # end (for i)
     } # end (for j)
-  } # end (if MwX2)
+  } # end (if MX2)
   ## ----- end (Differences in Intercepts) ----- ##
 
 
@@ -2213,7 +2213,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
 
 
   ## ---- List and Delete - Intercepts ---- ##
-  if (any(parEst[,4] == "MwX2")) {
+  if (any(parEst[,4] == "MX2")) {
     cat(rep("\n",5), "## ===== Identification of invariant intercepts ===== ##")
 
     # -- Reset MISet and no.compare for intercepts --#
@@ -2238,7 +2238,7 @@ Invariance <- function(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type
     if (W != "NULL") {
       LandD_MEAN(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X, Y, Z, W, a="W")  ## List and Delete - Intercepts of W ##
     } # end (if W != "NULL")
-  } # end (if MwX1)
+  } # end (if MX1)
 
   ## -------------------------------------------------------- ##
 
@@ -2808,7 +2808,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   for (i in 1: no.path) {
     Clhs <- paste0(aa, i+1, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["op"] == "~1",]
-    p.TparEst <- paste0("  Mw", a, i+1, ":  Intercept of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
+    p.TparEst <- paste0("  M", a, i+1, ":  Intercept of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
     cat("\n", p.TparEst)
     SumEst <- SumEst + TparEst["est"]
@@ -2822,7 +2822,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   k = 1
   for (j in 3:no.waves) {
     for (i in j:no.waves) {
-      Clhs <- paste("Mw", a, i, "-Mw", a, i-j+2, sep="")
+      Clhs <- paste("M", a, i, "-M", a, i-j+2, sep="")
       if (pest2[Clhs,3] < p) {
         NI.path[k, 1] <- i-1
         NI.path[k, 2] <- i-j+1
@@ -2854,7 +2854,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
       if (count4 > 0) {
         mm.p <- mm
         for (i in 1:no.path) {
-          mm.p[mm.p == i] <- paste("Mw", a, i+1, sep="")
+          mm.p[mm.p == i] <- paste("M", a, i+1, sep="")
         } # end (for i)
         cat("\n", "    ", mm.p[ii,])
       } # end (if count4)
@@ -3156,13 +3156,13 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ MwX", i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ MwY", i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ MX", i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ MY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ MwZ", i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ MZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ MwW", i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ MW", i, "*1", sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -3326,13 +3326,13 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
     # -- Estimate Intercepts of Indicators -- #
     cat(rep("\n",2), "  # -- Estimate intercepts of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ MwX", i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ MwY", i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ MX", i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ MY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ MwZ", i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ MZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ MwW", i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ MW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -4270,13 +4270,13 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
     # -- Estimate Grand Means (Intercepts) of Indicators -- #
     cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ Mw", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ Mw", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ MX", i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ MY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ Mw", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ MZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ Mw", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ MW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -6251,13 +6251,13 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
     # -- Estimate Intercepts of Latent Variables -- #
     cat(rep("\n",2), "  # -- Estimate intercepts of latent variables -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MY", i, "*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ MwX", i, "*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ MwY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MZ", i, "*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ MwZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MW", i, "*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ MwW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
