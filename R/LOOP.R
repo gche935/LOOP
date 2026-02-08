@@ -6585,25 +6585,16 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
-  arg1_char <- deparse(substitute(model))
   arg2_char <- deparse(substitute(data.source))
-  arg3_char <- deparse(substitute(Cluster))
   missing <- tolower(missing)
   match.arg(missing, c("listwise","fiml"))
 
   # -- Run Single Level to get model information -- #
-#  Model.single <- paste0("Model.L1 <- lavaan::sem(model, ",
-#                          data.source, ",",
-#                          "cluster= Cluster,",
-#                          "estimator = 'MLR')")
-#  eval(parse(text = Model.single))
 
   Model.L1 <- lavaan::sem(model, 
                           data.source, 
                           cluster= Cluster,
                           estimator = 'MLR')
-#  eval(parse(text = Model.L1))
-
 
   temp <- lavaan::parameterEstimates(Model.L1)
   no.estimates <- nrow(temp)
@@ -6656,7 +6647,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     if (is.null(mL2.variables) == FALSE) {
       cat("\n", "   data = mL2.data,")
     } else {
-      cat("\n", paste0("    data = ", data.source,","))
+      cat("\n", paste0("    data = ", arg2_char,","))
     }
     if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
     cat("\n", "   information = 'observed',")
