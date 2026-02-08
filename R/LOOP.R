@@ -3287,6 +3287,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
   arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model RICLPM ----- ###
@@ -3603,7 +3604,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCMSR(data.source="Trust", no.waves=6, lag=1, slope="linear", Type1=0.05, Type1Adj="BON",
+#' LGCMSR(data.source=Trust, no.waves=6, lag=1, slope="linear", Type1=0.05, Type1Adj="BON",
 #' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
@@ -3629,6 +3630,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
   slope <- tolower(slope)
   match.arg(slope, c("linear", "unspecified", "quadratic"))
 
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model LGCMSR ----- ###
   sink('LGCMSR.txt')
@@ -4035,7 +4037,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 
     # -- Run LGCMSRMLR -- #
     cat(rep("\n",2), "  LGCMSRMLR.fit <- lavaan::sem(LGCMSR, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -4101,7 +4103,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Smoking", no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", 
+#' STARTS(data.source=Smoking, no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", 
 #' X="expose.", Y="intens.")
 #'
 
@@ -4125,6 +4127,8 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model STARTS ----- ###
   sink('STARTS.txt')
@@ -4398,7 +4402,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 
     # -- Run STARTSMLR -- #
     cat(rep("\n",2), "  STARTSMLR.fit <- lavaan::sem(STARTS, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -4457,7 +4461,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source="Trust", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' ALT(data.source=Trust, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.", 
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -4479,6 +4483,8 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model ALT ----- ###
   sink('ALT.txt')
@@ -4839,7 +4845,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 
     # -- Run ALTMLR -- #
     cat(rep("\n",2), "  ALTMLR.fit <- lavaan::sem(ALT, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -4898,7 +4904,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source="Trust", no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
+#' LGCM(data.source=Trust, no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
 #' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
@@ -4919,6 +4925,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
   slope <- tolower(slope)
   match.arg(slope, c("linear", "unspecified", "quadratic"))
 
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model LGCM ----- ###
   sink('LGCM.txt') # Start writing script to LGCM.txt
@@ -5214,7 +5221,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 
     # -- Run LGCMMLR -- #
     cat(rep("\n",2), "  LGCMMLR.fit <- lavaan::sem(LGCM, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -5269,7 +5276,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' LCS(data.source="Trust", no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' LCS(data.source=Trust, no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -5288,6 +5295,8 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model LCS ----- ###
 
@@ -5630,7 +5639,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 
     # -- Run LCSMLR -- #
     cat(rep("\n",2), "  LCSMLR.fit <- lavaan::sem(LCS, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -5689,7 +5698,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source="Trust", no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' LCSCC(data.source=Trust, no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.", 
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -5710,6 +5719,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model LCSCC ----- ###
 
@@ -6088,7 +6099,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 
     # -- Run LCSCCMLR -- #
     cat(rep("\n",2), "  LCSCCMLR.fit <- lavaan::sem(LCSCC, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -6147,7 +6158,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Smoking", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
+#' GCLM(data.source=Smoking, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
 #' Y="intens.")
 #'
 
@@ -6168,6 +6179,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model GCLM ----- ###
   sink('GCLM.txt')
@@ -6499,7 +6512,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     # -- Run GCLMMLR -- #
     cat(rep("\n",2), "  GCLMMLR.fit <- lavaan::sem(GCLM, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
@@ -6568,7 +6581,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(model=Model, data.source="Responsive", Cluster="id", missing="listwise", L2=TRUE) 
+#' ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE) 
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
@@ -6579,11 +6592,18 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   match.arg(missing, c("listwise","fiml"))
 
   # -- Run Single Level to get model information -- #
-  Model.single <- paste0("Model.L1 <- lavaan::sem(model, ",
-                          data.source, ",",
-                          "cluster= Cluster,",
-                          "estimator = 'MLR')")
-  eval(parse(text = Model.single))
+#  Model.single <- paste0("Model.L1 <- lavaan::sem(model, ",
+#                          data.source, ",",
+#                          "cluster= Cluster,",
+#                          "estimator = 'MLR')")
+#  eval(parse(text = Model.single))
+
+  Model.L1 <- lavaan::sem(model, 
+                          data.source, 
+                          cluster= Cluster,
+                          estimator = 'MLR')
+  eval(parse(text = Model.L1))
+
 
   temp <- lavaan::parameterEstimates(Model.L1)
   no.estimates <- nrow(temp)

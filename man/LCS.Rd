@@ -42,7 +42,7 @@ Latent Change Score Model (LCS)
 
 ## -- Example -- ##
 
-LCS(data.source="Trust", no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
+LCS(data.source=Trust, no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
 Y="lonely.", Z="lifesat.")
 
 }

@@ -45,7 +45,7 @@ General Cross-Lagged Panel Model (GCLM)
 
 ## -- Example -- ##
 
-GCLM(data.source="Smoking", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
+GCLM(data.source=Smoking, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
 Y="intens.")
 
 }
