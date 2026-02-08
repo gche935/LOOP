@@ -6612,7 +6612,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     if (is.null(mL2.variables) == FALSE) {
       cat("\n", "   data = mL2.data,")
     } else {
-      cat("\n", paste0("    data = ", arg2_char,","))
+      cat("\n", paste0("    data = ", data.source,","))
     }
     if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
     cat("\n", "   information = 'observed',")
