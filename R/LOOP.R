@@ -6545,7 +6545,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(model=Model, data.source=Responsiveness, Cluster="id", missing="listwise", L2=TRUE) 
+#' ML(model=Model, data.source="Responsive", Cluster="id", missing="listwise", L2=TRUE) 
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
