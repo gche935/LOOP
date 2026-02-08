@@ -3323,16 +3323,16 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
       } # end (if W)
     } # end (for i)
 
-    # -- Constrain Intercepts of Indicators to Zero -- #
-    cat(rep("\n",2), "  # -- Constrain intercepts of indicators to zero -- #")
+    # -- Estimate Intercepts of Indicators -- #
+    cat(rep("\n",2), "  # -- Estimate intercepts of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ MwX", i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ MwY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ MwZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ MwW", i, "*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -3360,16 +3360,16 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
       }  # end (if W)
     } # end (for i)
 
-    # -- Estimate Means (Intercepts) of Latent Variables -- #
-    cat(rep("\n",2), "  # -- Estimate means (intercepts) of latent variables -- #")
+    # -- Constrain Means (Intercepts) of Latent Variables to zero -- #
+    cat(rep("\n",2), "  # -- Constrain means (intercepts) of latent variables to zero -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  w", X, i, " ~ MwX", i, "*1", sep=""))
-      cat("\n", paste("  w", Y, i, " ~ MwY", i, "*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  w", Z, i, " ~ MwZ", i, "*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  w", W, i, " ~ MwW", i, "*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
       } # (if W)
     } # end (for i)
 
