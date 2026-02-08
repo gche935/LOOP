@@ -6124,7 +6124,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source=Smoking, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
+#' GCLM(data.source="Smoking", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
 #' Y="intens.")
 #'
 
@@ -6545,7 +6545,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE) 
+#' ML(model=Model, data.source="Responsive", Cluster="id", missing="listwise", L2=TRUE) 
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
@@ -6611,7 +6611,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     if (is.null(mL2.variables) == FALSE) {
       cat("\n", "   data = mL2.data,")
     } else {
-      cat("\n", paste0("    data = ", arg2_char,","))
+      cat("\n", paste0("    data = ", data.source,","))
     }
     if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
     cat("\n", "   information = 'observed',")
