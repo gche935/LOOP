@@ -6557,7 +6557,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   # -- Run Single Level to get model information -- #
   Model.L1 <- lavaan::sem(model,
-                          data.source,
+                          arg2_char,
                           cluster=Cluster,
                           estimator = 'MLR')
 
@@ -6611,7 +6611,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     if (is.null(mL2.variables) == FALSE) {
       cat("\n", "   data = mL2.data,")
     } else {
-      cat("\n", paste0("    data = ", data.source,","))
+      cat("\n", paste0("    data = ", arg2_char,","))
     }
     if (missing == "fiml") { cat("\n", "   missing = 'fiml',") }
     cat("\n", "   information = 'observed',")
