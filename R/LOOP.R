@@ -6556,10 +6556,11 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   match.arg(missing, c("listwise","fiml"))
 
   # -- Run Single Level to get model information -- #
-  Model.L1 <- lavaan::sem(model,
-                          arg2_char,
-                          cluster=Cluster,
-                          estimator = 'MLR')
+  Model.single <- paste0("Model.L1 <- lavaan::sem(model, ",
+                          data.source, ",",
+                          "cluster= Cluster,",
+                          "estimator = 'MLR')")
+  eval(parse(text = Model.single))
 
   temp <- lavaan::parameterEstimates(Model.L1)
   no.estimates <- nrow(temp)
