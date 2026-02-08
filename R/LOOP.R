@@ -3025,7 +3025,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source="Trust", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' CLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -3048,7 +3048,7 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
 
-arg2_char <- deparse(substitute(data.source))
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model CLPM ----- ##
   sink('CLPM.txt')
@@ -3201,7 +3201,6 @@ arg2_char <- deparse(substitute(data.source))
 
     # -- Run CLPMMLR -- #
     cat(rep("\n",2), "  CLPMMLR.fit <- lavaan::sem(CLPM, ")
-#    cat("\n", "  ", data.source, ",")
     cat("\n", "  ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
@@ -3266,7 +3265,7 @@ arg2_char <- deparse(substitute(data.source))
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(data.source="Trust", no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' RICLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -3288,6 +3287,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 
   Type1Adj <- toupper(Type1Adj)
   match.arg(Type1Adj, c("BON", "NULL"))
+  arg2_char <- deparse(substitute(data.source))
 
   ## ----- Creating Model RICLPM ----- ###
   sink('RICLPM.txt')
@@ -3544,7 +3544,7 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 
     # -- Run RICLPMMLR -- #
     cat(rep("\n",2), "  RICLPMMLR.fit <- lavaan::sem(RICLPM, ")
-    cat("\n", "   ", data.source, ",")
+    cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
     cat("\n", "   information = 'observed',")
