@@ -6586,6 +6586,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
   arg2_char <- deparse(substitute(data.source))
+  arg3_char <- deparse(substitute(Cluster))
   missing <- tolower(missing)
   match.arg(missing, c("listwise","fiml"))
 
