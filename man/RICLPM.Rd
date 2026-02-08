@@ -41,6 +41,14 @@ Random Intercept Cross-Lagged Panel Model (RI-CLPM) outputs.
 \description{
 Random Intercept Cross-Lagged Panel Model (RI-CLPM)
 }
+\details{
+\if{html}{
+\figure{RICLPM.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{RICLPM.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##
