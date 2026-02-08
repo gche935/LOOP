@@ -2806,7 +2806,7 @@ LandD_MEAN <- function(parEst, pest2, no.path, MIset, no.compare, no.waves, p, X
   cat(rep("\n",3), paste("# -- Intercept of w", a, " -- #", sep=""))
   aa <- get(a)
   for (i in 1: no.path) {
-    Clhs <- paste0("w", aa, i+1, sep="")
+    Clhs <- paste0(aa, i+1, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["op"] == "~1",]
     p.TparEst <- paste0("  Mw", a, i+1, ":  Intercept of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
@@ -3156,13 +3156,13 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     cat(rep("\n",2), "  # -- Estimate grand means (intercepts) of indicators -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ Mw", X, i, "*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ Mw", Y, i, "*1", sep=""))
+      cat("\n", paste("  ", X, i, " ~ MwX", i, "*1", sep=""))
+      cat("\n", paste("  ", Y, i, " ~ MwY", i, "*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ Mw", Z, i, "*1", sep=""))
+        cat("\n", paste("  ", Z, i, " ~ MwZ", i, "*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ Mw", W, i, "*1", sep=""))
+        cat("\n", paste("  ", W, i, " ~ MwW", i, "*1", sep=""))
       } # end (if W)
     } # end (for i)
 
