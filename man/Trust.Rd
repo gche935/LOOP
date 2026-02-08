@@ -20,12 +20,12 @@ A data frame with 1000 rows and 19 variables:
   \item{lonely.4}{Numeric, Average of 6 UCLS Loneliness Scale at Time 4: from 1 (never) to 4 (always).}
   \item{lonely.5}{Numeric, Average of 6 UCLS Loneliness Scale at Time 5: from 1 (never) to 4 (always).}
   \item{lonely.6}{Numeric, Average of 6 UCLS Loneliness Scale at Time 6: from 1 (never) to 4 (always).}
-  \item{lifesat.1}{Numeric, Average of 5 Satisfaction with Life Scale at Time 1: from 1 (strongly disagree) to 7 (stronegly agree).}
-  \item{lifesat.2}{Numeric, Average of 5 Satisfaction with Life Scale at Time 2: from 1 (strongly disagree) to 7 (stronegly agree).}
-  \item{lifesat.3}{Numeric, Average of 5 Satisfaction with Life Scale at Time 3: from 1 (strongly disagree) to 7 (stronegly agree).}
-  \item{lifesat.4}{Numeric, Average of 5 Satisfaction with Life Scale at Time 4: from 1 (strongly disagree) to 7 (stronegly agree).}
-  \item{lifesat.5}{Numeric, Average of 5 Satisfaction with Life Scale at Time 5: from 1 (strongly disagree) to 7 (stronegly agree).}
-  \item{lifesat.6}{Numeric, Average of 5 Satisfaction with Life Scale at Time 6: from 1 (strongly disagree) to 7 (stronegly agree).}
+  \item{lifesat.1}{Numeric, Average of 5 Satisfaction with Life Scale at Time 1: from 1 (strongly disagree) to 7 (strongly agree).}
+  \item{lifesat.2}{Numeric, Average of 5 Satisfaction with Life Scale at Time 2: from 1 (strongly disagree) to 7 (strongly agree).}
+  \item{lifesat.3}{Numeric, Average of 5 Satisfaction with Life Scale at Time 3: from 1 (strongly disagree) to 7 (strongly agree).}
+  \item{lifesat.4}{Numeric, Average of 5 Satisfaction with Life Scale at Time 4: from 1 (strongly disagree) to 7 (strongly agree).}
+  \item{lifesat.5}{Numeric, Average of 5 Satisfaction with Life Scale at Time 5: from 1 (strongly disagree) to 7 (strongly agree).}
+  \item{lifesat.6}{Numeric, Average of 5 Satisfaction with Life Scale at Time 6: from 1 (strongly disagree) to 7 (strongly agree).}
 }
 }
 \source{

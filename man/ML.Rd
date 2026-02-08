@@ -38,11 +38,11 @@ Define the model only once without specifying the level, and the function will c
 \examples{
 
 ## == Example == ##
-# Data file is "Data_A"; cluster variable is "ID"
 
 # Convert wide-format date file to long-format
 # df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), 
 lag1=FALSE)
+# Data file is "df_long"; cluster variable is "id"
 
 ## Specify the path model - Model ##
 Model <- '

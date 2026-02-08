@@ -4078,8 +4078,8 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source="Data_A", no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", 
-#' X="EXPOSE.", Y="INTENS.")
+#' STARTS(data.source="Smoking", no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", 
+#' X="expose.", Y="intens.")
 #'
 
 STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -6124,8 +6124,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source="Data_A", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="EXPOSE.", 
-#' Y="INTENS.")
+#' GCLM(data.source="Smoking", no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
+#' Y="intens.")
 #'
 
 GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
@@ -6535,11 +6535,11 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' @examples
 #'
 #' ## == Example == ##
-#' # Data file is "Data_A"; cluster variable is "ID"
 #'
 #' # Convert wide-format date file to long-format
 #' # df_long <- wide2long(Trust, no.waves=6, variables=c("trust.", "lonely.", "lifesat."), 
 #' lag1=FALSE)
+#' # Data file is "df_long"; cluster variable is "id"
 #'
 #' ## Specify the path model - Model ##
 #' Model <- '
