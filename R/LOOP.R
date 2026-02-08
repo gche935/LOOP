@@ -4075,6 +4075,13 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 #'
 #' Stable Trait Autoregressive Trait and State Model (STARTS)
 #'
+#' \if{html}{
+#' \figure{STARTS.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{STARTS.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3, must be grater than lag).
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4).

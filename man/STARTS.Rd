@@ -44,6 +44,14 @@ Stable Trait Autoregressive Trait and State Model (STARTS) outputs.
 \description{
 Stable Trait Autoregressive Trait and State Model (STARTS)
 }
+\details{
+\if{html}{
+\figure{STARTS.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{STARTS.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##
