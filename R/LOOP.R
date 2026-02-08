@@ -3002,6 +3002,13 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' Cross-Lagged Panel Model (CLPM)
 #'
+#' \if{html}{
+#' \figure{CLPM.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{CLPM.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)

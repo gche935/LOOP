@@ -41,6 +41,14 @@ Cross-Lagged Panel Model (CLPM) outputs.
 \description{
 Cross-Lagged Panel Model (CLPM)
 }
+\details{
+\if{html}{
+\figure{CLPM.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{CLPM.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##
