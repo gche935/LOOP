@@ -6637,6 +6637,8 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   missing <- tolower(missing)
   match.arg(missing, c("listwise","fiml"))
 
+  if (is.logical(L2) == FALSE) stop("L2 (if model should be replicated at L2) can only be TRUE or FALSE")
+
   # -- Run Single Level to get model information -- #
 
   Model.L1 <- lavaan::sem(model, 
@@ -6741,47 +6743,51 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   print(as.data.frame(ICC),row.names=F)
   cat(rep("\n",2))
 
-  ## -- Monte Carlo Simulation -- ##
 
-  parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE), level == 1)
-  no.estimates.L1 <- nrow(parEst.L1)
-  parEst <- lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE)
-  pest2 <- parEst[, "est"]  # Estimated Parameters
-  pest3 <- lavaan::lavTech(Model.L2.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+  if (L2 == TRUE) {
 
-  mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
-  names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
-  b.no <- nrow(mcmc)  # No. of successful simulated samples
+    ## -- Monte Carlo Simulation -- ##
 
-  ## -- Differences in estimated parameters -- ##
-  for (j in 1:no.estimates.L1) {
-    mcmcA <- (mcmc[, j] - mcmc[, j+no.estimates.L1])
-    mcmc <- cbind(mcmc, mcmcA)
-    colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste0("D", j)
-    pest2A <- (pest2[j] - pest2[j+no.estimates.L1])
-    names(pest2A) <- paste0("D", j)
-    pest2 <- append(pest2, pest2A)
-  } # end (for j)
-  ## ----- end (Difference in estimated parameters ) ----- ##
+    parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE), level == 1)
+    no.estimates.L1 <- nrow(parEst.L1)
+    parEst <- lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE)
+    pest2 <- parEst[, "est"]  # Estimated Parameters
+    pest3 <- lavaan::lavTech(Model.L2.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
 
-  ## -- Print Results -- ##
-  cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##")
-  for (j in 1:no.estimates.L1) {
+    mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
+    names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
+    b.no <- nrow(mcmc)  # No. of successful simulated samples
+
+    ## -- Differences in estimated parameters -- ##
+    for (j in 1:no.estimates.L1) {
+      mcmcA <- (mcmc[, j] - mcmc[, j+no.estimates.L1])
+      mcmc <- cbind(mcmc, mcmcA)
+      colnames(mcmc)[colnames(mcmc) == "mcmcA"] = paste0("D", j)
+      pest2A <- (pest2[j] - pest2[j+no.estimates.L1])
+      names(pest2A) <- paste0("D", j)
+      pest2 <- append(pest2, pest2A)
+    } # end (for j)
+    ## ----- end (Difference in estimated parameters ) ----- ##
+
+    ## -- Print Results -- ##
+    cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##")
+    for (j in 1:no.estimates.L1) {
+      cat("\n")
+      print(lavaan::parameterEstimates(Model.L2.fit)[c(j, j+no.estimates),], row.names=FALSE)
+
+      estM <- pest2[paste0("D", j)] # estimated parameter
+      abM <- mcmc[, paste0("D", j)] # simulated parameter
+
+      # Calculate Percentile Probability
+      if (quantile(abM,probs=0.5)>0) {
+        pPCI = 2*(sum(abM<0)/b.no)
+      } else {
+        pPCI = 2*(sum(abM>0)/b.no)
+      } # end (if abM)
+      cat(" Difference in estimated parameter = ", format(round(estM, 4), nsmall = 4), "p = ", format(round(pPCI, 4), nsmall = 4), "\n")
+    } # end (for j)
     cat("\n")
-    print(lavaan::parameterEstimates(Model.L2.fit)[c(j, j+no.estimates),], row.names=FALSE)
-
-    estM <- pest2[paste0("D", j)] # estimated parameter
-    abM <- mcmc[, paste0("D", j)] # simulated parameter
-
-    # Calculate Percentile Probability
-    if (quantile(abM,probs=0.5)>0) {
-      pPCI = 2*(sum(abM<0)/b.no)
-    } else {
-      pPCI = 2*(sum(abM>0)/b.no)
-    } # end (if abM)
-    cat(" Difference in estimated parameter = ", format(round(estM, 4), nsmall = 4), "p = ", format(round(pPCI, 4), nsmall = 4), "\n")
-  } # end (for j)
-  cat("\n")
+  } # end (if L2)
 
 #  list(lavaan.object = Model.L2.fit)
 
