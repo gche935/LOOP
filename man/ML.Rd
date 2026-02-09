@@ -34,6 +34,13 @@ Multilevel Model allows for both MLM and MSEM and compares paths across levels
 }
 \details{
 Define the model only once without specifying the level, and the function will compare the model across levels.
+
+\if{html}{
+\figure{ML.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{ML.pdf}{options: width=15cm}
+}
 }
 \examples{
 

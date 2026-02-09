@@ -41,6 +41,14 @@ Autoregressive Latent Trajectory Model (ALT) outputs.
 \description{
 Autoregressive Latent Trajectory Model (ALT)
 }
+\details{
+\if{html}{
+\figure{ALT.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{ALT.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

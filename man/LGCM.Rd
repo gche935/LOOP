@@ -41,6 +41,14 @@ Latent Growth Curve Model (LGCM) outputs.
 \description{
 Latent Growth Curve Model (LGCM)
 }
+\details{
+\if{html}{
+\figure{LGCM.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{LGCM.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

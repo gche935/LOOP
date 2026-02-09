@@ -41,6 +41,14 @@ Latent Change Score Model with Changes-To-Changes Extension (LCSCC) outputs.
 \description{
 Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 }
+\details{
+\if{html}{
+\figure{LCSCC.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{LCSCC.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

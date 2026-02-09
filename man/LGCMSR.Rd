@@ -44,6 +44,14 @@ Latent Growth Curve Model with Structural Residuals (LGCM-SR) outputs.
 \description{
 Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 }
+\details{
+\if{html}{
+\figure{LGCMSR.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{LGCMSR.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

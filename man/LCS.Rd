@@ -38,6 +38,14 @@ Latent Change Score Model (LCS) outputs.
 \description{
 Latent Change Score Model (LCS)
 }
+\details{
+\if{html}{
+\figure{LCS.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{LCS.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

@@ -41,6 +41,14 @@ General Cross-Lagged Panel Model (GCLM) outputs.
 \description{
 General Cross-Lagged Panel Model (GCLM)
 }
+\details{
+\if{html}{
+\figure{GCLM.png}{options: width="75\%" alt="Description of my figure"}
+}
+\if{latex}{
+\figure{GCLM.pdf}{options: width=15cm}
+}
+}
 \examples{
 
 ## -- Example -- ##

@@ -3587,6 +3587,13 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 #'
 #' Latent Growth Curve Model with Structural Residuals (LGCM-SR)
 #'
+#' \if{html}{
+#' \figure{LGCMSR.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{LGCMSR.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param slope Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".
@@ -4445,6 +4452,13 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 #'
 #' Autoregressive Latent Trajectory Model (ALT)
 #'
+#' \if{html}{
+#' \figure{ALT.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{ALT.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than lag)
 #' @param lag number of waves between two lags (minimum = 1, maximum = 4)
@@ -4888,6 +4902,13 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' Latent Growth Curve Model (LGCM)
 #'
+#' \if{html}{
+#' \figure{LGCM.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{LGCM.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3)
 #' @param slope Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".
@@ -5260,6 +5281,13 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 #' Function LCS (Latent Change Score Model)
 #'
 #' Latent Change Score Model (LCS)
+#'
+#' \if{html}{
+#' \figure{LCS.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{LCS.pdf}{options: width=15cm}
+#' }
 #'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
@@ -5681,6 +5709,13 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #' Function LCSCC (Latent Change Score Model with Changes-To-Changes Extension)
 #'
 #' Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
+#'
+#' \if{html}{
+#' \figure{LCSCC.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{LCSCC.pdf}{options: width=15cm}
+#' }
 #'
 #' @param data.source name of data.frame.
 #' @param no.waves number of waves (minimum = 3).
@@ -6142,6 +6177,13 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' General Cross-Lagged Panel Model (GCLM)
 #'
+#' \if{html}{
+#' \figure{GCLM.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{GCLM.pdf}{options: width=15cm}
+#' }
+#'
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3, must be grater than AR & MA)
 #' @param lag number of lags in autoregressive effect (AR) and moving average (MA) (default = 1) AR = MA
@@ -6555,9 +6597,14 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #'
 #' Multilevel Model allows for both MLM and MSEM and compares paths across levels
 #'
-#'
 #' Define the model only once without specifying the level, and the function will compare the model across levels.
 #'
+#' \if{html}{
+#' \figure{ML.png}{options: width="75\%" alt="Description of my figure"}
+#' }
+#' \if{latex}{
+#' \figure{ML.pdf}{options: width=15cm}
+#' }
 #'
 #' @param model User-specified measurement model.
 #' @param data.source A data frame containing the observed variables used in the model.
