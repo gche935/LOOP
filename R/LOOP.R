@@ -6649,7 +6649,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   # -- Create manifest Level 2 variables and group-mean centered variables -- #
   if (is.null(mL2.variables) == FALSE) {
-    mL2a <- paste0("mL2.data <<- mL2(",data.source,", Cluster, mL2.variables)")
+    mL2a <- paste0("mL2.data <<- mL2(", arg2_char,", Cluster, mL2.variables)")
     eval(parse(text = mL2a))
   } # end (if mL2.variables)
 
