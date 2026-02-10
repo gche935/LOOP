@@ -6656,21 +6656,31 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   } # end (if mL2.variables)
 
   # -- Create and Run Multilevel Model -- #
+    j <- 1
     ML.X <- paste0("Model.ML.X <- '", "\n", "level: 1", "\n")
     for (i in 1:no.estimates) {
       var.lhs <- temp[i, "lhs"]
       var.rhs <- temp[i, "rhs"]
       if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"])
       if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gmc_", temp[i, "rhs"])
+      if (temp[i, "op"] == "~") {
+        var.rhs <- paste0("L1p",j) 
+        j <- j + 1
+      }
       ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
     } # end (for i)
     if (L2 == TRUE) {
+      j <- 1
       ML.X <- paste0(ML.X, paste0("\n", "level: 2", "\n"))
       for (i in 1:no.estimates) {
         var.lhs <- temp[i, "lhs"]
         var.rhs <- temp[i, "rhs"]
         if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gm_", temp[i, "lhs"])
         if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gm_", temp[i, "rhs"])
+        if (temp[i, "op"] == "~") {
+          var.rhs <- paste0("L2p",j) 
+          j <- j + 1
+        }
         ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
       } # end (for i)
     } else {
