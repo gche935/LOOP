@@ -6664,7 +6664,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
       if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"])
       if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gmc_", temp[i, "rhs"])
       if (temp[i, "op"] == "~") {
-        var.rhs <- paste0("L1p",j) 
+        var.rhs <- paste0("L1p", j, "*", var.rhs) 
         j <- j + 1
       }
       ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
@@ -6678,7 +6678,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
         if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gm_", temp[i, "lhs"])
         if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gm_", temp[i, "rhs"])
         if (temp[i, "op"] == "~") {
-          var.rhs <- paste0("L2p",j) 
+          var.rhs <- paste0("L2p", j, "*", var.rhs) 
           j <- j + 1
         }
         ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
