@@ -6798,8 +6798,9 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     } # end (for j)
     cat("\n")
   } # end (if L2)
-
-#  list(lavaan.object = Model.L2.fit)
+  
+  # Return lavaan object 
+  return(list(lavaan.object = Model.L2.fit))
 
 } ## End (Function ML)
 
