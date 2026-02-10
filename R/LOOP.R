@@ -3229,6 +3229,9 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(CLPMMLR.fit)
+
 }  # end (Function CLPM)
 
 ## ========================================================================================== ##
@@ -3573,6 +3576,9 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
   Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
+
+  # Return lavaan object 
+  return(RICLPMMLR.fit)
 
 }  # end (Function RICLPM)
 
@@ -4073,6 +4079,9 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(LGCMSRMLR.fit)
+
 }  # end (Function LGCMSR)
 
 ## ========================================================================================== ##
@@ -4438,6 +4447,8 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(STARTSMR.fit)
 
 }  # end (Function STARTS)
 
@@ -4888,6 +4899,8 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(ALTMLR.fit)
 
 }  # end (Function ALT)
 
@@ -5269,6 +5282,9 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
   Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
+
+  # Return lavaan object 
+  return(LGCMMLR.fit)
 
 }  # end (Function LGCM)
 
@@ -5696,6 +5712,9 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
   Invariance(parEst, pest2, pest3, no.path, no.waves, lag, Type1, Type1Adj, X, Y, Z, W)
 
   cat(rep("\n", 2))
+
+  # Return lavaan object 
+  return(LCSMLR.fit)
 
 }  # end (Function LCS)
 
@@ -6164,6 +6183,9 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(LCSCC.fit)
+
 }  # end (Function LCSCC)
 
 ## ========================================================================================== ##
@@ -6583,6 +6605,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
   cat(rep("\n", 2))
 
+  # Return lavaan object 
+  return(GCLMMLR.fit)
 
 }  # end (Function GCLM)
 
