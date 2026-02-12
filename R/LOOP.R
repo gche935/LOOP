@@ -3025,7 +3025,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' CLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.",
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -3229,8 +3229,8 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(CLPMMLR.fit)
+  # Return lavaan object
+  invisible(CLPMMLR.fit)
 
 }  # end (Function CLPM)
 
@@ -3268,7 +3268,7 @@ CLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' RICLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust.",
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -3577,8 +3577,8 @@ RICLPM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, 
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(RICLPMMLR.fit)
+  # Return lavaan object
+  invisible(RICLPMMLR.fit)
 
 }  # end (Function RICLPM)
 
@@ -4079,8 +4079,8 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(LGCMSRMLR.fit)
+  # Return lavaan object
+  invisible(LGCMSRMLR.fit)
 
 }  # end (Function LGCMSR)
 
@@ -4119,7 +4119,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
 #'
 #' ## -- Example -- ##
 #'
-#' STARTS(data.source=Smoking, no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", 
+#' STARTS(data.source=Smoking, no.waves=6, lag=1, varI.eq=TRUE, Type1=0.05, Type1Adj="BON",
 #' X="expose.", Y="intens.")
 #'
 
@@ -4447,8 +4447,8 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(STARTSMR.fit)
+  # Return lavaan object
+  invisible(STARTSMR.fit)
 
 }  # end (Function STARTS)
 
@@ -4486,7 +4486,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
 #'
 #' ## -- Example -- ##
 #'
-#' ALT(data.source=Trust, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' ALT(data.source=Trust, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.",
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -4899,8 +4899,8 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(ALTMLR.fit)
+  # Return lavaan object
+  invisible(ALTMLR.fit)
 
 }  # end (Function ALT)
 
@@ -4938,7 +4938,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #'
 #' ## -- Example -- ##
 #'
-#' LGCM(data.source=Trust, no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON", 
+#' LGCM(data.source=Trust, no.waves=6, slope="linear", Type1=0.05, Type1Adj="BON",
 #' X="trust.", Y="lonely.", Z="lifesat.")
 #'
 
@@ -5283,8 +5283,8 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(LGCMMLR.fit)
+  # Return lavaan object
+  invisible(LGCMMLR.fit)
 
 }  # end (Function LGCM)
 
@@ -5320,7 +5320,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' LCS(data.source=Trust, no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' LCS(data.source=Trust, no.waves=6, Type1=0.05, Type1Adj="BON", X="trust.",
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -5713,8 +5713,8 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(LCSMLR.fit)
+  # Return lavaan object
+  invisible(LCSMLR.fit)
 
 }  # end (Function LCS)
 
@@ -5752,7 +5752,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
 #'
 #' ## -- Example -- ##
 #'
-#' LCSCC(data.source=Trust, no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.", 
+#' LCSCC(data.source=Trust, no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.",
 #' Y="lonely.", Z="lifesat.")
 #'
 
@@ -6183,8 +6183,8 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(LCSCC.fit)
+  # Return lavaan object
+  invisible(LCSCC.fit)
 
 }  # end (Function LCSCC)
 
@@ -6222,7 +6222,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
 #'
 #' ## -- Example -- ##
 #'
-#' GCLM(data.source=Smoking, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.", 
+#' GCLM(data.source=Smoking, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="expose.",
 #' Y="intens.")
 #'
 
@@ -6605,8 +6605,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
   cat(rep("\n", 2))
 
-  # Return lavaan object 
-  return(GCLMMLR.fit)
+  # Return lavaan object
+  invisible(GCLMMLR.fit)
 
 }  # end (Function GCLM)
 
@@ -6648,11 +6648,11 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' ## Specify the path model - Model ##
 #' Model <- '
 #' satisfaction ~ engage + act_con + pas_con + act_des + pas_des
-#' engage ~ act_con + pas_con + act_des + pas_des 
+#' engage ~ act_con + pas_con + act_des + pas_des
 #' '
 #'
 #' ## ===== Compare Estimated Parameters Across Levels ===== ##
-#' ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE) 
+#' ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE)
 #'
 ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, mL2.variables=NULL) {
 
@@ -6665,8 +6665,8 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   # -- Run Single Level to get model information -- #
 
-  Model.L1 <- lavaan::sem(model, 
-                          data.source, 
+  Model.L1 <- lavaan::sem(model,
+                          data.source,
                           cluster= Cluster,
                           estimator = 'MLR')
 
@@ -6688,7 +6688,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
       if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gmc_", temp[i, "lhs"])
       if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gmc_", temp[i, "rhs"])
       if (temp[i, "op"] == "~") {
-        var.rhs <- paste0("L1p", j, "*", var.rhs) 
+        var.rhs <- paste0("L1p", j, "*", var.rhs)
         j <- j + 1
       }
       ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
@@ -6702,7 +6702,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
         if (temp[i, "lhs"] %in% mL2.variables)  var.lhs <- paste0("gm_", temp[i, "lhs"])
         if (temp[i, "rhs"] %in% mL2.variables)  var.rhs <- paste0("gm_", temp[i, "rhs"])
         if (temp[i, "op"] == "~") {
-          var.rhs <- paste0("L2p", j, "*", var.rhs) 
+          var.rhs <- paste0("L2p", j, "*", var.rhs)
           j <- j + 1
         }
         ML.X <- paste0(ML.X, var.lhs, temp[i, "op"], var.rhs, "\n")
@@ -6822,9 +6822,9 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     } # end (for j)
     cat("\n")
   } # end (if L2)
-  
-  # Return lavaan object 
-  return(Model.L2.fit)
+
+  # Return lavaan object
+  invisible(Model.L2.fit)
 
 } ## End (Function ML)
 
@@ -6851,7 +6851,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 #' ## -- Example -- ##
 #'
 #'
-#' df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.", 
+#' df_long <- wide2long(data.source=Trust, no.waves=6, variables=c("trust.", "lonely.",
 #' "lifesat."), lag1=FALSE)
 #' write.csv(df_long, "file_long.csv") # save dataframe to csv file
 #'
