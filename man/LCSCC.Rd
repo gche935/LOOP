@@ -53,7 +53,7 @@ Latent Change Score Model with Changes-To-Changes Extension (LCS-CC)
 
 ## -- Example -- ##
 
-LCSCC(data.source=Trust, no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.", 
+LCSCC(data.source=Trust, no.waves=6, varI.eq=TRUE, Type1=0.05, Type1Adj="BON", X="trust.",
 Y="lonely.", Z="lifesat.")
 
 }

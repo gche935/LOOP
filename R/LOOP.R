@@ -6931,3 +6931,38 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 
 
 
+# ==================== Creating Function "create.lag" ==================== #
+#' Function create.lag (Create the lag variable by 1 time point)
+#'
+#' Create lagged (t-1) variables in dataframe. 
+#'
+#' @param data.source name of dataframe in long format with a grouping and a timing variable.
+#' @param id group identification variable.
+#' @param time timing variable.
+#' @param variables variable names to create lagged (t-1) variables.
+#'
+#' @return dataframe df_lagged.
+#' @export
+#' @examples
+#'
+#' ## -- Example -- ##
+#'
+#'
+#' df_lagged <- create.lag(data.source=Responsive, id="id", time="time", 
+#' variables=c("satisfaction", "engage"))
+#' write.csv(df_lagged, "Responsive_lagged.csv") # save dataframe to csv file
+#'
+
+## ===== Create Lagged (t-1) variables to df_lagged ===== ##
+create.lag <- function(data.source, id="id", time="time", variables = c("X", "Y")) {
+  df_lagged <- data.source %>%
+  arrange(id, time) %>% # Ensure data is sorted by group and time
+  group_by(id) %>%     # Group by the identifier
+  mutate(across(all_of(variables), ~lag(.x, n = 1), .names = "{.col}_lag")) %>%
+  ungroup()            # Ungroup the data when done
+  invisible(df_lagged)
+} # end (function create.lag)
+
+## ========================================================================================== ##
+
+

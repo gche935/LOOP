@@ -51,10 +51,10 @@ Define the model only once without specifying the level, and the function will c
 ## Specify the path model - Model ##
 Model <- '
 satisfaction ~ engage + act_con + pas_con + act_des + pas_des
-engage ~ act_con + pas_con + act_des + pas_des 
+engage ~ act_con + pas_con + act_des + pas_des
 '
 
 ## ===== Compare Estimated Parameters Across Levels ===== ##
-ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE) 
+ML(model=Model, data.source=Responsive, Cluster="id", missing="listwise", L2=TRUE)
 
 }

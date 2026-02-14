@@ -53,7 +53,7 @@ Autoregressive Latent Trajectory Model (ALT)
 
 ## -- Example -- ##
 
-ALT(data.source=Trust, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.", 
+ALT(data.source=Trust, no.waves=6, lag=1, Type1=0.05, Type1Adj="BON", X="trust.",
 Y="lonely.", Z="lifesat.")
 
 }
