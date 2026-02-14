@@ -4448,7 +4448,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
   cat(rep("\n", 2))
 
   # Return lavaan object
-  invisible(STARTSMR.fit)
+  invisible(STARTSMLR.fit)
 
 }  # end (Function STARTS)
 
@@ -6184,7 +6184,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
   cat(rep("\n", 2))
 
   # Return lavaan object
-  invisible(LCSCC.fit)
+  invisible(LCSCCMLR.fit)
 
 }  # end (Function LCSCC)
 
