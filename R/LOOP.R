@@ -6934,7 +6934,7 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 # ==================== Creating Function "create.lag" ==================== #
 #' Function create.lag (Create the lag variable by 1 time point)
 #'
-#' Create lagged (t-1) variables in dataframe. 
+#' Create lagged (t-1) variables in dataframe with labels "variable_lag". 
 #'
 #' @param data.source name of dataframe in long format with a grouping and a timing variable.
 #' @param id group identification variable.

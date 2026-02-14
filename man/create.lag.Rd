@@ -19,7 +19,7 @@ create.lag(data.source, id = "id", time = "time", variables = c("X", "Y"))
 dataframe df_lagged.
 }
 \description{
-Create lagged (t-1) variables in dataframe.
+Create lagged (t-1) variables in dataframe with labels "variable_lag".
 }
 \examples{
 
