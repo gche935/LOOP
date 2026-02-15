@@ -6910,7 +6910,8 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #'
 #' ## -- Example -- ##
 #'
-#' df_wide <- long2wide(data.source=df_long, id="id", time="time", variables=c("EXPOSE.", "INTENS."))
+#' df_wide <- long2wide(data.source=Responsive, id="id", time="time", 
+#' variables=c("act_con", "pas_con", "act_des", "pas_des", "engage", "satisfaction"))
 #' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
 
@@ -6965,4 +6966,165 @@ create.lag <- function(data.source, id="id", time="time", variables = c("X", "Y"
 
 ## ========================================================================================== ##
 
+
+
+
+
+# ==================== Creating Function "attrition.bias.test" ==================== #
+#' Function attrition.bias.test (Conduct attrition bias tests)
+#'
+#' Conduct attrition bias tests for lag = 1 and lag = 2.
+#'
+#' For lag = 1, compares the means of a variable at T1 between the response and non-response groups at T2.
+#' For lag = 2, compares the means of a variable at T1 between the response and non-response groups at T3.
+#' Bonferroni adjustment for the number of variables (comparisons) at each time point is recommended.
+#'
+#' @param data.source name of dataframe in wide format.
+#' @param variables variables to be compared between response and non-response groups.
+#' @param no.waves number of waves to be compared.
+#'
+#' @return dataframe Response rates and attrition bias tests results.
+#' @export
+#' @examples
+#'
+#' ## -- Example -- ##
+#'
+#' attrition.bias.test(data.source=Trust, variables=c("trust.", "lonely.", "lifesat."), no.waves=6)
+#'
+
+## ===== Create Lagged (t-1) variables to df_lagged ===== ##
+attrition.bias.test <- function(data.source, variables = c("X", "Y"), no.waves=3) {
+
+  ## -- Calculate Response Rate -- ##
+  for (j in 1:no.waves) {
+    # Columns to check
+    cols_to_check <- paste0(variables, j)
+    # Check for all NA in specific columns using apply
+    data.source[, paste0("all_na.",j)] <- apply(data.source[, cols_to_check], 1, function(x) all(is.na(x)))
+    data.source[, paste0("all_na.",j)] <- as.numeric(data.source[, paste0("all_na.",j)]) # 1=missing
+    data.source[, paste0("all_na.",j)] <- (data.source[, paste0("all_na.",j)] -1)^2 # 0=missing
+  } # end (for j)
+
+  no.response <- matrix(0, nrow=no.waves, ncol=3)
+  colnames(no.response) <- c("time", "response", "rate")
+  for (j in 1:no.waves) {
+    no.response[j,1] <- j
+    no.response[j,2] <- sum(data.source[,paste0("all_na.",j)])
+    no.response[j,3] <- no.response[j,2]/no.response[1,2]
+  } # end (for j)
+  rate <- no.response[,3]
+  no.response[,3] <- paste0(formatC(rate * 100, format = "f", digits = 1), "%")
+
+
+  # -- Plot Response Rate -- #
+  ggplot(data=no.response, aes(x=time, y=as.numeric(response))) +
+    labs(title = "Number of Response and Response Rate at Each Time Point", x = "Time", y = "Number of Response") +
+    geom_bar(stat="identity", fill="steelblue", width=0.7) +
+    geom_text(aes(label=rate), vjust=1.6, color="white", size=2.5) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+    theme_classic() 
+
+
+  ## ----- Attrition Bias Tests ----- ##
+  no.comparison <- length(variables)
+  cat("\n", "Number of comparisons = ", no.comparison)
+  cat("\n", "Critical p-value = ", sprintf("%.4f", 0.05/no.comparison), " for p = 0.05 with Bonferroni adjustment")
+  cat("\n", "Critical p-value = ", sprintf("%.4f", 0.01/no.comparison), " for p = 0.01 with Bonferroni adjustment")
+  cat("\n", "If the p-value of a difference is lower than the critical p-value, there is a significant attrition bias.", "\n")
+
+  ## -- Attrition Bias Test (Lag = 1) -- ##
+  t.results <- matrix("", nrow = 1+4*(no.waves-1), ncol=(no.comparison+1))
+  t.results[1, 2:(no.comparison+1)] <- variables
+  t.results[1,1] <- c("Variables")
+
+  for (i in 1:(no.waves-1)) {
+    Gp1 <- paste0("data.source$group.response[data.source$all_na.",i," == 1 & data.source$all_na.",i+1," == 1] <- 0")
+    Gp2 <- paste0("data.source$group.response[data.source$all_na.",i," == 1 & data.source$all_na.",i+1," == 0] <- 1")
+    eval(parse(text = Gp1))
+    eval(parse(text = Gp2))
+
+    # - Title in column 1 of t.results - #
+    t.results[(i-1)*4+2,1] <- paste0("Time ", i, " mean (Time ", i+1, " Response Group)")
+    t.results[(i-1)*4+3,1] <- paste0("Time ", i, " mean (Time ", i+1, " Non-Response Group)")
+    t.results[(i-1)*4+4,1] <- paste0("Time ", i, " difference in mean")
+    t.results[(i-1)*4+5,1] <- paste0("Time ", i, " difference (p-value)")
+
+    scores <- data.source[,paste0(variables, i)]
+    XX <- sapply(scores, function(x) {
+      t.test(x ~ data.source$group.response)
+    })
+
+    for (j in 1:no.comparison) {
+      t.results[(i-1)*4+2,j+1] <- format(round(unlist(XX[(j-1)*10+5])[1], 4), nsmall = 4)
+      t.results[(i-1)*4+3,j+1] <- format(round(unlist(XX[(j-1)*10+5])[2], 4), nsmall = 4)
+      t.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t.results[i+1,j+1]) - as.numeric(t.results[i+2,j+1])), 4), nsmall = 4)
+      t.results[(i-1)*4+5,j+1] <- format(round(unlist(XX[(j-1)*10+3]), 4), nsmall = 4)
+    } # end (for j)
+  } # end (for i)
+
+  # Assign first column as row names
+  rownames(t.results) <- t.results[,1]
+  t.results <- t.results[, -1]
+
+  # Assign first row as column names
+  colnames(t.results) <- t.results[1,]
+  t.results <- t.results[-1,]
+  t.results <- format(t.results, justify = "right")
+
+  cat("\n", "## --- Attrition Bias Test Results (lag = 1) --- ##", "\n")
+  for (i in 2:no.waves-1) {
+    print(t.results[(4*i-3):(4*i),], quote=FALSE)
+    cat("\n")
+  } # end (for i)
+
+
+  ## -- Attrition Bias Test (Lag = 2) -- ##
+  t2.results <- matrix("", nrow = 1+4*(no.waves-2), ncol=(no.comparison+1))
+  t2.results[1, 2:(no.comparison+1)] <- variables
+
+  t2.results[1,1] <- c("Variables")
+
+  for (i in 1:(no.waves-2)) {
+    Gp1 <- paste0("data.source$group.response[data.source$all_na.",i," == 1 & data.source$all_na.",i+2," == 1] <- 0")
+    Gp2 <- paste0("data.source$group.response[data.source$all_na.",i," == 1 & data.source$all_na.",i+2," == 0] <- 1")
+    eval(parse(text = Gp1))
+    eval(parse(text = Gp2))
+
+    # - Title in column 1 of t2.results - #
+    t2.results[(i-1)*4+2,1] <- paste0("Time ", i, " mean (Time ", i+2, " Response Group)")
+    t2.results[(i-1)*4+3,1] <- paste0("Time ", i, " mean (Time ", i+2, " Non-Response Group)")
+    t2.results[(i-1)*4+4,1] <- paste0("Time ", i, " difference in mean")
+    t2.results[(i-1)*4+5,1] <- paste0("Time ", i, " difference (p-value)")
+
+    scores <- data.source[,paste0(variables, i)]
+    XX <- sapply(scores, function(x) {
+      t.test(x ~ data.source$group.response)
+    })
+
+    for (j in 1:no.comparison) {
+      t2.results[(i-1)*4+2,j+1] <- format(round(unlist(XX[(j-1)*10+5])[1], 4), nsmall = 4)
+      t2.results[(i-1)*4+3,j+1] <- format(round(unlist(XX[(j-1)*10+5])[2], 4), nsmall = 4)
+      t2.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t2.results[i+1,j+1]) - as.numeric(t2.results[i+2,j+1])), 4), nsmall = 4)
+      t2.results[(i-1)*4+5,j+1] <- format(round(unlist(XX[(j-1)*10+3]), 4), nsmall = 4)
+    } # end (for j)
+  } # end (for i)
+
+  # Assign first column as row names
+  rownames(t2.results) <- t2.results[,1]
+  t2.results <- t2.results[, -1]
+
+  # Assign first row as column names
+  colnames(t2.results) <- t2.results[1,]
+  t2.results <- t2.results[-1,]
+  t2.results <- format(t2.results, justify = "right")
+
+  cat("\n", "## --- Attrition Bias Test Results (lag = 2) --- ##", "\n")
+  for (i in 3:no.waves-2) {
+    print(t2.results[(4*i-3):(4*i),], quote = FALSE)
+    cat("\n")
+  } # end (for i)
+
+} # end (function attrition.bias.test)
+
+## ========================================================================================== ##
 

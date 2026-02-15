@@ -23,7 +23,8 @@ Convert long data format to wide data format. New variables will be coded with "
 
 ## -- Example -- ##
 
-df_wide <- long2wide(data.source=df_long, id="id", time="time", variables=c("EXPOSE.", "INTENS."))
+df_wide <- long2wide(data.source=Responsive, id="id", time="time", 
+variables=c("act_con", "pas_con", "act_des", "pas_des", "engage", "satisfaction"))
 write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 
 }
