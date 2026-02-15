@@ -6367,9 +6367,9 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate autoregression (AR) between latent variables (lag = ", j," wave) -- #", sep=""))
-      cat("\n", "  ###########################################################")
-      cat("\n", "  # Remove the subscripts for invariant autoregression (AR) #")
-      cat("\n", "  ###########################################################")
+      cat("\n", "  ###############################################################")
+      cat("\n", "  # Change the subscripts for non-invariant autoregression (AR) #")
+      cat("\n", "  ###############################################################")
       for (i in (lag+1):no.waves) {
         cat("\n", paste("  w", X,i, " ~ pXX", j, "*w", X,i-j, sep=""))
         cat("\n", paste("  w", Y,i, " ~ pYY", j, "*w", Y,i-j, sep=""))
@@ -6398,9 +6398,9 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate moving average (MA) between latent variables (lag = ", j," wave) -- #", sep=""))
-      cat("\n", "  ###########################################################")
-      cat("\n", "  # Remove the subscripts for invariant moving average (MA) #")
-      cat("\n", "  ###########################################################")
+      cat("\n", "  ###############################################################")
+      cat("\n", "  # Change the subscripts for non-invariant moving average (MA) #")
+      cat("\n", "  ###############################################################")
       for (i in (lag+1):no.waves) {
         cat("\n", paste("  w", X,i, " ~ maXX", j, "*d", X,i-j, sep=""))
         cat("\n", paste("  w", Y,i, " ~ maYY", j, "*d", Y,i-j, sep=""))
@@ -6414,9 +6414,9 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
     } # end (for j)
 
     cat(rep("\n",2), paste0("  # -- Estimate cross-lagged (CL) effects between latent variables (lag = ", j," wave) -- #", sep=""))
-    cat("\n", "  ##########################################")
-    cat("\n", "  # Remove the subscripts for invariant CL #")
-    cat("\n", "  ##########################################")
+    cat("\n", "  ####################################################")
+    cat("\n", "  # Add subscripts to pXY & pYX for non-invariant CL #")
+    cat("\n", "  ####################################################")
     for (i in (lag+1):no.waves) {
       if (Z == "NULL") {
         cat("\n", paste("  w", X,i, " ~ pYX*w", Y,i-1, sep=""))
@@ -6453,9 +6453,9 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
     } # end (if lag)
 
     cat(rep("\n",2), paste0("  # -- Estimate cross-lagged moving average (CLMA) (Lag = ", j, " wave) -- #", sep=""))
-    cat("\n", "  ############################################")
-    cat("\n", "  # Remove the subscripts for invariant CLMA #")
-    cat("\n", "  ############################################")
+    cat("\n", "  ########################################################")
+    cat("\n", "  # Add subscripts to maYX & maXY for non-invariant CLMA #")
+    cat("\n", "  ########################################################")
     for (i in (lag+1):no.waves) {
       if (Z == "NULL") {
         cat("\n", paste("  w", X,i, " ~ maYX*d", Y, i-1, sep=""))
