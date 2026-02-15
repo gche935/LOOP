@@ -11,11 +11,13 @@ LazyData: true
 Depends: R (>= 3.5.1),
          lavaan,
          MASS,
-         dplyr
+         dplyr,
+         ggplot2
 Imports:
     lavaan,
     MASS,
-    dplyr
+    dplyr,
+    ggplot2
 RoxygenNote: 7.3.3
 URL: https://github.com/gche935/LOOP
 BugReports: https://github.com/gche935/LOOP/issues
