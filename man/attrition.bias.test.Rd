@@ -14,7 +14,7 @@ attrition.bias.test(data.source, variables = c("X", "Y"), no.waves = 3)
 \item{no.waves}{number of waves to be compared.}
 }
 \value{
-dataframe Response rates and attrition bias tests results.
+Plot Response rates as p and attrition bias tests results.
 }
 \description{
 Conduct attrition bias tests for lag = 1 and lag = 2.

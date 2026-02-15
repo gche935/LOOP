@@ -6983,7 +6983,7 @@ create.lag <- function(data.source, id="id", time="time", variables = c("X", "Y"
 #' @param variables variables to be compared between response and non-response groups.
 #' @param no.waves number of waves to be compared.
 #'
-#' @return dataframe Response rates and attrition bias tests results.
+#' @return Plot Response rates as p and attrition bias tests results.
 #' @export
 #' @examples
 #'
@@ -7017,13 +7017,13 @@ attrition.bias.test <- function(data.source, variables = c("X", "Y"), no.waves=3
 
 
   # -- Plot Response Rate -- #
-  ggplot(data=no.response, aes(x=time, y=as.numeric(response))) +
+  p <- ggplot(data=no.response, aes(x=time, y=as.numeric(response))) +
     labs(title = "Number of Response and Response Rate at Each Time Point", x = "Time", y = "Number of Response") +
     geom_bar(stat="identity", fill="steelblue", width=0.7) +
     geom_text(aes(label=rate), vjust=1.6, color="white", size=2.5) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
     theme_classic() 
-
+  print(p)
 
   ## ----- Attrition Bias Tests ----- ##
   no.comparison <- length(variables)
