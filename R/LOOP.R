@@ -6910,7 +6910,7 @@ wide2long <- function(data.source, no.waves, variables = c("X", "Y"), lag1=FALSE
 #'
 #' ## -- Example -- ##
 #'
-#' df_wide <- long2wide(data.source=Responsive, id="id", time="time", 
+#' df_wide <- long2wide(data.source=Responsive, id="id", time="time",
 #' variables=c("act_con", "pas_con", "act_des", "pas_des", "engage", "satisfaction"))
 #' write.csv(df_wide, "file_wide.csv") # save dataframe to csv file
 #'
@@ -6935,7 +6935,7 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 # ==================== Creating Function "create.lag" ==================== #
 #' Function create.lag (Create the lag variable by 1 time point)
 #'
-#' Create lagged (t-1) variables in dataframe with labels "variable_lag". 
+#' Create lagged (t-1) variables in dataframe with labels "variable_lag".
 #'
 #' @param data.source name of dataframe in long format with a grouping and a timing variable.
 #' @param id group identification variable.
@@ -6949,7 +6949,7 @@ long2wide <- function(data.source, id="id", time="time", variables = c("X", "Y")
 #' ## -- Example -- ##
 #'
 #'
-#' df_lagged <- create.lag(data.source=Responsive, id="id", time="time", 
+#' df_lagged <- create.lag(data.source=Responsive, id="id", time="time",
 #' variables=c("satisfaction", "engage"))
 #' write.csv(df_lagged, "Responsive_lagged.csv") # save dataframe to csv file
 #'
@@ -7022,7 +7022,7 @@ attrition.bias.test <- function(data.source, variables = c("X", "Y"), no.waves=3
     geom_bar(stat="identity", fill="steelblue", width=0.7) +
     geom_text(aes(label=rate), vjust=1.6, color="white", size=2.5) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
-    theme_classic() 
+    theme_classic()
   print(p)
 
   ## ----- Attrition Bias Tests ----- ##
@@ -7057,7 +7057,7 @@ attrition.bias.test <- function(data.source, variables = c("X", "Y"), no.waves=3
     for (j in 1:no.comparison) {
       t.results[(i-1)*4+2,j+1] <- format(round(unlist(XX[(j-1)*10+5])[1], 4), nsmall = 4)
       t.results[(i-1)*4+3,j+1] <- format(round(unlist(XX[(j-1)*10+5])[2], 4), nsmall = 4)
-      t.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t.results[i+1,j+1]) - as.numeric(t.results[i+2,j+1])), 4), nsmall = 4)
+      t.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t.results[(i-1)*4+2,j+1]) - as.numeric(t.results[(i-1)*4+3,j+1])), 4), nsmall = 4)
       t.results[(i-1)*4+5,j+1] <- format(round(unlist(XX[(j-1)*10+3]), 4), nsmall = 4)
     } # end (for j)
   } # end (for i)
