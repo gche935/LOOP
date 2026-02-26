@@ -7104,7 +7104,7 @@ attrition.bias.test <- function(data.source, variables = c("X", "Y"), no.waves=3
     for (j in 1:no.comparison) {
       t2.results[(i-1)*4+2,j+1] <- format(round(unlist(XX[(j-1)*10+5])[1], 4), nsmall = 4)
       t2.results[(i-1)*4+3,j+1] <- format(round(unlist(XX[(j-1)*10+5])[2], 4), nsmall = 4)
-      t2.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t2.results[i+1,j+1]) - as.numeric(t2.results[i+2,j+1])), 4), nsmall = 4)
+      t2.results[(i-1)*4+4,j+1] <- format(round((as.numeric(t2.results[(i-1)*4+2,j+1]) - as.numeric(t2.results[(i-1)*4+3,j+1])), 4), nsmall = 4)
       t2.results[(i-1)*4+5,j+1] <- format(round(unlist(XX[(j-1)*10+3]), 4), nsmall = 4)
     } # end (for j)
   } # end (for i)
