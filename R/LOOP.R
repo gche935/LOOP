@@ -7242,14 +7242,15 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
     ## -- Monte Carlo Simulation -- ##
 
-    parEst.L1 <- subset(lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE), level == 1)
-    no.estimates.L1 <- nrow(parEst.L1)
     parEst <- lavaan::parameterEstimates(Model.L2.fit, remove.nonfree = TRUE)
-    pest2 <- parEst[, "est"]  # Estimated Parameters
+    pest <- which(parEst$op == "~")
+    no.estimates.L1 <- length(pest)/2
     pest3 <- lavaan::lavTech(Model.L2.fit, what = "vcov", add.labels = TRUE)  # Estimated Variance-Covariance of Estimated Parameters
+    pest3 <- pest3[pest, pest]
+    pest2 <- parEst[pest, "est"]  # Estimated Parameters
+    names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
 
     mcmc <- MASS::mvrnorm(n=1000000, mu=pest2, Sigma=pest3, tol = 1e-6)  # Run 1,000,000 simulations
-    names(pest2) <-colnames(pest3)  # Save Parameter Names to Estimated Parameters
     b.no <- nrow(mcmc)  # No. of successful simulated samples
 
     ## -- Differences in estimated parameters -- ##
