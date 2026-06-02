@@ -3121,7 +3121,7 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
 
     } else {
 #      PMI <- measurement.model
-      cat(measurement.model) 
+      cat(measurement.model)
 
       if (rcs == FALSE) {
         # -- Create Latent Variables from Indicators -- #
@@ -3162,7 +3162,7 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
             cat("\n", paste0("  ", W, i, " ~ MW", i, "*1", sep=""))
           } # end (if W)
         } # end (for i)
-      } # end if (rcs == FALSE) 
+      } # end if (rcs == FALSE)
     } # end if measurement.model == "NULL"
 
     cat(rep("\n",2), "  # -- Estimate variance of latent variables at first wave -- #")
@@ -3173,6 +3173,18 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
     } # end (if Z)
     if (W != "NULL") {
       cat("\n", paste("  w", W, "1 ~~ eWW1*w", W, "1", sep=""))
+    } # end (if W)
+
+    cat(rep("\n",2), "  # -- Estimate covariance between latent variables at first wave -- #")
+    cat("\n", "   w", X, "1 ~~ w", Y, "1", sep="")
+    if (Z != "NULL") {
+      cat("\n", "    w", X, "1 ~~ w", Z, "1", sep="")
+      cat("\n", "    w", Y, "1 ~~ w", Z, "1", sep="")
+    } # end (if Z)
+    if (W != "NULL") {
+      cat("\n", "    w", X, "1 ~~ w", W, "1", sep="")
+      cat("\n", "    w", Y, "1 ~~ w", W, "1", sep="")
+      cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
     } # end (if W)
 
     cat(rep("\n",2), "  # -- Estimate residual variance of latent variables -- #")
@@ -3206,18 +3218,6 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
         cat("\n", paste("  w", Z, i, " ~~ eZW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end ((for i)
-
-    cat(rep("\n",2), "  # -- Estimate covariance between latent variables at first wave -- #")
-    cat("\n", "   w", X, "1 ~~ w", Y, "1", sep="")
-    if (Z != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", Z, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", Z, "1", sep="")
-    } # end (if Z)
-    if (W != "NULL") {
-      cat("\n", "    w", X, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Y, "1 ~~ w", W, "1", sep="")
-      cat("\n", "    w", Z, "1 ~~ w", W, "1", sep="")
-    } # end (if W)
 
     for (j in 1:lag) {
       cat(rep("\n",2), paste0("  # -- Estimate lagged effects between latent variables (Lag = ", j, " wave) -- #", sep =""))
@@ -3271,27 +3271,27 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
     } # end (for i)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
 
-    cat(rep("\n",2), "  '")
+    cat(rep("\n",2), "  '", "\n")
 
   sink() # Stop writing to file
 
   ## -- Execute CLPM.txt -- ##
   eval(parse(file = "CLPM.txt"))
-  
+
   # -- Run CLPMMLR -- #
   if (measurement.model == "NULL") {
-    CLPMMLR.fit <- lavaan::sem(CLPM, 
-                   data.source, 
+    CLPMMLR.fit <- lavaan::sem(CLPM,
+                   data.source,
                    missing = 'fiml',
                    meanstructure = TRUE,
                    marker.int.zero = TRUE,
                    information = 'observed',
                    estimator = 'MLR')
 
-  } else { 
+  } else {
     if (rcs == FALSE) {
-      CLPMMLR.fit <- lavaan::sem(CLPM, 
-                     data.source, 
+      CLPMMLR.fit <- lavaan::sem(CLPM,
+                     data.source,
                      missing = 'fiml',
                      meanstructure = TRUE,
                      auto.fix.first = FALSE,
@@ -3307,7 +3307,7 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
       sink("CLPM.txt")
 
         cat("\n", "# Specify the model (CLPM)", "\n")
-        cat("\n", "CLPM <- '")
+        cat("\n", "CLPM <- '", "\n")
         cat(syntax2)
 
         # -- Create Latent Variables from Indicators -- #
@@ -3349,14 +3349,14 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
           } # end (if W)
         } # end (for i)
 
-        cat(rep("\n",2), "  '")
+        cat(rep("\n",2), "  '", "\n")
 
       sink()
       eval(parse(file = "CLPM.txt"))
 
 
-      CLPMMLR.fit <- lavaan::sem(CLPM, 
-                     data_comp, 
+      CLPMMLR.fit <- lavaan::sem(CLPM,
+                     data_comp,
                      missing = 'fiml',
                      meanstructure = TRUE,
                      marker.int.zero = TRUE,
@@ -3561,7 +3561,7 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
       PMI <- measurement.model
 #      PMI <- gsub(X, paste0("w", X), PMI)
 #      PMI <- gsub(Y, paste0("w", Y), PMI)
-      cat(PMI) 
+      cat(PMI)
 
       if (rcs == FALSE) {
         # -- Estimate Intercepts of Indicators -- #
@@ -3614,7 +3614,7 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
             cat("\n", paste0("  w", W, i, " ~ 0*1", sep=""))
           } # end (if W)
         } # end (for i)
-      } # end if (rcs == FALSE) 
+      } # end if (rcs == FALSE)
     } # end if measurement.model == "NULL"
 
     # -- Estimate (Residual) Variance of Latent Variables -- #
@@ -3777,28 +3777,28 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
     } # end (for i)
     cat("\n", "  #  D1 ~~ D1 # Residual variance of D1")
 
-    cat(rep("\n",2), "  '")
+    cat(rep("\n",2), "  '", "\n")
 
   sink() # Stop writing to file
 
   ## -- Execute RICLPM.txt -- ##
   eval(parse(file = "RICLPM.txt"))
-  
+
   # -- Run RICLPMMLR -- #
 
   if (measurement.model == "NULL") {
-    RICLPMMLR.fit <- lavaan::sem(RICLPM, 
-                     data.source, 
+    RICLPMMLR.fit <- lavaan::sem(RICLPM,
+                     data.source,
                      missing = 'fiml',
                      meanstructure = TRUE,
                      marker.int.zero = TRUE,
                      information = 'observed',
                      estimator = 'MLR')
 
-  } else { 
+  } else {
     if (rcs == FALSE) {
-      RICLPMMLR.fit <- lavaan::sem(RICLPM, 
-                       data.source, 
+      RICLPMMLR.fit <- lavaan::sem(RICLPM,
+                       data.source,
                        missing = 'fiml',
                        meanstructure = TRUE,
                        auto.fix.first = FALSE,
@@ -3814,7 +3814,7 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
       sink("RICLPM.txt")
 
         cat("\n", "# Specify the model (RICLPM)", "\n")
-        cat("\n", "RICLPM <- '")
+        cat("\n", "RICLPM <- '", "\n")
         cat(syntax2)
 
         # -- Create Latent Variables from Indicators -- #
@@ -3946,13 +3946,13 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
         } # end (if W)
       } # end (for i)
 
-        cat(rep("\n",2), "  '")
+        cat(rep("\n",2), "  '", "\n")
 
       sink()
       eval(parse(file = "RICLPM.txt"))
 
-      RICLPMMLR.fit <- lavaan::sem(RICLPM, 
-                       data_comp, 
+      RICLPMMLR.fit <- lavaan::sem(RICLPM,
+                       data_comp,
                        missing = 'fiml',
                        meanstructure = TRUE,
                        marker.int.zero = TRUE,
