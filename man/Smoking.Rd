@@ -8,18 +8,18 @@
 A data frame with 500 rows and 13 variables:
 \describe{
   \item{id}{Numeric, case id number.}
-  \item{expose.1}{Numeric, Perceived exposure to smoking in movies at Time 1.}
-  \item{expose.2}{Numeric, Perceived exposure to smoking in movies at Time 2.}
-  \item{expose.3}{Numeric, Perceived exposure to smoking in movies at Time 3.}
-  \item{expose.4}{Numeric, Perceived exposure to smoking in movies at Time 4.}
-  \item{expose.5}{Numeric, Perceived exposure to smoking in movies at Time 5.}
-  \item{expose.6}{Numeric, Perceived exposure to smoking in movies at Time 6.}
-  \item{intens.1}{Numeric, Smoking intensity at Time 1.}
-  \item{intens.2}{Numeric, Smoking intensity at Time 2.}
-  \item{intens.3}{Numeric, Smoking intensity at Time 3.}
-  \item{intens.4}{Numeric, Smoking intensity at Time 4.}
-  \item{intens.5}{Numeric, Smoking intensity at Time 5.}
-  \item{intens.6}{Numeric, Smoking intensity at Time 6.}
+  \item{expose_T1}{Numeric, Perceived exposure to smoking in movies at Time 1.}
+  \item{expose_T2}{Numeric, Perceived exposure to smoking in movies at Time 2.}
+  \item{expose_T3}{Numeric, Perceived exposure to smoking in movies at Time 3.}
+  \item{expose_T4}{Numeric, Perceived exposure to smoking in movies at Time 4.}
+  \item{expose_T5}{Numeric, Perceived exposure to smoking in movies at Time 5.}
+  \item{expose_T6}{Numeric, Perceived exposure to smoking in movies at Time 6.}
+  \item{intens_T1}{Numeric, Smoking intensity at Time 1.}
+  \item{intens_T2}{Numeric, Smoking intensity at Time 2.}
+  \item{intens_T3}{Numeric, Smoking intensity at Time 3.}
+  \item{intens_T4}{Numeric, Smoking intensity at Time 4.}
+  \item{intens_T5}{Numeric, Smoking intensity at Time 5.}
+  \item{intens_T6}{Numeric, Smoking intensity at Time 6.}
 }
 }
 \source{
