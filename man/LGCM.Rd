@@ -5,6 +5,8 @@
 \title{Function LGCM (Latent Growth Curve Model)}
 \usage{
 LGCM(
+  measurement.model = "NULL",
+  rcs = FALSE,
   data.source,
   no.waves,
   slope = "linear",
@@ -17,6 +19,10 @@ LGCM(
 )
 }
 \arguments{
+\item{measurement.model}{Name of measurement model. The default is "NULL" when observed variables are used, with indicator residuals fixed at zero.}
+
+\item{rcs}{Adopt the reliability-corrected single indicator approach for the measurement model. Default is FALSE.}
+
 \item{data.source}{name of data.frame}
 
 \item{no.waves}{number of waves (minimum = 3)}
