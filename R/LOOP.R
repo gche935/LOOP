@@ -2870,7 +2870,7 @@ if (any(parEst[,4] == "eIXX2")) {
   cat(rep("\n", 2), paste("# -- Indicator Variance of ", a, " -- #", sep=""))
   aa <- get(a)
   for (i in 1: no.path) {
-    Clhs <- paste(aa, i+1, sep="")
+    Clhs <- paste("w", aa, i+1, sep="")
     TparEst <- parEst[parEst["lhs"] == Clhs & parEst["rhs"] == Clhs & parEst["op"] == "~~",]
     p.TparEst <- paste("  eI", a, a, i+1, ":  Indicator Variance of ", Clhs, " = ", format(round(TparEst["est"], digits=4), nsmall=4, scientific=FALSE),
                        ", p-value = ", format(round(TparEst["pvalue"], digits=4), nsmall=4, scientific=FALSE), sep="")
