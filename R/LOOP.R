@@ -3025,7 +3025,7 @@ if (any(parEst[,4] == "eIXX2")) {
 #'
 #' ## -- Example -- ##
 #'
-#' CLPM(measurement.model=PMI.Model.R, data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust",
+#' CLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust",
 #' Y="lonely", Z="lifesat")
 #'
 
@@ -3424,7 +3424,7 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
 #'
 #' ## -- Example -- ##
 #'
-#' RICLPM(measurement.model=PMI.Model.R, data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust",
+#' RICLPM(data.source=Trust, no.waves=6, lag=2, Type1=0.05, Type1Adj="BON", X="trust",
 #' Y="lonely", Z="lifesat")
 #'
 
@@ -5350,6 +5350,8 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #' \figure{LGCM.pdf}{options: width=15cm}
 #' }
 #'
+#' @param measurement.model Name of measurement model. The default is "NULL" when observed variables are used, with indicator residuals fixed at zero.
+#' @param rcs Adopt the reliability-corrected single indicator approach for the measurement model. Default is FALSE.
 #' @param data.source name of data.frame
 #' @param no.waves number of waves (minimum = 3)
 #' @param slope Type of slope: "linear" (default), "unspecified" (non-linear growth), or "quadratic".
@@ -5370,9 +5372,11 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
 #' X="trust", Y="lonely", Z="lifesat")
 #'
 
-LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
+LGCM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BON", X, Y, Z="NULL", W = "NULL") {
 
   ## -- Check inputs -- ##
+
+  if (is.logical(rcs) == FALSE) stop("rcs (reliability-corrected single indicator approach for measurement model) can only be TRUE or FALSE")
 
   if (no.waves < 3) stop("Minimum number of waves is 3")
 
@@ -5400,29 +5404,81 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
   ## ----- Creating Model LGCM ----- ###
   sink('LGCM.txt') # Start writing script to LGCM.txt
     cat("\n", "# Specify the model (LGCM)", "\n")
-    cat("\n", "LGCM <- '")
+    cat("\n", "LGCM <- '", "\n")
+
+    if (measurement.model != "NULL") {
+      if (rcs != TRUE) {
+        cat(measurement.model)
+      } else {
+        suppressWarnings(corrected <- relcorr_single_item(syntax = measurement.model, data = data.source))
+        syntax2 <- corrected$syntax
+        cat(syntax2)
+        data.source   <- corrected$data
+        arg2_char <- deparse(substitute(data.source))
+      } # end if rcs
+      cat("\n")
+    } # end (if measurement.model)
+
+    # -- Constrain  Intercepts of Indicators to zero -- #
+    cat(rep("\n",2), "  # -- Estimate intercepts of indicators -- #")
+    for (i in 1:no.waves) {
+      cat("\n", paste("   ", X, i, " ~ 0*1", sep=""))
+      cat("\n", paste("   ", Y, i, " ~ 0*1", sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("   ", Z, i, " ~ 0*1", sep=""))
+      } # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("   ", W, i, " ~ 0*1", sep=""))
+      } # (if W)
+    } # end (for i)
+
+    # -- Constrain Residual Variance of Indicators to Zero -- #
+    cat(rep("\n",2), "  # -- Constrain residual variance of indicators to zero -- #")
+    for (i in 1:no.waves) {
+      cat("\n", paste("  ", X, i, " ~~ 0*", X, i, sep=""))
+      cat("\n", paste("  ", Y, i, " ~~ 0*", Y, i, sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("  ", Z, i, " ~~ 0*", Z, i, sep=""))
+      } # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("  ", W, i, " ~~ 0*", W, i, sep=""))
+      } # end (if W)
+    } # end (for i)
+
+    # -- Create Latent Variables from Indicators -- #
+    cat(rep("\n",2), "  # -- Create latent variables -- #")
+    for (i in 1:no.waves) {
+      cat("\n", paste("  w", X, i, " =~ 1*", X, i, sep=""))
+      cat("\n", paste("  w", Y, i, " =~ 1*", Y, i, sep=""))
+      if (Z != "NULL") {
+        cat("\n", paste("  w", Z, i, " =~ 1*", Z, i, sep=""))
+      }  # end (if Z)
+      if (W != "NULL") {
+        cat("\n", paste("  w", W, i, " =~ 1*", W, i, sep=""))
+      }  # end (if W)
+    } # end (for i)
 
     # -- Create Between Components (Random Intercepts) -- #
     cat(rep("\n",2), "  # -- Create between components (random intercepts) -- #")
-    BX <- paste("  RI", X, " =~ 1*", X, "1", sep="")
-    BY <- paste("  RI", Y, " =~ 1*", Y, "1", sep="")
+    BX <- paste("  RI", X, " =~ 1*w", X, "1", sep="")
+    BY <- paste("  RI", Y, " =~ 1*w", Y, "1", sep="")
     for (i in 2:no.waves) {
-      BX <- paste(BX, " +1*", X, i, sep="")
-      BY <- paste(BY, " +1*", Y, i, sep="")
+      BX <- paste(BX, " +1*w", X, i, sep="")
+      BY <- paste(BY, " +1*w", Y, i, sep="")
     } # end (for i)
     cat("\n", BX)
     cat("\n", BY)
     if (Z != "NULL") {
-      BZ <- paste("  RI", Z, " =~ 1*", Z, "1", sep="")
+      BZ <- paste("  RI", Z, " =~ 1*w", Z, "1", sep="")
       for (i in 2:no.waves) {
-        BZ <- paste(BZ, " +1*", Z, i, sep="")
+        BZ <- paste(BZ, " +1*w", Z, i, sep="")
       } # end (for i)
       cat("\n", BZ)
     } # end (if Z)
     if (W != "NULL") {
-      BW <- paste("  RI", W, " =~ 1*", W, "1", sep="")
+      BW <- paste("  RI", W, " =~ 1*w", W, "1", sep="")
       for (i in 2:no.waves) {
-        BW <- paste(BW, " +1*", W, i, sep="")
+        BW <- paste(BW, " +1*w", W, i, sep="")
       } # end (for i)
       cat("\n", BW)
     } # end (if W)
@@ -5430,93 +5486,93 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     # -- Create Between Components (Random Slopes) -- #
     cat(rep("\n",2), "  # -- Create between components (random slopes) -- #")
     if (slope == "linear") {
-      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
-      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      BX <- paste("  RS", X, " =~ 0*w", X, "1 + 1*w", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*w", Y, "1 + 1*w", Y, "2", sep="")
       for (i in 3:no.waves) {
-        BX <- paste(BX, " + ", (i-1), "*", X, i, sep="")
-        BY <- paste(BY, " + ", (i-1), "*", Y, i, sep="")
+        BX <- paste(BX, " + ", (i-1), "*w", X, i, sep="")
+        BY <- paste(BY, " + ", (i-1), "*w", Y, i, sep="")
       } # end (for i)
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*w", Z, "1 + 1*w", Z, "2", sep="")
         for (i in 3:no.waves) {
-          BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
+          BZ <- paste(BZ, " + ", (i-1), "*w", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*w", W, "1 + 1*w", W, "2", sep="")
         for (i in 3:no.waves) {
-          BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
+          BW <- paste(BW, " +", (i-1), "*w", W, i, sep="")
         } # end (for i)
         cat("\n", BW)
       } # end (if W)
     } else if (slope == "unspecified") {
-      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
-      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      BX <- paste("  RS", X, " =~ 0*w", X, "1 + 1*w", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*w", Y, "1 + 1*w", Y, "2", sep="")
       for (i in 3:no.waves) {
-        BX <- paste(BX, " + ", X, i, sep="")
-        BY <- paste(BY, " + ", Y, i, sep="")
+        BX <- paste(BX, " + w", X, i, sep="")
+        BY <- paste(BY, " + w", Y, i, sep="")
       } # end (for i)
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*w", Z, "1 + 1*w", Z, "2", sep="")
         for (i in 3:no.waves) {
-          BZ <- paste(BZ, " + ", Z, i, sep="")
+          BZ <- paste(BZ, " + w", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*w", W, "1 + 1*w", W, "2", sep="")
         for (i in 3:no.waves) {
-          BW <- paste(BW, " + ", W, i, sep="")
+          BW <- paste(BW, " + w", W, i, sep="")
         } # end (for i)
         cat("\n", BW)
       } # end (if W)
     } else if (slope == "quadratic") {
-      BX <- paste("  RS", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
-      BY <- paste("  RS", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      BX <- paste("  RS", X, " =~ 0*w", X, "1 + 1*w", X, "2", sep="")
+      BY <- paste("  RS", Y, " =~ 0*w", Y, "1 + 1*w", Y, "2", sep="")
       for (i in 3:no.waves) {
-        BX <- paste(BX, " + ", (i-1), "*", X, i, sep="")
-        BY <- paste(BY, " + ", (i-1), "*", Y, i, sep="")
+        BX <- paste(BX, " + ", (i-1), "*w", X, i, sep="")
+        BY <- paste(BY, " + ", (i-1), "*w", Y, i, sep="")
       } # end (for i)
       cat("\n", BX)
       cat("\n", BY)
       if (Z != "NULL") {
-        BZ <- paste("  RS", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
+        BZ <- paste("  RS", Z, " =~ 0*w", Z, "1 + 1*w", Z, "2", sep="")
         for (i in 3:no.waves) {
-          BZ <- paste(BZ, " + ", (i-1), "*", Z, i, sep="")
+          BZ <- paste(BZ, " + ", (i-1), "*w", Z, i, sep="")
         } # end (for i)
         cat("\n", BZ)
       } # end (if Z)
       if (W != "NULL") {
-        BW <- paste("  RS", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
+        BW <- paste("  RS", W, " =~ 0*w", W, "1 + 1*w", W, "2", sep="")
         for (i in 3:no.waves) {
-          BW <- paste(BW, " +", (i-1), "*", W, i, sep="")
+          BW <- paste(BW, " +", (i-1), "*w", W, i, sep="")
         } # end (for i)
         cat("\n", BW)
       } # end (if W)
-      QX <- paste("  RQ", X, " =~ 0*", X, "1 + 1*", X, "2", sep="")
-      QY <- paste("  RQ", Y, " =~ 0*", Y, "1 + 1*", Y, "2", sep="")
+      QX <- paste("  RQ", X, " =~ 0*w", X, "1 + 1*w", X, "2", sep="")
+      QY <- paste("  RQ", Y, " =~ 0*w", Y, "1 + 1*w", Y, "2", sep="")
       for (i in 3:no.waves) {
-        QX <- paste(QX, " + ", (i-1)^2, "*", X, i, sep="")
-        QY <- paste(QY, " + ", (i-1)^2, "*", Y, i, sep="")
+        QX <- paste(QX, " + ", (i-1)^2, "*w", X, i, sep="")
+        QY <- paste(QY, " + ", (i-1)^2, "*w", Y, i, sep="")
       } # end (for i)
       cat("\n", QX)
       cat("\n", QY)
       if (Z != "NULL") {
-        QZ <- paste("  RQ", Z, " =~ 0*", Z, "1 + 1*", Z, "2", sep="")
+        QZ <- paste("  RQ", Z, " =~ 0*w", Z, "1 + 1*w", Z, "2", sep="")
         for (i in 3:no.waves) {
-          QZ <- paste(QZ, " + ", (i-1)^2, "*", Z, i, sep="")
+          QZ <- paste(QZ, " + ", (i-1)^2, "*w", Z, i, sep="")
         } # end (for i)
         cat("\n", QZ)
       } # end (if Z)
       if (W != "NULL") {
-        QW <- paste("  RQ", W, " =~ 0*", W, "1 + 1*", W, "2", sep="")
+        QW <- paste("  RQ", W, " =~ 0*w", W, "1 + 1*w", W, "2", sep="")
         for (i in 3:no.waves) {
-          QW <- paste(QW, " +", (i-1)^2, "*", W, i, sep="")
+          QW <- paste(QW, " +", (i-1)^2, "*w", W, i, sep="")
         } # end (for i)
         cat("\n", QW)
       } # end (if W)
@@ -5525,13 +5581,13 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     # -- Constrain Means (Intercepts) of Indicators to zero -- #
     cat(rep("\n",2), "  # -- Constrain means (intercepts) of indicators to zero -- #")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~ 0*1", sep=""))
-      cat("\n", paste("  ", Y, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  w", X, i, " ~ 0*1", sep=""))
+      cat("\n", paste("  w", Y, i, " ~ 0*1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", Z, i, " ~ 0*1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~ 0*1", sep=""))
+        cat("\n", paste("  w", W, i, " ~ 0*1", sep=""))
       } # (if W)
     } # end (for i)
 
@@ -5541,13 +5597,13 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     cat("\n", "  # Remove the subscripts for invariant indicator variance #")
     cat("\n", "  ##########################################################")
     for (i in 1:no.waves) {
-      cat("\n", paste("  ", X, i, " ~~ eIXX", i, "*", X, i, sep=""))
-      cat("\n", paste("  ", Y, i, " ~~ eIYY", i, "*", Y, i, sep=""))
+      cat("\n", paste("  w", X, i, " ~~ eIXX", i, "*w", X, i, sep=""))
+      cat("\n", paste("  w", Y, i, " ~~ eIYY", i, "*w", Y, i, sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  ", Z, i, " ~~ eIZZ", i, "*", Z, i, sep=""))
+        cat("\n", paste("  w", Z, i, " ~~ eIZZ", i, "*w", Z, i, sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  ", W, i, " ~~ eIWW", i, "*", W, i, sep=""))
+        cat("\n", paste("  w", W, i, " ~~ eIWW", i, "*w", W, i, sep=""))
       } # end (if W)
     } # end (for i)###   ###
 
@@ -5639,13 +5695,13 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     cat("\n", "  # Regression of indicators on C1 #")
     cat("\n", "  ##########################################")
     for (i in 1:no.waves) {
-      cat("\n", paste("  #  ", X, i, " ~ sx", i,"*C1", sep=""))
-      cat("\n", paste("  #  ", Y, i, " ~ sy", i,"*C1", sep=""))
+      cat("\n", paste("  #  w", X, i, " ~ sx", i,"*C1", sep=""))
+      cat("\n", paste("  #  w", Y, i, " ~ sy", i,"*C1", sep=""))
       if (Z != "NULL") {
-        cat("\n", paste("  #  ", Z, i, " ~ sz", i,"*C1", sep=""))
+        cat("\n", paste("  #  w", Z, i, " ~ sz", i,"*C1", sep=""))
       } # end (if Z)
       if (W != "NULL") {
-        cat("\n", paste("  #  ", W, i, " ~ sz", i,"*C1", sep=""))
+        cat("\n", paste("  #  w", W, i, " ~ sz", i,"*C1", sep=""))
       } # end (if W)
     } # end (for i)
 
@@ -5694,6 +5750,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
     cat("\n", "   ", arg2_char, ",")
     cat("\n", "   missing = 'fiml',")
     cat("\n", "   meanstructure = TRUE,")
+    cat("\n", "   marker.int.zero = TRUE,")
     cat("\n", "   information = 'observed',")
     cat("\n", "   estimator = 'MLR'")
     cat("\n", ")")
@@ -5703,7 +5760,7 @@ LGCM <- function(data.source, no.waves, slope="linear", Type1=0.05, Type1Adj="BO
 
   sink() # Stop writing to file
 
-  ## -- Execute LGCM.txt and request summary outputs-- ##
+  # -- Execute LGCM.txt and request summary outputs-- ##
   source('LGCM.txt')
   if (lavaan::lavInspect(LGCMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
   ## ------------------------------- ##
