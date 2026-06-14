@@ -7325,7 +7325,10 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     cat("\n", "## ----- Differences in Estimated Parameters Across Levels ----- ##")
     for (j in 1:no.estimates.L1) {
       cat("\n")
-      print(lavaan::parameterEstimates(Model.L2.fit)[c(j, j+no.estimates),], row.names=FALSE)
+      ppoutput <- lavaan::parameterEstimates(Model.L2.fit)
+      L1output <- which(ppoutput[, "label"] == names(pest2[j]))
+      L2output <- which(ppoutput[, "label"] == names(pest2[j+no.estimates.L1]))
+      print(ppoutput[c(L1output, L2output), ], row.names=FALSE)
 
       estM <- pest2[paste0("D", j)] # estimated parameter
       abM <- mcmc[, paste0("D", j)] # simulated parameter
