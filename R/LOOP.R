@@ -3366,7 +3366,7 @@ CLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, lag
   }  # end if measurement.model
 
   # Request summary outputs
-  print(lavaan::summary(CLPMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
+  print(lavaan::summary(CLPMMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))
 
 
   if (lavaan::lavInspect(CLPMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
@@ -3962,7 +3962,7 @@ RICLPM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, l
   }  # end if measurement.model
 
   # Request summary outputs
-  print(lavaan::summary(RICLPMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))
+  print(lavaan::summary(RICLPMMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))
 
   if (lavaan::lavInspect(RICLPMMLR.fit, what ="post.check") == FALSE) stop("The lavaan solution is non-admissible.")
   ## ------------------------------- ##
@@ -4470,7 +4470,7 @@ LGCMSR <- function(data.source, no.waves, lag=1, slope="linear", Type1=0.05, Typ
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(LGCMSRMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n", 3))
+    cat(rep("\n",2), "  print(lavaan::summary(LGCMSRMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n", 3))
 
   sink() # Stop writing to file
 
@@ -4846,7 +4846,7 @@ STARTS <- function(data.source, no.waves, lag=1, varI.eq = FALSE, Type1=0.05, Ty
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(STARTSMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(STARTSMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
@@ -5306,7 +5306,7 @@ ALT <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y, 
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(ALTMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(ALTMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
@@ -5756,7 +5756,7 @@ LGCM <- function(measurement.model="NULL", rcs=FALSE, data.source, no.waves, slo
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(LGCMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n", 3))
+    cat(rep("\n",2), "  print(lavaan::summary(LGCMMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n", 3))
 
   sink() # Stop writing to file
 
@@ -6192,7 +6192,7 @@ LCS <- function(data.source, no.waves, Type1=0.05, Type1Adj="BON", X, Y, Z="NULL
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(LCSMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(LCSMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
@@ -6670,7 +6670,7 @@ LCSCC <- function(data.source, no.waves, varI.eq=FALSE, Type1=0.05, Type1Adj="BO
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(LCSCCMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(LCSCCMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
@@ -7101,7 +7101,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
     cat("\n", ")")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(GCLMMLR.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(GCLMMLR.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
@@ -7257,7 +7257,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     cat("\n", "   verbose = FALSE))")
 
     # Request summary outputs
-    cat(rep("\n",2), "  print(lavaan::summary(Model.L2.fit, fit.measure = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
+    cat(rep("\n",2), "  print(lavaan::summary(Model.L2.fit, fit = TRUE, standardized = TRUE, rsq = TRUE))", rep("\n",3))
 
   sink() # Stop writing to file
 
