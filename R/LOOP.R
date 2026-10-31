@@ -7267,32 +7267,32 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   ## ------------------------------- ##
 
 
-  ## -- Estimate ICC -- ##
-  est.var1 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 1)
-  est.var2 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 2)
-  unique_variables <- unique(temp[,"lhs"])
-  cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
-  no.variables <- length(unique_variables)
-  ICC <- matrix(0, nrow=no.variables, ncol=7)
-  colnames(ICC) <- c("Variable", "L1 label", "L2 label", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
-  rownames(ICC) <- unique_variables
-  for (i in 1:no.variables) {
-    ICC[i, 1] <- unique_variables[i]
-    if (ICC[i, 1] %in% mL2.variables) {
-      ICC[i, 2] <- paste0("gmc_", ICC[i, 1])
-      ICC[i, 3] <- paste0("gm_", ICC[i, 1])
-    } else {
-      ICC[i, 2] <- unique_variables[i]
-      ICC[i, 3] <- unique_variables[i]
-    } # end (if ICC[i, 1])
-    ICC[i, 4] <- round(est.var1[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
-    ICC[i, 5] <- round(est.var2[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
-    ICC[i, 6] <- round(as.numeric(ICC[i, 5]) / (as.numeric(ICC[i, 4]) + as.numeric(ICC[i, 5])), digits=4)
-    ICC[i, 7] <- round(cluster.size*as.numeric(ICC[i, 6]) / (1 + (cluster.size-1)*as.numeric(ICC[i, 6])), digits=4)
-  } # end (for i)
-  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n")
-  print(as.data.frame(ICC),row.names=F)
-  cat(rep("\n",2))
+#  ## -- Estimate ICC -- ##
+#  est.var1 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 1)
+#  est.var2 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 2)
+#  unique_variables <- unique(temp[,"lhs"])
+#  cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
+#  no.variables <- length(unique_variables)
+#  ICC <- matrix(0, nrow=no.variables, ncol=7)
+#  colnames(ICC) <- c("Variable", "L1 label", "L2 label", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
+#  rownames(ICC) <- unique_variables
+#  for (i in 1:no.variables) {
+#    ICC[i, 1] <- unique_variables[i]
+#    if (ICC[i, 1] %in% mL2.variables) {
+#      ICC[i, 2] <- paste0("gmc_", ICC[i, 1])
+#      ICC[i, 3] <- paste0("gm_", ICC[i, 1])
+#    } else {
+#      ICC[i, 2] <- unique_variables[i]
+#      ICC[i, 3] <- unique_variables[i]
+#    } # end (if ICC[i, 1])
+#    ICC[i, 4] <- round(est.var1[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
+#    ICC[i, 5] <- round(est.var2[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
+#    ICC[i, 6] <- round(as.numeric(ICC[i, 5]) / (as.numeric(ICC[i, 4]) + as.numeric(ICC[i, 5])), digits=4)
+#    ICC[i, 7] <- round(cluster.size*as.numeric(ICC[i, 6]) / (1 + (cluster.size-1)*as.numeric(ICC[i, 6])), digits=4)
+#  } # end (for i)
+#  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n")
+#  print(as.data.frame(ICC),row.names=F)
+#  cat(rep("\n",2))
 
 
   if (L2 == TRUE) {
