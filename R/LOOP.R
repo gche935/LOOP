@@ -7269,8 +7269,8 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   ## -- Estimate ICC -- ##
   cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
-#  names.lv <- lavaan::lavNames(Model, "lv_regular")
-  names.ov <- lavaan::lavNames(Model, "ov")
+#  names.lv <- lavaan::lavNames(model, "lv_regular")
+  names.ov <- lavaan::lavNames(model, "ov")
 
   icc.ov <- lavInspect(Model.L2.fit, what = "icc")
   var.ov.l1 <- lavInspect(Model.L2.fit, what = "var")[[1]]
