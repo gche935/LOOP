@@ -7267,32 +7267,66 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   ## ------------------------------- ##
 
 
-#  ## -- Estimate ICC -- ##
-#  est.var1 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 1)
-#  est.var2 <- subset(lavaan::parameterEstimates(Model.L2.fit), op == "~~" & (lhs == rhs) & level == 2)
-#  unique_variables <- unique(temp[,"lhs"])
-#  cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
-#  no.variables <- length(unique_variables)
-#  ICC <- matrix(0, nrow=no.variables, ncol=7)
-#  colnames(ICC) <- c("Variable", "L1 label", "L2 label", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
-#  rownames(ICC) <- unique_variables
-#  for (i in 1:no.variables) {
-#    ICC[i, 1] <- unique_variables[i]
-#    if (ICC[i, 1] %in% mL2.variables) {
-#      ICC[i, 2] <- paste0("gmc_", ICC[i, 1])
-#      ICC[i, 3] <- paste0("gm_", ICC[i, 1])
-#    } else {
-#      ICC[i, 2] <- unique_variables[i]
-#      ICC[i, 3] <- unique_variables[i]
-#    } # end (if ICC[i, 1])
-#    ICC[i, 4] <- round(est.var1[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
-#    ICC[i, 5] <- round(est.var2[which(est.var1[, "lhs"] == ICC[i, 2]), "est"], digits=4)
-#    ICC[i, 6] <- round(as.numeric(ICC[i, 5]) / (as.numeric(ICC[i, 4]) + as.numeric(ICC[i, 5])), digits=4)
-#    ICC[i, 7] <- round(cluster.size*as.numeric(ICC[i, 6]) / (1 + (cluster.size-1)*as.numeric(ICC[i, 6])), digits=4)
-#  } # end (for i)
-#  cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n")
-#  print(as.data.frame(ICC),row.names=F)
-#  cat(rep("\n",2))
+  ## -- Estimate ICC -- ##
+  cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
+#  names.lv <- lavaan::lavNames(Model, "lv_regular")
+  names.ov <- lavaan::lavNames(Model, "ov")
+
+  icc.ov <- lavInspect(Model.L2.fit, what = "icc")
+  var.ov.l1 <- lavInspect(Model.L2.fit, what = "var")[[1]]
+  var.ov.l2 <- lavInspect(Model.L2.fit, what = "var")[[2]]
+  ICC.ov <- matrix(0, nrow=length(icc.ov), ncol=7)
+
+  colnames(ICC.ov) <- c("Variable", "Label(L1)", "Label(L2)", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)")
+  rownames(ICC.ov) <- names(icc.ov)
+  for (i in 1:length(icc.ov)) {
+    ICC.ov[i, 1] <- names.ov[i]
+    if (ICC.ov[i, 1] %in% mL2.variables) {
+      ICC.ov[i, 2] <- paste0("gmc_", ICC.ov[i, 1])
+      ICC.ov[i, 3] <- paste0("gm_", ICC.ov[i, 1])
+    } else {
+      ICC.ov[i, 2] <- names(icc.ov)[i]
+      ICC.ov[i, 3] <- names(icc.ov)[i]
+    } # end (if ICC.ov[i, 1])
+    ICC.ov[i, 4] <- sprintf("%.4f", round(var.ov.l1[i], 4))
+    ICC.ov[i, 5] <- sprintf("%.4f", round(var.ov.l2[i], 4))
+    ICC.ov[i, 6] <- sprintf("%.4f", round(as.numeric(ICC.ov[i,5])/(as.numeric(ICC.ov[i,4]) + as.numeric(ICC.ov[i,5])), 4))
+    ICC.ov[i, 7] <- sprintf("%.4f", round(cluster.size*as.numeric(ICC.ov[i,6]) / (1 + (cluster.size-1)*as.numeric(ICC.ov[i,6])), 4))
+  } # end (for i)
+  cat("\n", "## ----- ICC(1) and ICC(2) for configural invariance model ----- ##", "\n")
+  cat("# --- Observed Variables --- #", "\n")
+  print(as.data.frame(ICC.ov), row.names=F)
+  cat(rep("\n",2))
+
+#  ICC latent Variables
+#  if (length(names.lv) != 0) {
+#    stdS <- standardizedSolution(Model.L2.fit)
+#    var.lv.l1 <- diag(lavInspect(Model.L2.fit, what = "cov_lv")[[1]])
+#    var.lv.l2 <- diag(lavInspect(Model.L2.fit, what = "cov_lv")[[2]])
+#    ICC.lv <- matrix(0, nrow=length(names.lv), ncol=9)
+#    colnames(ICC.lv) <- c("Variable", "Label(L1)", "Label(L2)", "L1 variance", "L2 variance", "ICC(1)", "ICC(2)", "Reliability(L1)", "Reliability(L2)")
+#    rownames(ICC.lv) <- names.lv
+#    for (i in 1:length(names.lv)) {
+#      lambda <- stdS[which(stdS[,"lhs"] == paste0(names.lv[i], "w") & stdS[,"op"] == "=~"), "est.std"]
+#      theta.delta <- 1 - lambda^2
+#      omega.l1 = sum(lambda)^2/(sum(lambda)^2 + sum(theta.delta))
+#      lambda <- stdS[which(stdS[,"lhs"] == paste0(names.lv[i], "b") & stdS[,"op"] == "=~"), "est.std"]
+#      theta.delta <- 1 - lambda^2
+#      omega.l2 = sum(lambda)^2/(sum(lambda)^2 + sum(theta.delta))
+#      ICC.lv[i, 1] <- names.lv[i]
+#      ICC.lv[i, 2] <- paste0(names.lv[i], "w")
+#      ICC.lv[i, 3] <- paste0(names.lv[i], "b")
+#      ICC.lv[i, 4] <- sprintf("%.4f", round(var.lv.l1[i], 4))
+#      ICC.lv[i, 5] <- sprintf("%.4f", round(var.lv.l2[i], 4))
+#      ICC.lv[i, 6] <- sprintf("%.4f", round(var.lv.l2[i]/(var.lv.l1[i] + var.lv.l2[i]), 4))
+#      ICC.lv[i, 7] <- sprintf("%.4f", round(cluster.size*as.numeric(ICC.lv[i,4]) / (1 + (cluster.size-1)*as.numeric(ICC.lv[i,4])), 4))
+#      ICC.lv[i, 8] <- sprintf("%.4f", round(omega.l1, 4))
+#      ICC.lv[i, 9] <- sprintf("%.4f", round(omega.l2, 4))
+#    } # end (for i)
+#    cat("# --- Latent Variables --- #", "\n")
+#    print(as.data.frame(ICC.lv), row.names=F)
+#    cat(rep("\n",2))
+#  } # end if length(names.lv)
 
 
   if (L2 == TRUE) {
