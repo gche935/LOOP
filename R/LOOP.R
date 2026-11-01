@@ -8,12 +8,11 @@ gm  <- function(x) { mean(x, na.rm=TRUE) }
 ## ----- Sub-function mL2 - Create the group-mean centered and group mean variables ----- ##
 mL2 <- function(data.source, id, mL2.variables) {
   data_centered <- data.source %>%
-  group_by(id) %>%
+  group_by(across(all_of(id))) %>%
   mutate(across(all_of(mL2.variables), ~gmc(.x), .names = "gmc_{.col}")) %>%
   mutate(across(all_of(mL2.variables), ~gm(.x), .names = "gm_{.col}")) %>%
   ungroup()
 }
-
 ## -------------------------------------------------------- ##
 
 
@@ -7192,7 +7191,7 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   # -- Create manifest Level 2 variables and group-mean centered variables -- #
   if (is.null(mL2.variables) == FALSE) {
-    mL2a <- paste0("mL2.data <<- mL2(", arg2_char,", Cluster, mL2.variables)")
+    mL2a <- paste0("mL2.data <<- mL2(", arg2_char," , id = '", Cluster[1], "', mL2.variables)")
     eval(parse(text = mL2a))
   } # end (if mL2.variables)
 
