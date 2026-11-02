@@ -7135,7 +7135,8 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 # ==================== Create Function "ML" ==================== #
 #' Function ML (Multilevel Model)
 #'
-#' Multilevel Model allows for both MLM and MSEM and compares paths across levels
+#' Multilevel Model allows for both MLM and MSEM and compares paths across levels.
+#' ICCs of manifest L2 variables are calculated based on MLM (lmer). ICCs of latent L2 variables are calculated based on MSEM (lavaan).
 #'
 #' Define the model only once without specifying the level, and the function will compare the model across levels.
 #'
@@ -7153,7 +7154,7 @@ GCLM <- function(data.source, no.waves, lag=1, Type1=0.05, Type1Adj="BON", X, Y,
 #' @param L2 If the model should be replicated at L2 (default = TRUE). If L2=FALSE, covariance among variables will be estimated at L2.
 #' @param mL2.variables L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.
 #'
-#' @return Estimated parameters and differences in estimated parameters across levels
+#' @return ICC(1) & ICC(2) of all variables, reliability of latent variables at Level 1 & Level 2, estimated parameters and differences in estimated parameters across levels
 #' @export
 #' @examples
 #'
@@ -7176,8 +7177,14 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
   arg3_char <- deparse(substitute(Cluster))
   missing <- tolower(missing)
   match.arg(missing, c("listwise","fiml"))
+  names.lv <- lavaan::lavNames(model, "lv_regular")
+  names.ov <- lavaan::lavNames(model, "ov")
 
   if (is.logical(L2) == FALSE) stop("L2 (if model should be replicated at L2) can only be TRUE or FALSE")
+
+  if (!is.null(mL2.variables)) {
+    if (all(mL2.variables %in% names.ov) == FALSE) stop("Manifest L2 variable must be an observed variable")
+  }
 
   # -- Run Single Level to get model information -- #
 
@@ -7268,8 +7275,6 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
 
   ## -- Estimate ICC -- ##
   cluster.size <- mean(lavaan::lavInspect(Model.L2.fit, what = "cluster.size"))
-  names.lv <- lavaan::lavNames(model, "lv_regular")
-  names.ov <- lavaan::lavNames(model, "ov")
 
   icc.ov <- lavInspect(Model.L2.fit, what = "icc")
   var.ov.l1 <- lavInspect(Model.L2.fit, what = "var")[[1]]
@@ -7283,14 +7288,23 @@ ML <- function(model, data.source, Cluster="NULL", missing="listwise", L2=TRUE, 
     if (ICC.ov[i, 1] %in% mL2.variables) {
       ICC.ov[i, 2] <- paste0("gmc_", ICC.ov[i, 1])
       ICC.ov[i, 3] <- paste0("gm_", ICC.ov[i, 1])
+      eval(parse(text = paste0("mlm_icc <- lmer(", names.ov[i], " ~ 1 + (1 | ", Cluster[1], "), data = data.source)")))
+      vc <- as.data.frame(VarCorr(mlm_icc))
+      var.l1 <- vc[vc$grp == "Residual", "vcov"]
+      var.l2 <- vc[vc$grp == Cluster[1], "vcov"]
+      icc_1 <- var.l2/(var.l1 + var.l2)
+      ICC.ov[i, 4] <- sprintf("%.4f", round(var.l1, 4))
+      ICC.ov[i, 5] <- sprintf("%.4f", round(var.l2, 4))
+      ICC.ov[i, 6] <- sprintf("%.4f", round(as.numeric(ICC.ov[i,5])/(as.numeric(ICC.ov[i,4]) + as.numeric(ICC.ov[i,5])), 4))
+      ICC.ov[i, 7] <- sprintf("%.4f", round(cluster.size*as.numeric(ICC.ov[i,6]) / (1 + (cluster.size-1)*as.numeric(ICC.ov[i,6])), 4))
     } else {
       ICC.ov[i, 2] <- names(icc.ov)[i]
       ICC.ov[i, 3] <- names(icc.ov)[i]
+      ICC.ov[i, 4] <- sprintf("%.4f", round(var.ov.l1[i], 4))
+      ICC.ov[i, 5] <- sprintf("%.4f", round(var.ov.l2[i], 4))
+      ICC.ov[i, 6] <- sprintf("%.4f", round(as.numeric(ICC.ov[i,5])/(as.numeric(ICC.ov[i,4]) + as.numeric(ICC.ov[i,5])), 4))
+      ICC.ov[i, 7] <- sprintf("%.4f", round(cluster.size*as.numeric(ICC.ov[i,6]) / (1 + (cluster.size-1)*as.numeric(ICC.ov[i,6])), 4))
     } # end (if ICC.ov[i, 1])
-    ICC.ov[i, 4] <- sprintf("%.4f", round(var.ov.l1[i], 4))
-    ICC.ov[i, 5] <- sprintf("%.4f", round(var.ov.l2[i], 4))
-    ICC.ov[i, 6] <- sprintf("%.4f", round(as.numeric(ICC.ov[i,5])/(as.numeric(ICC.ov[i,4]) + as.numeric(ICC.ov[i,5])), 4))
-    ICC.ov[i, 7] <- sprintf("%.4f", round(cluster.size*as.numeric(ICC.ov[i,6]) / (1 + (cluster.size-1)*as.numeric(ICC.ov[i,6])), 4))
   } # end (for i)
   cat("\n", "## ----- ICC(1) and ICC(2) ----- ##", "\n")
   cat(" # --- Observed Variables --- #", "\n")

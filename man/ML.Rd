@@ -27,10 +27,11 @@ ML(
 \item{mL2.variables}{L2 variables represented by group mean (gm_X, manifest L2 variables) and L1 variables represented by group-mean centered variables (gmc_X). By default, variables are partitioned into L1 and L2 by multilevel SEM.}
 }
 \value{
-Estimated parameters and differences in estimated parameters across levels
+ICC(1) & ICC(2) of all variables, reliability of latent variables at Level 1 & Level 2, estimated parameters and differences in estimated parameters across levels
 }
 \description{
-Multilevel Model allows for both MLM and MSEM and compares paths across levels
+Multilevel Model allows for both MLM and MSEM and compares paths across levels.
+ICCs of manifest L2 variables are calculated based on MLM (lmer). ICCs of latent L2 variables are calculated based on MSEM (lavaan).
 }
 \details{
 Define the model only once without specifying the level, and the function will compare the model across levels.

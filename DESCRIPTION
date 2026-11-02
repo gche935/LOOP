@@ -10,16 +10,20 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.1),
          lavaan,
+         lme4,
+         performance,
          MASS,
          dplyr,
          modsem,
          ggplot2
 Imports:
     lavaan,
+    lme4,
+    performance,
     MASS,
     dplyr,
     modsem,
     ggplot2
 URL: https://github.com/gche935/LOOP
 BugReports: https://github.com/gche935/LOOP/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1
